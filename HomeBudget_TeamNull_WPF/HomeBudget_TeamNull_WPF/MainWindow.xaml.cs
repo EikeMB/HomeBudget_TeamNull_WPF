@@ -1,4 +1,5 @@
 ﻿using Budget;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,21 +20,25 @@ namespace HomeBudget_TeamNull_WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window,ViewInterface
+    public partial class MainWindow : Window, ViewInterface
     {
+
+        Presenter presenter;
+
         public MainWindow()
         {
+            presenter = new Presenter(this, "");
             InitializeComponent();
             ShowMenu();
+            dp.SelectedDate = DateTime.Today;
+            catCB.ItemsSource= new List<Category>();
+            
         }
 
-       private void ShowMenu()
+        private void ShowMenu()
         {
 
         }
-
-
-
 
         public void DisplayAddedCategory(Category category)
         {
@@ -47,9 +52,17 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayError(string error)
         {
-           MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
+            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-       
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.processAdd();
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
-}
+    }
