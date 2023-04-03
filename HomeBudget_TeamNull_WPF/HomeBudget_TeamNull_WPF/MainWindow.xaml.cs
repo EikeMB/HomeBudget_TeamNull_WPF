@@ -27,7 +27,6 @@ namespace HomeBudget_TeamNull_WPF
 
         public MainWindow()
         {
-            presenter = new Presenter(this, "");
             InitializeComponent();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
@@ -57,7 +56,15 @@ namespace HomeBudget_TeamNull_WPF
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            presenter.processAdd();
+            DateTime date = (DateTime)dp.SelectedDate;
+            string category = catCB.SelectedItem.ToString();
+            double amount = double.Parse(amountTB.Text);
+            string description = descriptionTB.Text;
+
+            catCB.SelectedIndex= 0;
+            amountTB.Clear();
+            descriptionTB.Clear();
+            
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
