@@ -92,5 +92,26 @@ namespace HomeBudget_TeamNull_WPF
             DescInput.Text = string.Empty;
             income_rdb.IsChecked = true;
         }
+
+        private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach (RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+
+            catDescDisplay.Text = description;
+            catTypeDisplay.Text = type;
+        }
+
+        private void cat_Preview_clear_btn_Click(object sender, RoutedEventArgs e)
+        {
+            catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
+        }
     }
 }
