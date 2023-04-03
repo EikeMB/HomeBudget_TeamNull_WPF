@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,37 @@ namespace HomeBudget_TeamNull_WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,ViewInterface
     {
         public MainWindow()
         {
             InitializeComponent();
+            ShowMenu();
         }
+
+       private void ShowMenu()
+        {
+
+        }
+
+
+
+
+        public void DisplayAddedCategory(Category category)
+        {
+            MessageBox.Show(category.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void DisplayAddedExpense(Expense expense)
+        {
+            MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void DisplayError(string error)
+        {
+           MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
+        }
+
+       
     }
 }
