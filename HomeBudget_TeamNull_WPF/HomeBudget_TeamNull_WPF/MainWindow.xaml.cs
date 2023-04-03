@@ -1,4 +1,5 @@
 ﻿using Budget;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -50,6 +52,22 @@ namespace HomeBudget_TeamNull_WPF
            MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
-       
+        private void OpenExistingDb(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.ShowDialog();
+        }
+
+        private void OpenNewDb(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.Integration.WindowsFormsHost host =
+            new System.Windows.Forms.Integration.WindowsFormsHost();
+
+            FolderBrowserDialog dialog = new FolderBrowserDialog(host);
+
+            
+        
+        }
+
     }
 }
