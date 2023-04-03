@@ -65,11 +65,14 @@ namespace HomeBudget_TeamNull_WPF
             amountTB.Clear();
             descriptionTB.Clear();
             
+            presenter.processAddExpense(date,category,amount,description);
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            catCB.SelectedIndex = 0;
+            amountTB.Clear();
+            descriptionTB.Clear();
         }
     }
     }
