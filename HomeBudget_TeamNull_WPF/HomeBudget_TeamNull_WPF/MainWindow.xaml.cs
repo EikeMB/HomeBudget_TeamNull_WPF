@@ -50,6 +50,23 @@ namespace HomeBudget_TeamNull_WPF
            MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
-       
+        private void DescInput_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock txtblk = (TextBlock)sender;
+            if (txtblk.Text == "Description...")
+            {
+                txtblk.Text = string.Empty;
+            }
+        }
+
+        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayAddedCategory(string desc, string type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

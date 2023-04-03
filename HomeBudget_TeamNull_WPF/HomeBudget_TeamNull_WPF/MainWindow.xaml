@@ -40,8 +40,8 @@
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Description:
                 </TextBlock>
-                <TextBox MaxHeight="100" Height="90" BorderBrush="Black">
-                    Desciption...
+                <TextBox x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black" MouseDown="DescInput_MouseDown">
+                    Description...
                 </TextBox>
             </StackPanel>
             
