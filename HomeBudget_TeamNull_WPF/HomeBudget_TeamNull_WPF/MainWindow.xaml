@@ -19,7 +19,7 @@
             <RowDefinition Height="168*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-
+        
         <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0"
                 BorderThickness="2" BorderBrush="Black" Margin="5">
             
@@ -48,13 +48,7 @@
             <StackPanel Grid.Row="1">
                 <TextBlock FontWeight="Bold" FontSize="15" Margin="5">
                     Category Type:
-                </TextBlock><!--
-                <ComboBox Margin="5" SelectedIndex="0">
-                    <ComboBoxItem>Income</ComboBoxItem>
-                    <ComboBoxItem>Expense</ComboBoxItem>
-                    <ComboBoxItem>Credit</ComboBoxItem>
-                    <ComboBoxItem>Savings</ComboBoxItem>
-                </ComboBox>-->
+                </TextBlock>
                 <Border BorderBrush="Black" BorderThickness="1">
                     <StackPanel>
                         <RadioButton Margin="5">Income</RadioButton>
@@ -80,15 +74,83 @@
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
-                    Cancel Category
+                    Cancel
                 </Button>
             </StackPanel>
         </Grid>
 
-        <Button Grid.Column="1" Grid.Row="1" Height="50" Width="150">
+        
+        
+        
+        
+        
+        <Button Grid.Column="1" Grid.Row="1" Height="50" Width="150"
+                FontSize="20" FontWeight="DemiBold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
             Preview
         </Button>
-
+        <Button Grid.Column="1" Grid.Row="2" Height="50" Width="150"
+                FontSize="20" FontWeight="DemiBold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            Clear Preview
+        </Button>
         
+        
+        
+        
+        
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2"
+                BorderThickness="2" BorderBrush="Black" Margin="5">
+
+        </Border>
+        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="15" Grid.Row="0">
+                <TextBlock FontWeight="Bold" FontSize="15">
+                    Category ID:
+                </TextBlock>
+                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                           x:Name="catIdDisplay">
+
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Margin="15" Grid.Row="1">
+                <TextBlock FontWeight="Bold" FontSize="15">
+                    Category Desc:
+                </TextBlock>
+                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                           x:Name="catDescDisplay">
+
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Margin="15" Grid.Row="2">
+                <TextBlock FontWeight="Bold" FontSize="15">
+                    Category Type:
+                </TextBlock>
+                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                           x:Name="catTypeDisplay">
+
+                </TextBlock>
+            </StackPanel>
+
+
+        </Grid>
+
     </Grid>
 </Window>
