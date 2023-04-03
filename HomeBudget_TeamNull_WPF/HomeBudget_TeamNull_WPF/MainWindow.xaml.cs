@@ -26,7 +26,7 @@ namespace HomeBudget_TeamNull_WPF
         {
 
             InitializeComponent();
-            //presenter = new Presenter(this, "");
+            presenter = new Presenter(this, "");
             ShowMenu();
         }
 
