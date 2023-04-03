@@ -21,9 +21,12 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class MainWindow : Window,ViewInterface
     {
+        Presenter presenter;
         public MainWindow()
         {
+
             InitializeComponent();
+            //presenter = new Presenter(this, "");
             ShowMenu();
         }
 
@@ -50,14 +53,6 @@ namespace HomeBudget_TeamNull_WPF
            MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
-        private void DescInput_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBlock txtblk = (TextBlock)sender;
-            if (txtblk.Text == "Description...")
-            {
-                txtblk.Text = string.Empty;
-            }
-        }
 
         public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
         {
@@ -67,6 +62,35 @@ namespace HomeBudget_TeamNull_WPF
         public void DisplayAddedCategory(string desc, string type)
         {
             throw new NotImplementedException();
+        }
+
+        private void DescInput_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            TextBox txtbox = (TextBox)sender;
+            if (txtbox.Text == "Description...")
+            {
+                txtbox.Text = string.Empty;
+            }
+        }
+
+        private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach(RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+            presenter.processAddCategory(description, type);
+        }
+
+        private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
+        {
+            DescInput.Text = string.Empty;
+            income_rdb.IsChecked = true;
         }
     }
 }

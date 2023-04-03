@@ -34,11 +34,12 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
-        public void processAddCategory(string desc, Category.CategoryType type)
+        public void processAddCategory(string desc, string type)
         {
             try
             {
-                model.categories.Add(desc, type);
+                Category.CategoryType catType = (Category.CategoryType)Enum.Parse(typeof(Category.CategoryType), type);
+                model.categories.Add(desc, catType);
                 view.DisplayAddedCategory(desc, type.ToString());
             }
             catch (Exception e)

@@ -40,7 +40,8 @@
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Description:
                 </TextBlock>
-                <TextBox x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black" MouseDown="DescInput_MouseDown">
+                <TextBox x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black" 
+                         GotMouseCapture="DescInput_GotMouseCapture">
                     Description...
                 </TextBox>
             </StackPanel>
@@ -50,8 +51,8 @@
                     Category Type:
                 </TextBlock>
                 <Border BorderBrush="Black" BorderThickness="1">
-                    <StackPanel>
-                        <RadioButton Margin="5">Income</RadioButton>
+                    <StackPanel x:Name="radioBtns">
+                        <RadioButton x:Name="income_rdb" Margin="5" IsChecked="True" >Income</RadioButton>
                         <RadioButton Margin="5">Expense</RadioButton>
                         <RadioButton Margin="5">Credit</RadioButton>
                         <RadioButton Margin="5">Savings</RadioButton>
@@ -60,7 +61,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal">
-                <Button Margin="10,5" Height="25">
+                <Button x:Name="add_Cat_btn" Margin="10,5" Height="25" Click="add_Cat_btn_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -68,7 +69,7 @@
                     </Button.Resources>
                     Add Category
                 </Button>
-                <Button Margin="10,5" Height="25">
+                <Button x:Name="cat_cancel_btn" Margin="10,5" Height="25" Click="cat_cancel_btn_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -84,7 +85,7 @@
         
         
         
-        <Button Grid.Column="1" Grid.Row="1" Height="50" Width="150"
+        <Button x:Name="cat_preview_btn" Grid.Column="1" Grid.Row="1" Height="50" Width="150"
                 FontSize="20" FontWeight="DemiBold">
             <Button.Resources>
                 <Style TargetType="Border">
@@ -125,7 +126,7 @@
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category ID:
                 </TextBlock>
-                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                <TextBlock FontSize="15" Margin="0,5"
                            x:Name="catIdDisplay">
 
                 </TextBlock>
@@ -134,7 +135,7 @@
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Desc:
                 </TextBlock>
-                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                <TextBlock FontSize="15" Margin="0,5"
                            x:Name="catDescDisplay">
 
                 </TextBlock>
@@ -143,7 +144,7 @@
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Type:
                 </TextBlock>
-                <TextBlock FontWeight="Bold" FontSize="15" Margin="0,5"
+                <TextBlock FontSize="15" Margin="0,5"
                            x:Name="catTypeDisplay">
 
                 </TextBlock>
