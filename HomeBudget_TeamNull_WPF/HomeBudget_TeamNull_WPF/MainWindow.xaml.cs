@@ -22,6 +22,8 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class MainWindow : Window, ViewInterface
     {
+        Presenter presenter;
+
         public MainWindow()
         {
 
@@ -87,7 +89,7 @@ namespace HomeBudget_TeamNull_WPF
             presenter.processAddCategory(description, type);
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             DateTime date = (DateTime)dp.SelectedDate;
             string category = catCB.SelectedItem.ToString();
@@ -101,7 +103,7 @@ namespace HomeBudget_TeamNull_WPF
             presenter.processAddExpense(date,category,amount,description);
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             catCB.SelectedIndex = 0;
             amountTB.Clear();
