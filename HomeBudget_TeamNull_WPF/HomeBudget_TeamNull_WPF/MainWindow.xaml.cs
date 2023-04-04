@@ -150,7 +150,7 @@ namespace HomeBudget_TeamNull_WPF
             throw new NotImplementedException();
         }
 
-        /
+        
         private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
         {
             string description = DescInput.Text;
@@ -233,8 +233,14 @@ namespace HomeBudget_TeamNull_WPF
         {
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
         }
-        
 
-
+        private void DescInput_GotMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            TextBox txtBox = (TextBox)sender;
+            if(txtBox.Text == "Description...")
+            {
+                txtBox.Text = string.Empty;
+            }
+        }
     }
 }
