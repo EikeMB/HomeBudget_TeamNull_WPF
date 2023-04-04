@@ -14,12 +14,23 @@
             <ColumnDefinition Width="0.25*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="167*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-             
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="4">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Choose Folder" Click="OpenFolder"/>
+                    <MenuItem Header="Open existing DB" Click="OpenExistingDb"/>
+                    <MenuItem Header="Open new DB" Click="OpenNewDb"/>
+                </MenuItem>
+                <MenuItem Header="Add Category" Click="AddCategory"/>
+            </Menu>
+        </DockPanel>
+
         <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0"
                 BorderThickness="2" BorderBrush="Black" Margin="5">
             
@@ -157,8 +168,8 @@
             </StackPanel>
         </Border>
 
-        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"  Click="Exp_SaveBtn_Click" Grid.Row="3" Margin="10,5,10,5" >Add Expense</Button>
-        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="cancelBtn"  Click="Exp_CancelBtn_Click" Grid.Row="3" Grid.Column="1" Margin="10,5,10,5" HorizontalAlignment="Right" >Cancel Expense</Button>
+        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"  Click="Exp_SaveBtn_Click" Grid.Row="4" Margin="10,5,10,5" >Add Expense</Button>
+        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="cancelBtn"  Click="Exp_CancelBtn_Click" Grid.Row="4" Grid.Column="1" Margin="10,5,10,5" HorizontalAlignment="Right" >Cancel Expense</Button>
 
     </Grid>
 </Window>
