@@ -266,6 +266,19 @@ namespace HomeBudget_TeamNull_WPF
 
         }
 
+        private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Enter)
+            {
+                string cat = catCB.Text;
+                string type = "Expense";
+                presenter.processAddCategory(cat, type);
+                categories = GetCategoryList();
+                catCB.ItemsSource = categories;
+                catCB.Items.Refresh();
+            }
+        }
+
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {          
             int tabItem = tabcontrol.SelectedIndex;
