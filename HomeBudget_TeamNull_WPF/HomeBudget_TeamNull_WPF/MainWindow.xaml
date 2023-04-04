@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="167*"/>
-            <RowDefinition Height="168*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <!--     
@@ -160,8 +160,8 @@
             </StackPanel>
         </Border>
 
-        <Button x:Name="saveBtn"  Click="Exp_SaveBtn_Click" Grid.Row="3" Margin="5,5,5,5" FontSize="20">Add Expense</Button>
-        <Button x:Name="cancelBtn"  Click="Exp_CancelBtn_Click" Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" FontSize="20">Cancel Expense</Button>
+        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"  Click="Exp_SaveBtn_Click" Grid.Row="3" Margin="10,5,10,5" >Add Expense</Button>
+        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="cancelBtn"  Click="Exp_CancelBtn_Click" Grid.Row="3" Grid.Column="1" Margin="10,5,10,5" HorizontalAlignment="Right" >Cancel Expense</Button>
         
     </Grid>
 </Window>
