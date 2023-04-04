@@ -143,8 +143,8 @@ namespace HomeBudget_TeamNull_WPF
             bool success = double.TryParse(amountTB.Text, out amount);
             if (success)
             {
-                dp.SelectedDate = DateTime.Today;
                 catCB.SelectedIndex = 0;
+                catCB.Text = string.Empty;
                 amountTB.Clear();
                 descriptionTB.Clear();
 
