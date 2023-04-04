@@ -1,19 +1,9 @@
 ﻿using Budget;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -74,21 +64,21 @@ namespace HomeBudget_TeamNull_WPF
                 txtbox.Text = string.Empty;
             }
         }
-        /*
-                private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+
+        private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach (RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
                 {
-                    string description = DescInput.Text;
-                    string type = "";
-                    foreach(RadioButton radio in radioBtns.Children)
-                    {
-                        if (radio.IsChecked == true)
-                        {
-                            type = radio.Content.ToString();
-                        }
-                    }
-                    presenter.processAddCategory(description, type);
+                    type = radio.Content.ToString();
                 }
-        */
+            }
+            presenter.processAddCategory(description, type);
+        }
+
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             DateTime date = (DateTime)dp.SelectedDate;
@@ -130,7 +120,7 @@ namespace HomeBudget_TeamNull_WPF
             return cats;
         }
 
-        /*
+
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
             DescInput.Text = string.Empty;
@@ -157,7 +147,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
         }
-        */
+
 
     }
 }
