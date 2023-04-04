@@ -13,18 +13,28 @@ namespace HomeBudget_TeamNull_WPF
     {
         private readonly ViewInterface view;
         private readonly HomeBudget model;
-
+        List<Category> cats;
 
         public Presenter(ViewInterface v, string fileName)
         {
             view = v;
             model = new HomeBudget(fileName, true);
+            cats = model.categories.List();
         }
 
-        public void processAddExpense(DateTime date, int catId, double amount, string desc)
+
+        public void processAddExpense(DateTime date, string cat, double amount, string desc)
         {
             try
             {
+                int catId = 0;
+                foreach(Category category in cats)
+                {
+                    if(category.Description == cat)
+                    {
+                        catId = category.Id;
+                    }
+                }
                     model.expenses.Add(date, catId, amount, desc);
                     view.DisplayAddedExpense(date, catId, amount, desc);
             }
