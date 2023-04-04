@@ -22,6 +22,7 @@ namespace HomeBudget_TeamNull_WPF
     {
         private string fileName = "";
         private string folderName = "";
+        private List<string> categories;
 
         Presenter presenter;
         public MainWindow()
@@ -30,7 +31,7 @@ namespace HomeBudget_TeamNull_WPF
             InitializeComponent();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
-            
+            catCB.ItemsSource = categories;
 
         }
 
@@ -75,7 +76,9 @@ namespace HomeBudget_TeamNull_WPF
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     presenter = new Presenter(this, fileName);
-                    catCB.ItemsSource = GetCategoryList();
+                    categories = GetCategoryList();
+                    catCB.ItemsSource = categories;
+                    catCB.Items.Refresh();
                 }
 
             }
@@ -120,6 +123,9 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
             presenter.processAddCategory(description, type);
+            categories = GetCategoryList();
+            catCB.ItemsSource = categories;
+            catCB.Items.Refresh();
         }
 
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
@@ -221,7 +227,9 @@ namespace HomeBudget_TeamNull_WPF
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         presenter = new Presenter(this, fileName);
-                        catCB.ItemsSource = GetCategoryList();
+                        categories = GetCategoryList();
+                        catCB.ItemsSource = categories;
+                        catCB.Items.Refresh();
                     }
                     catch (Exception ex)
                     {
