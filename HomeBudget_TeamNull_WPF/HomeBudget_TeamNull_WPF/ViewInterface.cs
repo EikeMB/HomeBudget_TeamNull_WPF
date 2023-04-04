@@ -10,8 +10,8 @@ namespace HomeBudget_TeamNull_WPF
     interface ViewInterface
     {
 
-        public void DisplayAddedExpense(Expense expense);
-        public void DisplayAddedCategory(Category category);
+        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc);
+        public void DisplayAddedCategory(string desc, string type);
 
         public void DisplayError(string error);
 

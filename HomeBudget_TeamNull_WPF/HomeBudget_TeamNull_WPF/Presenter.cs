@@ -13,32 +13,44 @@ namespace HomeBudget_TeamNull_WPF
     {
         private readonly ViewInterface view;
         private readonly HomeBudget model;
-
+        List<Category> cats;
 
         public Presenter(ViewInterface v, string fileName)
         {
             view = v;
             model = new HomeBudget(fileName, true);
+            cats = model.categories.List();
         }
 
-        public void processAdd(Object added)
+
+        public void processAddExpense(DateTime date, string cat, double amount, string desc)
         {
             try
             {
-                if (added is Expense expense)
+                int catId = 0;
+                foreach(Category category in cats)
                 {
-                    model.expenses.Add(expense.Date, expense.Category, expense.Amount, expense.Description);
-                    view.DisplayAddedExpense(expense);
+                    if(category.Description == cat)
+                    {
+                        catId = category.Id;
+                    }
                 }
-                else if (added is Category category)
-                {
-                    model.categories.Add(category.Description, category.Type);
-                    view.DisplayAddedCategory(category);
-                }
-                else
-                {
-                    view.DisplayError("Added must be expense or Category.");
-                }
+                    model.expenses.Add(date, catId, amount, desc);
+                    view.DisplayAddedExpense(date, catId, amount, desc);
+            }
+            catch (Exception e)
+            {
+
+                view.DisplayError(e.Message);
+            }
+        }
+        public void processAddCategory(string desc, string type)
+        {
+            try
+            {
+                Category.CategoryType catType = (Category.CategoryType)Enum.Parse(typeof(Category.CategoryType), type);
+                model.categories.Add(desc, catType);
+                view.DisplayAddedCategory(desc, type.ToString());
             }
             catch (Exception e)
             {
