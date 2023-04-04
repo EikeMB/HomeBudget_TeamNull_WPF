@@ -27,7 +27,6 @@ namespace HomeBudget_TeamNull_WPF
         {
 
             InitializeComponent();
-            presenter = new Presenter(this, fileName);
             ShowMenu();
         }
 
@@ -72,6 +71,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                    presenter = new Presenter(this, fileName);
                 }  
 
             }
@@ -89,7 +89,10 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayAddedCategory(string desc, string type)
         {
-            throw new NotImplementedException();
+            string successMessage = $"Category successfully added.\n" +
+                $"Category Description: {desc}\n" +
+                $"Category Type: {type}";
+            MessageBox.Show(successMessage);
         }
 
         private void DescInput_GotMouseCapture(object sender, MouseEventArgs e)
@@ -171,6 +174,7 @@ namespace HomeBudget_TeamNull_WPF
                     {
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        presenter = new Presenter(this, fileName);
                     }
                     catch (Exception ex)
                     {
