@@ -26,7 +26,7 @@ namespace HomeBudget_TeamNull_WPF
         {
 
             InitializeComponent();
-            presenter = new Presenter(this, "");
+            //presenter = new Presenter(this, "");
             ShowMenu();
         }
 
@@ -35,7 +35,7 @@ namespace HomeBudget_TeamNull_WPF
 
         }
 
-
+        
 
 
         public void DisplayAddedCategory(Category category)
@@ -112,6 +112,21 @@ namespace HomeBudget_TeamNull_WPF
         private void cat_Preview_clear_btn_Click(object sender, RoutedEventArgs e)
         {
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
+        }
+
+        private void AddCategory(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenExistingDb(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenNewDb(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
