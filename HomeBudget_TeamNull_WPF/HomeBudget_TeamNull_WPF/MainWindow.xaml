@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:HomeBudget_TeamNull_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*"/>
@@ -23,14 +24,13 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="4">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
+                    <MenuItem Header="Choose Folder" Click="OpenFolder"/>
                     <MenuItem Header="Open existing DB" Click="OpenExistingDb"/>
-
                     <MenuItem Header="Open new DB" Click="OpenNewDb"/>
                 </MenuItem>
                 <MenuItem Header="Add Category" Click="AddCategory"/>
             </Menu>
         </DockPanel>
-
         <Border Grid.Row="1" Grid.RowSpan="4" Grid.Column="0"
                 BorderThickness="2" BorderBrush="Black" Margin="5">
             
@@ -153,6 +153,5 @@
 
 
         </Grid>
-
     </Grid>
 </Window>
