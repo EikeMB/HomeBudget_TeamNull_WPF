@@ -24,8 +24,8 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="4">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
+                    <MenuItem Header="Choose Folder" Click="OpenFolder"/>
                     <MenuItem Header="Open existing DB" Click="OpenExistingDb"/>
-                    
                     <MenuItem Header="Open new DB" Click="OpenNewDb"/>
                 </MenuItem>
             </Menu>
