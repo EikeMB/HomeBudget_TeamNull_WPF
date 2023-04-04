@@ -8,6 +8,11 @@ using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using TextBox = System.Windows.Controls.TextBox;
+using TextBlock = System.Windows.Controls.TextBlock;
+using RadioButton = System.Windows.Controls.RadioButton;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using System.IO;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -35,6 +40,9 @@ namespace HomeBudget_TeamNull_WPF
         private void ShowMenu()
         {
         }
+
+        
+
 
         public void DisplayAddedCategory(Category category)
         {
@@ -78,6 +86,95 @@ namespace HomeBudget_TeamNull_WPF
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
+        }
+
+
+        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayAddedCategory(string desc, string type)
+        {
+            string successMessage = $"Category successfully added.\n" +
+                $"Category Description: {desc}\n" +
+                $"Category Type: {type}";
+            MessageBox.Show(successMessage);
+        }
+
+        private void DescInput_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            TextBox txtbox = (TextBox)sender;
+            if (txtbox.Text == "Description...")
+            {
+                txtbox.Text = string.Empty;
+            }
+        }
+
+        private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach(RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+            presenter.processAddCategory(description, type);
+        }
+
+        private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
+        {
+            DescInput.Text = string.Empty;
+            income_rdb.IsChecked = true;
+        }
+
+        private void OpenExistingDb(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                if (folderName == "")
+                {
+                    dialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    dialog.InitialDirectory = folderName;
+                }
+                dialog.Filter = "Database File (*.db)|*.db";
+        private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach (RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+
+            catDescDisplay.Text = description;
+            catTypeDisplay.Text = type;
+        }
+
+        private void cat_Preview_clear_btn_Click(object sender, RoutedEventArgs e)
+        {
+            catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
+        }
+
+                if (dialog.ShowDialog() == true)
+                {
+                    fileName = dialog.FileName;
+                    MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                    presenter = new Presenter(this, fileName);
+                }  
+        private void AddCategory(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
