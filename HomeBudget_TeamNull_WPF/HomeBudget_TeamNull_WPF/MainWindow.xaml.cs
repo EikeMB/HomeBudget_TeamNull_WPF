@@ -1,19 +1,12 @@
 ﻿using Budget;
 using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -22,7 +15,8 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class MainWindow : Window, ViewInterface
     {
-        Presenter presenter;
+        private string fileName = "";
+        private string folderName = "";
 
         public MainWindow()
         {
@@ -37,7 +31,6 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ShowMenu()
         {
-
         }
 
         public void DisplayAddedCategory(Category category)
@@ -47,7 +40,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayAddedExpense(Expense expense)
         {
-            MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void DisplayError(string error)
@@ -55,108 +48,91 @@ namespace HomeBudget_TeamNull_WPF
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-
-        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        private void OpenExistingDb(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DisplayAddedCategory(string desc, string type)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DescInput_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            TextBox txtbox = (TextBox)sender;
-            if (txtbox.Text == "Description...")
+            try
             {
-                txtbox.Text = string.Empty;
+                OpenFileDialog dialog = new OpenFileDialog();
+                if (folderName == "")
+                {
+                    dialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    dialog.InitialDirectory = folderName;
+                }
+                dialog.Filter = "Database File (*.db)|*.db";
+
+                if (dialog.ShowDialog() == true)
+                {
+                    fileName = dialog.FileName;
+                    MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                }  
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
             }
         }
-/*
-        private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+
+        private void OpenNewDb(object sender, RoutedEventArgs e)
         {
-            string description = DescInput.Text;
-            string type = "";
-            foreach(RadioButton radio in radioBtns.Children)
+            try
             {
-                if (radio.IsChecked == true)
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                if (folderName == "")
                 {
-                    type = radio.Content.ToString();
+                    saveDialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    saveDialog.InitialDirectory = folderName;
+                }
+                saveDialog.Filter = "Database File (*.db)|*.db";
+                saveDialog.FileName = "dbName";
+                saveDialog.DefaultExt = ".db";
+
+                if (saveDialog.ShowDialog() == true)
+                {
+                    fileName = saveDialog.FileName;
+                    try
+                    {
+                        File.WriteAllText(fileName, "");
+                        MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error");
+                    }
                 }
             }
-            presenter.processAddCategory(description, type);
-        }
-*/
-        private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime date = (DateTime)dp.SelectedDate;
-            string category = catCB.SelectedItem.ToString();
-            string description = descriptionTB.Text;
-
-            double amount = 0;
-
-            bool success = double.TryParse(amountTB.Text, out amount);
-            if (success)
+            catch (Exception ex)
             {
-                dp.SelectedDate = DateTime.Today;
-                catCB.SelectedIndex = 0;
-                amountTB.Clear();
-                descriptionTB.Clear();
-
-                presenter.processAddExpense(date, category, amount, description);
+                MessageBox.Show(ex.ToString(), "Error");
             }
-            else
+        }
+
+        private void OpenFolder(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
-            }
+                FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                folderDialog.InitialDirectory = "c:\\";
+                folderDialog.ShowNewFolderButton = true;
+                DialogResult result = folderDialog.ShowDialog();
 
-        }
-
-        private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            catCB.SelectedIndex = 0;
-            amountTB.Clear();
-            descriptionTB.Clear();
-        }
-
-        public List<string> GetCategoryList() { 
-
-            List<string> cats = new List<string>();
-            cats = presenter.GetCategoryDescriptionList();
-
-            return cats;
-        }
-
-        /*
-        private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
-        {
-            DescInput.Text = string.Empty;
-            income_rdb.IsChecked = true;
-        }
-
-        private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
-        {
-            string description = DescInput.Text;
-            string type = "";
-            foreach (RadioButton radio in radioBtns.Children)
-            {
-                if (radio.IsChecked == true)
+                if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    type = radio.Content.ToString();
+                    folderName = folderDialog.SelectedPath;
+                    MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
             }
-
-            catDescDisplay.Text = description;
-            catTypeDisplay.Text = type;
+           
         }
-
-        private void cat_Preview_clear_btn_Click(object sender, RoutedEventArgs e)
-        {
-            catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
-        }
-        */
-
     }
-    }
+}

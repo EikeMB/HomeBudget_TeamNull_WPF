@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:HomeBudget_TeamNull_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -14,154 +15,20 @@
             <ColumnDefinition Width="0.25*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="167*"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="69*"/>
+            <RowDefinition Height="149*"/>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="45*"/>
         </Grid.RowDefinitions>
-        <!--     
-        <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0"
-                BorderThickness="2" BorderBrush="Black" Margin="5">
-            
-        </Border>
-        <Grid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="1"
-              Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.5*"/>
-            </Grid.RowDefinitions>
-
-
-            <StackPanel Grid.Column="0" Grid.Row="0">
-                <TextBlock FontWeight="Bold" FontSize="15">
-                    Category Description:
-                </TextBlock>
-                <TextBox x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black" 
-                         GotMouseCapture="DescInput_GotMouseCapture">
-                    Description...
-                </TextBox>
-            </StackPanel>
-            
-            <StackPanel Grid.Row="1">
-                <TextBlock FontWeight="Bold" FontSize="15" Margin="5">
-                    Category Type:
-                </TextBlock>
-                <Border BorderBrush="Black" BorderThickness="1">
-                    <StackPanel x:Name="radioBtns">
-                        <RadioButton x:Name="income_rdb" Margin="5" IsChecked="True" >Income</RadioButton>
-                        <RadioButton Margin="5">Expense</RadioButton>
-                        <RadioButton Margin="5">Credit</RadioButton>
-                        <RadioButton Margin="5">Savings</RadioButton>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-
-            <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal">
-                <Button x:Name="add_Cat_btn" Margin="10,5" Height="25" Click="add_Cat_btn_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    Add Category
-                </Button>
-                <Button x:Name="cat_cancel_btn" Margin="10,5" Height="25" Click="cat_cancel_btn_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    Cancel
-                </Button>
-            </StackPanel>
-        </Grid>
--->
-        
-        
-        
-        
-        <!--
-        <Button x:Name="cat_preview_btn" Grid.Column="1" Grid.Row="1" Height="50" Width="150"
-                FontSize="20" FontWeight="DemiBold" Click="cat_preview_btn_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
-            Preview
-        </Button>
-        <Button x:Name="cat_Preview_clear_btn" Grid.Column="1" Grid.Row="2" Height="50" Width="150"
-                FontSize="20" FontWeight="DemiBold" Click="cat_Preview_clear_btn_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
-            Clear Preview
-        </Button>
-        
-        
-        
-        
-        
-        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2"
-                BorderThickness="2" BorderBrush="Black" Margin="5">
-
-        </Border>
-        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Margin="15" Grid.Row="0">
-                <TextBlock FontWeight="Bold" FontSize="15">
-                    Category Desc:
-                </TextBlock>
-                <TextBlock FontSize="15" Margin="0,5"
-                           x:Name="catDescDisplay">
-
-                </TextBlock>
-            </StackPanel>
-            <StackPanel Margin="15" Grid.Row="1">
-                <TextBlock FontWeight="Bold" FontSize="15">
-                    Category Type:
-                </TextBlock>
-                <TextBlock FontSize="15" Margin="0,5"
-                           x:Name="catTypeDisplay">
-
-                </TextBlock>
-            </StackPanel>
-
-
-        </Grid>
--->
-        <Border BorderThickness="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Black">
-            <StackPanel> 
-            <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="5,10,5,10">Expense: </TextBlock>
-
-                <DatePicker Grid.ColumnSpan="2"  Grid.Row="1" x:Name="dp" Width="Auto" Height="50" Margin="5,5,5,5"></DatePicker>
-
-                <TextBlock Grid.Row="2" Margin="5,0,5,0">Category</TextBlock>
-                <ComboBox x:Name="catCB" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Height="20"></ComboBox>
-
-                <TextBlock Grid.Row="3" Margin="5,0,5,0">Amount</TextBlock>
-                <TextBox x:Name="amountTB" Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Height="20"></TextBox>
-
-                <TextBlock Grid.Row="4" Margin="5,0,5,0">Description</TextBlock>
-                <TextBox x:Name="descriptionTB" Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Height="20"></TextBox>
-            </StackPanel>
-        </Border>
-
-        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"  Click="Exp_SaveBtn_Click" Grid.Row="3" Margin="10,5,10,5" >Add Expense</Button>
-        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="cancelBtn"  Click="Exp_CancelBtn_Click" Grid.Row="3" Grid.Column="1" Margin="10,5,10,5" HorizontalAlignment="Right" >Cancel Expense</Button>
-        
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="4">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Choose Folder" Click="OpenFolder"/>
+                    <MenuItem Header="Open existing DB" Click="OpenExistingDb"/>
+                    <MenuItem Header="Open new DB" Click="OpenNewDb"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
     </Grid>
 </Window>
