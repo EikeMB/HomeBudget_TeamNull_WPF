@@ -1,6 +1,7 @@
 ﻿using Budget;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
@@ -17,16 +18,18 @@ namespace HomeBudget_TeamNull_WPF
     {
         private string fileName = "";
         private string folderName = "";
+        private Presenter presenter;
 
         public MainWindow()
         {
 
             InitializeComponent();
-           //presenter = new Presenter(this, "");
+           
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
-            catCB.ItemsSource= GetCategoryList();
-            
+            catCB.ItemsSource = GetCategoryList();
+
+
         }
 
         private void ShowMenu()
@@ -67,6 +70,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                    presenter = new Presenter(this, fileName);
                 }  
 
             }
@@ -100,6 +104,7 @@ namespace HomeBudget_TeamNull_WPF
                     {
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        presenter = new Presenter(this, fileName);
                     }
                     catch (Exception ex)
                     {
@@ -134,5 +139,102 @@ namespace HomeBudget_TeamNull_WPF
             }
            
         }
+
+        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayAddedCategory(string desc, string type)
+        {
+            throw new NotImplementedException();
+        }
+
+        /
+        private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach(RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+            presenter.processAddCategory(description, type);
+        }
+
+        private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime date = (DateTime)dp.SelectedDate;
+            string category = catCB.SelectedItem.ToString();
+            string description = descriptionTB.Text;
+
+            double amount = 0;
+
+            bool success = double.TryParse(amountTB.Text, out amount);
+            if (success)
+            {
+                dp.SelectedDate = DateTime.Today;
+                catCB.SelectedIndex = 0;
+                amountTB.Clear();
+                descriptionTB.Clear();
+
+                presenter.processAddExpense(date, category, amount, description);
+            }
+            else
+            {
+                MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
+            }
+
+        }
+
+        private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            catCB.SelectedIndex = 0;
+            amountTB.Clear();
+            descriptionTB.Clear();
+        }
+
+        public List<string> GetCategoryList()
+        {
+
+            List<string> cats = new List<string>();
+            cats = presenter.GetCategoryDescriptionList();
+
+            return cats;
+        }
+
+        
+        private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
+        {
+            DescInput.Text = string.Empty;
+            income_rdb.IsChecked = true;
+        }
+
+        private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string description = DescInput.Text;
+            string type = "";
+            foreach (RadioButton radio in radioBtns.Children)
+            {
+                if (radio.IsChecked == true)
+                {
+                    type = radio.Content.ToString();
+                }
+            }
+
+            catDescDisplay.Text = description;
+            catTypeDisplay.Text = type;
+        }
+
+        private void cat_Preview_clear_btn_Click(object sender, RoutedEventArgs e)
+        {
+            catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
+        }
+        
+
+
     }
 }
