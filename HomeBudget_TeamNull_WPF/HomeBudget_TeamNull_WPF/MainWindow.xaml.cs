@@ -1,31 +1,18 @@
 ﻿using Budget;
-using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using System.IO;
 
 namespace HomeBudget_TeamNull_WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window,ViewInterface
+    public partial class MainWindow : Window, ViewInterface
     {
         private string fileName = "";
         private string folderName = "";
@@ -36,13 +23,9 @@ namespace HomeBudget_TeamNull_WPF
             ShowMenu();
         }
 
-       private void ShowMenu()
+        private void ShowMenu()
         {
-
         }
-
-
-
 
         public void DisplayAddedCategory(Category category)
         {
@@ -56,7 +39,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayError(string error)
         {
-           MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
+            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
@@ -75,9 +58,13 @@ namespace HomeBudget_TeamNull_WPF
                 dialog.Filter = "Database File (*.db)|*.db";
 
                 if (dialog.ShowDialog() == true)
+                {
                     fileName = dialog.FileName;
+                    MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                }  
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
@@ -87,7 +74,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             try
             {
-
                 SaveFileDialog saveDialog = new SaveFileDialog();
                 if (folderName == "")
                 {
@@ -107,13 +93,15 @@ namespace HomeBudget_TeamNull_WPF
                     try
                     {
                         File.WriteAllText(fileName, "");
+                        MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.ToString(), "Error");
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
@@ -121,11 +109,23 @@ namespace HomeBudget_TeamNull_WPF
 
         private void OpenFolder(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-            folderDialog.InitialDirectory = "c:\\";
-            folderDialog.ShowNewFolderButton = true;
-            folderDialog.ShowDialog();
-           
+            try
+            {
+                FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                folderDialog.InitialDirectory = "c:\\";
+                folderDialog.ShowNewFolderButton = true;
+                DialogResult result = folderDialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    folderName = folderDialog.SelectedPath;
+                    MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
            
         }
     }
