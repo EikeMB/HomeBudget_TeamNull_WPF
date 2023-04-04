@@ -265,5 +265,26 @@ namespace HomeBudget_TeamNull_WPF
             }
 
         }
+
+        private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Enter)
+            {
+                ComboBox categoryDropDown = sender as ComboBox;
+                string cat = catCB.Text;
+                string type = "";
+                foreach (RadioButton radio in radioBtns.Children)
+                {
+                    if (radio.IsChecked == true)
+                    {
+                        type = radio.Content.ToString();
+                    }
+                }
+                presenter.processAddCategory(cat, type);
+                categories = GetCategoryList();
+                catCB.ItemsSource = categories;
+                catCB.Items.Refresh();
+            }
+        }
     }
 }
