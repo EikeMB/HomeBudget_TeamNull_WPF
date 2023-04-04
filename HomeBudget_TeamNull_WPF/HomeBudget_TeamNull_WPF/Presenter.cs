@@ -48,6 +48,10 @@ namespace HomeBudget_TeamNull_WPF
         {
             try
             {
+                if (GetCategoryDescriptionList().Contains(desc))
+                {
+                    throw new Exception($"This Category description already exist: {desc}");
+                }
                 Category.CategoryType catType = (Category.CategoryType)Enum.Parse(typeof(Category.CategoryType), type);
                 model.categories.Add(desc, catType);
                 view.DisplayAddedCategory(desc, type.ToString());

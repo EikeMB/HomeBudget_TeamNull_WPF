@@ -22,6 +22,7 @@ namespace HomeBudget_TeamNull_WPF
     {
         private string fileName = "";
         private string folderName = "";
+        private List<string> categories;
         private bool changeOccured = false;
 
         Presenter presenter;
@@ -31,7 +32,7 @@ namespace HomeBudget_TeamNull_WPF
             InitializeComponent();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
-            
+            catCB.ItemsSource = categories;
 
         }
 
@@ -87,7 +88,9 @@ namespace HomeBudget_TeamNull_WPF
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     presenter = new Presenter(this, fileName);
-                    catCB.ItemsSource = GetCategoryList();
+                    categories = GetCategoryList();
+                    catCB.ItemsSource = categories;
+                    catCB.Items.Refresh();
                 }
 
             }
@@ -132,6 +135,9 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
             presenter.processAddCategory(description, type);
+            categories = GetCategoryList();
+            catCB.ItemsSource = categories;
+            catCB.Items.Refresh();
             changeOccured = false;
         }
 
@@ -237,7 +243,9 @@ namespace HomeBudget_TeamNull_WPF
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         presenter = new Presenter(this, fileName);
-                        catCB.ItemsSource = GetCategoryList();
+                        categories = GetCategoryList();
+                        catCB.ItemsSource = categories;
+                        catCB.Items.Refresh();
                     }
                     catch (Exception ex)
                     {
@@ -272,6 +280,34 @@ namespace HomeBudget_TeamNull_WPF
                 MessageBox.Show(ex.ToString(), "Error");
             }
 
+        }
+
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {          
+            int tabItem = tabcontrol.SelectedIndex;
+
+                    switch (tabItem)
+                    {
+                        case 0:
+                            saveBtn.Visibility = Visibility.Visible;
+                            cancelBtn.Visibility = Visibility.Visible;
+                            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+                            cat_preview_btn.Visibility = Visibility.Collapsed;
+                            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+                            AddCategoryGrid.Visibility = Visibility.Collapsed;
+                            ExpenseAddBox.Visibility = Visibility.Visible;
+                            break;
+
+                        case 1:
+                            saveBtn.Visibility = Visibility.Collapsed;
+                            cancelBtn.Visibility = Visibility.Collapsed;
+                            CategoryPreviewGrid.Visibility = Visibility.Visible;
+                            cat_preview_btn.Visibility = Visibility.Visible;
+                            cat_Preview_clear_btn.Visibility = Visibility.Visible;
+                            AddCategoryGrid.Visibility = Visibility.Visible;
+                            ExpenseAddBox.Visibility= Visibility.Collapsed;
+                            break;
+                    }               
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
