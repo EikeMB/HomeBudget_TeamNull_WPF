@@ -91,7 +91,11 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
         {
-            throw new NotImplementedException();
+            string successMesage = $"Expense successfully added.\n\n" +
+                $"Expense Date: {date.ToString()}\n" +
+                $"Expense Amount: {amount}\n" +
+                $"Expense Description: {desc}\n" +
+                $"Expense Category: {catId}";
         }
 
         public void DisplayAddedCategory(string desc, string type)
