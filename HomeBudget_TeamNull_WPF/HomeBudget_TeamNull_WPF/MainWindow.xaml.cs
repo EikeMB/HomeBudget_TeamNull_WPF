@@ -63,10 +63,15 @@ namespace HomeBudget_TeamNull_WPF
             System.Windows.Forms.Integration.WindowsFormsHost host =
             new System.Windows.Forms.Integration.WindowsFormsHost();
 
-            FolderBrowserDialog dialog = new FolderBrowserDialog(host);
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            }
 
             
-        
+
+
+
         }
 
     }
