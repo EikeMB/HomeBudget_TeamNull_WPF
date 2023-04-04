@@ -18,6 +18,10 @@ using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using TextBox = System.Windows.Controls.TextBox;
+using TextBlock = System.Windows.Controls.TextBlock;
+using RadioButton = System.Windows.Controls.RadioButton;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using System.IO;
 
 namespace HomeBudget_TeamNull_WPF
@@ -35,7 +39,7 @@ namespace HomeBudget_TeamNull_WPF
         {
 
             InitializeComponent();
-            //presenter = new Presenter(this, "");
+            presenter = new Presenter(this, fileName);
             ShowMenu();
         }
 
@@ -152,15 +156,6 @@ namespace HomeBudget_TeamNull_WPF
 
         }
 
-        private void OpenExistingDb(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void OpenNewDb(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void OpenNewDb(object sender, RoutedEventArgs e)
         {
             try
