@@ -31,7 +31,7 @@ namespace HomeBudget_TeamNull_WPF
            //presenter = new Presenter(this, "");
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
-            catCB.ItemsSource= new List<Category>();
+            catCB.ItemsSource= GetCategoryList();
             
         }
 
@@ -119,6 +119,14 @@ namespace HomeBudget_TeamNull_WPF
             catCB.SelectedIndex = 0;
             amountTB.Clear();
             descriptionTB.Clear();
+        }
+
+        public List<string> GetCategoryList() { 
+
+            List<string> cats = new List<string>();
+            cats = presenter.GetCategoryDescriptionList();
+
+            return cats;
         }
 
         /*

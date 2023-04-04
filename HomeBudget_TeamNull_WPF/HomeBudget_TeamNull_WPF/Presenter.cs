@@ -58,5 +58,18 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
+
+        public List<string> GetCategoryDescriptionList()
+        {
+            cats = model.categories.List();
+            List<string> descriptions= new List<string>();
+
+            foreach(Category cat in cats)
+            {
+                descriptions.Add(cat.Description.ToString());
+            }
+
+            return descriptions;
+        }
     }
 }
