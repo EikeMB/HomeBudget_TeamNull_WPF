@@ -272,14 +272,7 @@ namespace HomeBudget_TeamNull_WPF
             {
                 ComboBox categoryDropDown = sender as ComboBox;
                 string cat = catCB.Text;
-                string type = "";
-                foreach (RadioButton radio in radioBtns.Children)
-                {
-                    if (radio.IsChecked == true)
-                    {
-                        type = radio.Content.ToString();
-                    }
-                }
+                string type = "Expense";
                 presenter.processAddCategory(cat, type);
                 categories = GetCategoryList();
                 catCB.ItemsSource = categories;
