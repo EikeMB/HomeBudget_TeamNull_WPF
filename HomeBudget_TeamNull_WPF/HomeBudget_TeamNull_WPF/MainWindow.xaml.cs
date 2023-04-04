@@ -28,7 +28,7 @@ namespace HomeBudget_TeamNull_WPF
         {
 
             InitializeComponent();
-            presenter = new Presenter(this, "");
+           //presenter = new Presenter(this, "");
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
             catCB.ItemsSource= new List<Category>();
@@ -74,7 +74,7 @@ namespace HomeBudget_TeamNull_WPF
                 txtbox.Text = string.Empty;
             }
         }
-
+/*
         private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
         {
             string description = DescInput.Text;
@@ -88,19 +88,30 @@ namespace HomeBudget_TeamNull_WPF
             }
             presenter.processAddCategory(description, type);
         }
-
+*/
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             DateTime date = (DateTime)dp.SelectedDate;
             string category = catCB.SelectedItem.ToString();
-            double amount = double.Parse(amountTB.Text);
             string description = descriptionTB.Text;
 
-            catCB.SelectedIndex= 0;
-            amountTB.Clear();
-            descriptionTB.Clear();
-            
-            presenter.processAddExpense(date,category,amount,description);
+            double amount = 0;
+
+            bool success = double.TryParse(amountTB.Text, out amount);
+            if (success)
+            {
+                dp.SelectedDate = DateTime.Today;
+                catCB.SelectedIndex = 0;
+                amountTB.Clear();
+                descriptionTB.Clear();
+
+                presenter.processAddExpense(date, category, amount, description);
+            }
+            else
+            {
+                MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
+            }
+
         }
 
         private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -109,6 +120,8 @@ namespace HomeBudget_TeamNull_WPF
             amountTB.Clear();
             descriptionTB.Clear();
         }
+
+        /*
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
             DescInput.Text = string.Empty;
@@ -135,5 +148,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
         }
+        */
+
     }
     }
