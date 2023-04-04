@@ -1,4 +1,5 @@
 ﻿using Budget;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using System.IO;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -21,6 +27,9 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class MainWindow : Window,ViewInterface
     {
+        private string fileName = "";
+        private string folderName = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,7 +51,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayAddedExpense(Expense expense)
         {
-            MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void DisplayError(string error)
@@ -50,6 +59,74 @@ namespace HomeBudget_TeamNull_WPF
            MessageBox.Show(error,"Error",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
-       
+        private void OpenExistingDb(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                if (folderName == "")
+                {
+                    dialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    dialog.InitialDirectory = folderName;
+                }
+                dialog.Filter = "Database File (*.db)|*.db";
+
+                if (dialog.ShowDialog() == true)
+                    fileName = dialog.FileName;
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
+        }
+
+        private void OpenNewDb(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                if (folderName == "")
+                {
+                    saveDialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    saveDialog.InitialDirectory = folderName;
+                }
+                saveDialog.Filter = "Database File (*.db)|*.db";
+                saveDialog.FileName = "dbName";
+                saveDialog.DefaultExt = ".db";
+
+                if (saveDialog.ShowDialog() == true)
+                {
+                    fileName = saveDialog.FileName;
+                    try
+                    {
+                        File.WriteAllText(fileName, "");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
+        }
+
+        private void OpenFolder(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+            folderDialog.InitialDirectory = "c:\\";
+            folderDialog.ShowNewFolderButton = true;
+            folderDialog.ShowDialog();
+           
+           
+        }
     }
 }
