@@ -11,6 +11,7 @@ using TextBlock = System.Windows.Controls.TextBlock;
 using RadioButton = System.Windows.Controls.RadioButton;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using System.IO;
+using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -28,14 +29,15 @@ namespace HomeBudget_TeamNull_WPF
 
             InitializeComponent();
             ShowMenu();
+            dp.SelectedDate = DateTime.Today;
+            
+
         }
 
         private void ShowMenu()
         {
+
         }
-
-        
-
 
         public void DisplayAddedCategory(Category category)
         {
@@ -44,13 +46,14 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayAddedExpense(Expense expense)
         {
-            System.Windows.MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void DisplayError(string error)
         {
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
         {
@@ -70,9 +73,10 @@ namespace HomeBudget_TeamNull_WPF
                 if (dialog.ShowDialog() == true)
                 {
                     fileName = dialog.FileName;
-                    MessageBox.Show("Existing DB file has been picked", "Success",MessageBoxButton.OK,MessageBoxImage.Information);
+                    MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     presenter = new Presenter(this, fileName);
-                }  
+                    catCB.ItemsSource = GetCategoryList();
+                }
 
             }
             catch (Exception ex)
@@ -108,7 +112,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             string description = DescInput.Text;
             string type = "";
-            foreach(RadioButton radio in radioBtns.Children)
+            foreach (RadioButton radio in radioBtns.Children)
             {
                 if (radio.IsChecked == true)
                 {
@@ -117,6 +121,48 @@ namespace HomeBudget_TeamNull_WPF
             }
             presenter.processAddCategory(description, type);
         }
+
+        private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime date = (DateTime)dp.SelectedDate;
+            string category = catCB.SelectedItem.ToString();
+            string description = descriptionTB.Text;
+
+            double amount = 0;
+
+            bool success = double.TryParse(amountTB.Text, out amount);
+            if (success)
+            {
+                dp.SelectedDate = DateTime.Today;
+                catCB.SelectedIndex = 0;
+                amountTB.Clear();
+                descriptionTB.Clear();
+
+                presenter.processAddExpense(date, category, amount, description);
+            }
+            else
+            {
+                MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
+            }
+
+        }
+
+        private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            catCB.SelectedIndex = 0;
+            amountTB.Clear();
+            descriptionTB.Clear();
+        }
+
+        public List<string> GetCategoryList()
+        {
+
+            List<string> cats = new List<string>();
+            cats = presenter.GetCategoryDescriptionList();
+
+            return cats;
+        }
+
 
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -175,6 +221,7 @@ namespace HomeBudget_TeamNull_WPF
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         presenter = new Presenter(this, fileName);
+                        catCB.ItemsSource = GetCategoryList();
                     }
                     catch (Exception ex)
                     {
@@ -203,11 +250,12 @@ namespace HomeBudget_TeamNull_WPF
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
-           
+
         }
     }
 }
