@@ -270,7 +270,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             if(e.Key == System.Windows.Input.Key.Enter)
             {
-                ComboBox categoryDropDown = sender as ComboBox;
                 string cat = catCB.Text;
                 string type = "Expense";
                 presenter.processAddCategory(cat, type);
