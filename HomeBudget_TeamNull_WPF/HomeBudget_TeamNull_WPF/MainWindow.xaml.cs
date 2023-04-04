@@ -278,5 +278,33 @@ namespace HomeBudget_TeamNull_WPF
                 catCB.Items.Refresh();
             }
         }
+
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {          
+            int tabItem = tabcontrol.SelectedIndex;
+
+                    switch (tabItem)
+                    {
+                        case 0:
+                            saveBtn.Visibility = Visibility.Visible;
+                            cancelBtn.Visibility = Visibility.Visible;
+                            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+                            cat_preview_btn.Visibility = Visibility.Collapsed;
+                            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+                            AddCategoryGrid.Visibility = Visibility.Collapsed;
+                            ExpenseAddBox.Visibility = Visibility.Visible;
+                            break;
+
+                        case 1:
+                            saveBtn.Visibility = Visibility.Collapsed;
+                            cancelBtn.Visibility = Visibility.Collapsed;
+                            CategoryPreviewGrid.Visibility = Visibility.Visible;
+                            cat_preview_btn.Visibility = Visibility.Visible;
+                            cat_Preview_clear_btn.Visibility = Visibility.Visible;
+                            AddCategoryGrid.Visibility = Visibility.Visible;
+                            ExpenseAddBox.Visibility= Visibility.Collapsed;
+                            break;
+                    }               
+        }
     }
 }
