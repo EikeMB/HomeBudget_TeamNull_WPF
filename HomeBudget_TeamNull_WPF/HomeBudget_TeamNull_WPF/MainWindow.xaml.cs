@@ -23,6 +23,7 @@ namespace HomeBudget_TeamNull_WPF
         private string fileName = "";
         private string folderName = "";
         private List<string> categories;
+        private bool changeOccured = false;
 
         Presenter presenter;
         public MainWindow()
@@ -33,6 +34,17 @@ namespace HomeBudget_TeamNull_WPF
             dp.SelectedDate = DateTime.Today;
             catCB.ItemsSource = categories;
 
+        }
+
+        void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (changeOccured == true || catCB.SelectedIndex == 0)
+            {
+                if (MessageBox.Show("Are you sure you want to exit? You will lose unsaved changes", "CLOSING", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void ShowMenu()
@@ -126,6 +138,7 @@ namespace HomeBudget_TeamNull_WPF
             categories = GetCategoryList();
             catCB.ItemsSource = categories;
             catCB.Items.Refresh();
+            changeOccured = false;
         }
 
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
@@ -145,6 +158,7 @@ namespace HomeBudget_TeamNull_WPF
                 descriptionTB.Clear();
 
                 presenter.processAddExpense(date, category, amount, description);
+                changeOccured = false;
             }
             else
             {
@@ -158,6 +172,7 @@ namespace HomeBudget_TeamNull_WPF
             catCB.SelectedIndex = 0;
             amountTB.Clear();
             descriptionTB.Clear();
+            changeOccured = false;
         }
 
         public List<string> GetCategoryList()
@@ -174,6 +189,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             DescInput.Text = string.Empty;
             income_rdb.IsChecked = true;
+            changeOccured = false;
         }
 
         private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
@@ -305,6 +321,11 @@ namespace HomeBudget_TeamNull_WPF
                             ExpenseAddBox.Visibility= Visibility.Collapsed;
                             break;
                     }               
+        }
+
+        private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            changeOccured= true;
         }
     }
 }
