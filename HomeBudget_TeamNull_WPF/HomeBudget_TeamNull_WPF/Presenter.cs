@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
-using Budget;
 
 namespace HomeBudget_TeamNull_WPF
 {
-    class Presenter
+    internal class Presenter
     {
         private readonly ViewInterface view;
         private readonly HomeBudget model;
-        List<Category> cats;
+        private List<Category> cats;
 
         public Presenter(ViewInterface v, string fileName)
         {
@@ -22,28 +17,27 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
         }
 
-
         public void processAddExpense(DateTime date, string cat, double amount, string desc)
         {
             try
             {
                 int catId = 0;
-                foreach(Category category in cats)
+                foreach (Category category in cats)
                 {
-                    if(category.Description == cat)
+                    if (category.Description == cat)
                     {
                         catId = category.Id;
                     }
                 }
-                    model.expenses.Add(date, catId, amount, desc);
-                    view.DisplayAddedExpense(date, catId, amount, desc);
+                model.expenses.Add(date, catId, amount, desc);
+                view.DisplayAddedExpense(date, catId, amount, desc);
             }
             catch (Exception e)
             {
-
                 view.DisplayError(e.Message);
             }
         }
+
         public void processAddCategory(string desc, string type)
         {
             try
@@ -58,7 +52,6 @@ namespace HomeBudget_TeamNull_WPF
             }
             catch (Exception e)
             {
-
                 view.DisplayError(e.Message);
             }
         }
@@ -66,9 +59,9 @@ namespace HomeBudget_TeamNull_WPF
         public List<string> GetCategoryDescriptionList()
         {
             cats = model.categories.List();
-            List<string> descriptions= new List<string>();
+            List<string> descriptions = new List<string>();
 
-            foreach(Category cat in cats)
+            foreach (Category cat in cats)
             {
                 descriptions.Add(cat.Description.ToString());
             }
