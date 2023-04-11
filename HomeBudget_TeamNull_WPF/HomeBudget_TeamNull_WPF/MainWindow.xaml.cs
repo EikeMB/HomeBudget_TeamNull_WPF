@@ -162,6 +162,8 @@ namespace HomeBudget_TeamNull_WPF
 
                 presenter.processAddExpense(date, category, amount, description);
                 changeOccured = false;
+
+                MessageBox.Show("The expense has been succesfully added", "Added Expense", MessageBoxButton.OK);
             }
             else
             {
