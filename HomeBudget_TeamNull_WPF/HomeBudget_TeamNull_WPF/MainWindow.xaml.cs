@@ -91,6 +91,7 @@ namespace HomeBudget_TeamNull_WPF
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
+                    name_TB.Text = fileName;
                 }
 
             }
@@ -252,6 +253,7 @@ namespace HomeBudget_TeamNull_WPF
                         categories = GetCategoryList();
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
+                        name_TB.Text = fileName;
                     }
                     catch (Exception ex)
                     {
@@ -315,7 +317,9 @@ namespace HomeBudget_TeamNull_WPF
                             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
                             AddCategoryGrid.Visibility = Visibility.Collapsed;
                             ExpenseAddBox.Visibility = Visibility.Visible;
-                            break;
+                            file_TB.Visibility = Visibility.Visible;
+                            name_TB.Visibility = Visibility.Visible;
+                    break;
 
                         case 1:
                             saveBtn.Visibility = Visibility.Collapsed;
@@ -325,6 +329,8 @@ namespace HomeBudget_TeamNull_WPF
                             cat_Preview_clear_btn.Visibility = Visibility.Visible;
                             AddCategoryGrid.Visibility = Visibility.Visible;
                             ExpenseAddBox.Visibility= Visibility.Collapsed;
+                            file_TB.Visibility = Visibility.Collapsed;
+                            name_TB.Visibility = Visibility.Collapsed;
                             break;
                     }               
         }

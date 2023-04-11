@@ -156,6 +156,9 @@
 
         </Grid>
 
+        <TextBlock FontSize="20" x:Name="file_TB" FontWeight="Bold" Margin="5,0,5,0" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" >File Opened:</TextBlock>
+        <TextBlock Margin="5,0,5,0" x:Name="name_TB" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">No file opened</TextBlock>
+        
         <Border BorderThickness="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="2"
                 BorderBrush="Black" x:Name="ExpenseAddBox">
             <StackPanel>
