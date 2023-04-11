@@ -32,15 +32,14 @@ namespace HomeBudget_TeamNull_WPF
         Presenter presenter;
         public MainWindow()
         {
-
             InitializeComponent();
+            LoadAppData();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
             catCB.ItemsSource = categories;
-
         }
 
-        void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (changeOccured == true || catCB.SelectedIndex == 0)
             {
@@ -58,9 +57,9 @@ namespace HomeBudget_TeamNull_WPF
 
         private void HideMenu()
         {
-            menuText.Visibility= Visibility.Collapsed;
-            BTN_existingDB.Visibility= Visibility.Collapsed;
-            BTN_newDB.Visibility= Visibility.Collapsed;
+            menuText.Visibility = Visibility.Collapsed;
+            BTN_existingDB.Visibility = Visibility.Collapsed;
+            BTN_newDB.Visibility = Visibility.Collapsed;
         }
 
         private void HideAllElements()
@@ -94,7 +93,6 @@ namespace HomeBudget_TeamNull_WPF
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-
         private void OpenExistingDb(object sender, RoutedEventArgs e)
         {
             try
@@ -118,19 +116,18 @@ namespace HomeBudget_TeamNull_WPF
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
+                    DP_select.Visibility = Visibility.Visible;
+                    tabcontrol.Visibility = Visibility.Visible;
+                    HideMenu();
+                    ShowExpenseTab();
                     name_TB.Text = Path.GetFileName(fileName);
                 }
-                DP_select.Visibility = Visibility.Visible;
-                tabcontrol.Visibility = Visibility.Visible;
-                HideMenu();
-                ShowExpenseTab();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
         }
-
 
         public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
         {
@@ -220,7 +217,6 @@ namespace HomeBudget_TeamNull_WPF
             {
                 MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
             }
-
         }
 
         private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -233,13 +229,11 @@ namespace HomeBudget_TeamNull_WPF
 
         public List<string> GetCategoryList()
         {
-
             List<string> cats = new List<string>();
             cats = presenter.GetCategoryDescriptionList();
 
             return cats;
         }
-
 
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -271,7 +265,6 @@ namespace HomeBudget_TeamNull_WPF
 
         private void AddCategory(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
@@ -334,18 +327,24 @@ namespace HomeBudget_TeamNull_WPF
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     folderName = folderDialog.SelectedPath;
+
+                    //inspiration taken from here https://stackoverflow.com/questions/10563148/where-is-the-correct-place-to-store-my-application-specific-data
+                    var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    Directory.CreateDirectory(directory + "\\TicTacToeWPF");
+                    string path = (Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
+
+                    File.WriteAllText(path, folderName);
+
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
-
         }
 
         private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -368,16 +367,16 @@ namespace HomeBudget_TeamNull_WPF
         {
             int tabItem = tabcontrol.SelectedIndex;
 
-                    switch (tabItem)
-                    {
-                        case 0:
-                             showCategorytab();
-                            break;
+            switch (tabItem)
+            {
+                case 0:
+                    showCategorytab();
+                    break;
 
-                        case 1:
-                           ShowExpenseTab();
-                            break;
-                    }
+                case 1:
+                    ShowExpenseTab();
+                    break;
+            }
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -438,6 +437,25 @@ namespace HomeBudget_TeamNull_WPF
             catCB.ItemsSource = categories;
             catCB.Items.Refresh();
 
+        }
+
+        private void LoadAppData()
+        {
+            try
+            {
+                var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string path = Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt");
+                if (File.Exists(path))
+                {
+                    string contents = File.ReadAllText(path);
+
+                    folderName = contents;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
         }
     }
 }
