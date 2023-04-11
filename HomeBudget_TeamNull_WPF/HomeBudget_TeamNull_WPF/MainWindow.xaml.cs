@@ -11,6 +11,7 @@ using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
 
+
 namespace HomeBudget_TeamNull_WPF
 {
     /// <summary>
@@ -68,6 +69,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
+            file_TB.Visibility = Visibility.Collapsed;
+            name_TB.Visibility = Visibility.Collapsed;
+            file_Grid.Visibility = Visibility.Collapsed;
         }
 
         public void DisplayAddedCategory(Category category)
@@ -112,6 +116,7 @@ namespace HomeBudget_TeamNull_WPF
                     tabcontrol.Visibility = Visibility.Visible;
                     HideMenu();
                     ShowExpenseTab();
+                    name_TB.Text = Path.GetFileName(fileName);
                 }
             }
             catch (Exception ex)
@@ -169,12 +174,17 @@ namespace HomeBudget_TeamNull_WPF
             DateTime date = (DateTime)dp.SelectedDate;
             string category = catCB.SelectedItem.ToString();
             string description = descriptionTB.Text;
+            bool credit = (bool)exp_credit.IsChecked;
 
             double amount = 0;
 
             bool success = double.TryParse(amountTB.Text, out amount);
             if (success)
             {
+                if (credit)
+                {
+                    presenter.processAddExpense(date, "Credit Card", amount*-1,description);
+                }
                 amountTB.Clear();
                 descriptionTB.Clear();
 
@@ -265,6 +275,7 @@ namespace HomeBudget_TeamNull_WPF
                         categories = GetCategoryList();
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
+                        name_TB.Text = Path.GetFileName(fileName);
 
                         DP_select.Visibility = Visibility.Visible;
                         tabcontrol.Visibility = Visibility.Visible;
@@ -304,6 +315,9 @@ namespace HomeBudget_TeamNull_WPF
 
                     File.WriteAllText(path, folderName);
 
+                    categories = GetCategoryList();
+                    catCB.ItemsSource = categories;
+                    catCB.Items.Refresh();
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -323,7 +337,10 @@ namespace HomeBudget_TeamNull_WPF
                 categories = GetCategoryList();
                 catCB.ItemsSource = categories;
                 catCB.Items.Refresh();
+
+
             }
+            
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -356,6 +373,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Visible;
+            file_TB.Visibility = Visibility.Visible;
+            name_TB.Visibility = Visibility.Visible;
+            file_Grid.Visibility = Visibility.Visible;
         }
 
         private void ShowExpenseTab()
@@ -367,6 +387,36 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Visible;
             AddCategoryGrid.Visibility = Visibility.Visible;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
+            file_TB.Visibility = Visibility.Collapsed;
+            name_TB.Visibility = Visibility.Collapsed;
+            file_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void catCB_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            catCB.IsDropDownOpen = true;
+            string cat = catCB.Text;
+            List<string> remainingCats = new List<string>();
+            if (cat == "")
+            {
+                categories = GetCategoryList();
+            }
+            else
+            {
+                foreach (string category in categories)
+                {
+
+                    if (cat.ToLower() == category.Substring(0,cat.Length < category.Length ? cat.Length : category.Length).ToLower())
+                    {
+                        remainingCats.Add(category);
+                    }
+                }
+                categories= remainingCats;
+            }
+
+            catCB.ItemsSource = categories;
+            catCB.Items.Refresh();
+
         }
 
         private void LoadAppData()
