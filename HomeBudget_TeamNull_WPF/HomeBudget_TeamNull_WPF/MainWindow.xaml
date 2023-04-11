@@ -9,25 +9,25 @@
         Closing="Close_Window">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="0.25*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="167*"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="167*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="4">
             <Menu DockPanel.Dock="Top" x:Name="DP_select">
                 <MenuItem Header="File">
-                    <MenuItem Header="Choose Folder" Click="OpenFolder"/>
-                    <MenuItem Header="Open existing DB" Click="OpenExistingDb"/>
-                    <MenuItem Header="Open new DB" Click="OpenNewDb"/>
+                    <MenuItem Header="Choose Folder" Click="OpenFolder" />
+                    <MenuItem Header="Open existing DB" Click="OpenExistingDb" />
+                    <MenuItem Header="Open new DB" Click="OpenNewDb" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -37,27 +37,25 @@
             <TabItem Header="Add Category" x:Name="Category"></TabItem>
         </TabControl>
 
-
         <Grid Grid.Row="2" Grid.RowSpan="4" Grid.Column="0"
               Margin="5,5,5,5" x:Name="AddCategoryGrid">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="0.5*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
-                BorderThickness="2" BorderBrush="Black"  >
-
+                BorderThickness="2" BorderBrush="Black">
             </Border>
 
             <StackPanel Grid.Column="0" Grid.Row="0">
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Description:
                 </TextBlock>
-                <TextBox KeyDown="KeyDown" x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black" 
+                <TextBox KeyDown="KeyDown" x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black"
                          GotMouseCapture="DescInput_GotMouseCapture">
                     Description...
                 </TextBox>
@@ -81,7 +79,7 @@
                 <Button x:Name="add_Cat_btn" Margin="10,5" Height="25" Click="add_Cat_btn_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                     Add Category
@@ -89,7 +87,7 @@
                 <Button x:Name="cat_cancel_btn" Margin="10,5" Height="25" Click="cat_cancel_btn_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                     Cancel
@@ -97,13 +95,11 @@
             </StackPanel>
         </Grid>
 
-
-
         <Button x:Name="cat_preview_btn" Grid.Column="1" Grid.Row="2" Height="50" Width="150"
                 FontSize="20" FontWeight="DemiBold" Click="cat_preview_btn_Click" Margin="29,10,29,10">
             <Button.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
+                    <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Button.Resources>
             Preview
@@ -112,35 +108,29 @@
                 FontSize="20" FontWeight="DemiBold" Click="cat_Preview_clear_btn_Click" Margin="29,93,29,93">
             <Button.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
+                    <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Button.Resources>
             Clear Preview
         </Button>
 
-
-
-
-
-
         <Grid Grid.Row="2" Grid.RowSpan="2" Grid.Column="1"
               Grid.ColumnSpan="3" x:Name="CategoryPreviewGrid" Margin="208,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Grid.RowSpan="2"
-                BorderThickness="2" BorderBrush="Black" Margin="5,5,-254,5"/>
+                BorderThickness="2" BorderBrush="Black" Margin="5,5,-254,5" />
             <StackPanel Margin="15" Grid.Row="0">
                 <TextBlock FontWeight="Bold" FontSize="15">
                     Category Desc:
                 </TextBlock>
                 <TextBlock FontSize="15" Margin="0,5"
                            x:Name="catDescDisplay">
-
                 </TextBlock>
             </StackPanel>
             <StackPanel Margin="15" Grid.Row="1">
@@ -149,11 +139,8 @@
                 </TextBlock>
                 <TextBlock FontSize="15" Margin="0,5"
                            x:Name="catTypeDisplay">
-
                 </TextBlock>
             </StackPanel>
-
-
         </Grid>
 
         <Border BorderThickness="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="2"
@@ -174,7 +161,7 @@
             </StackPanel>
         </Border>
 
-        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"  
+        <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="saveBtn"
                 Click="Exp_SaveBtn_Click" Grid.Row="5" Margin="13,11,13,10" >Add Expense</Button>
         <Button Height="50" Width="150" FontSize="20" FontWeight="DemiBold" x:Name="cancelBtn"
                 Click="Exp_CancelBtn_Click" Grid.Row="5" Grid.Column="1" Margin="48,11,0,10" HorizontalAlignment="Left" >Cancel Expense</Button>
@@ -182,7 +169,7 @@
         <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontSize="26" FontWeight="Bold" x:Name="menuText">Select an option below to begin</TextBlock>
-        
+
         <Button Grid.ColumnSpan="2" Margin="195,177,5,10" Grid.Row="3"
                 x:Name="BTN_existingDB" Click="OpenExistingDb" RenderTransformOrigin="0.817,1.017">Open Existing Budget</Button>
         <Button Grid.Column="2" Margin="10,177,0,10" Grid.Row="3"

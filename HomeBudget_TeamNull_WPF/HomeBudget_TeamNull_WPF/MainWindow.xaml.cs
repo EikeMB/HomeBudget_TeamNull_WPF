@@ -1,19 +1,15 @@
 ﻿using Budget;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
-using TextBlock = System.Windows.Controls.TextBlock;
-using RadioButton = System.Windows.Controls.RadioButton;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Text;
-using System.Windows.Media.TextFormatting;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -26,21 +22,19 @@ namespace HomeBudget_TeamNull_WPF
         private string folderName = "";
         private List<string> categories;
         private bool changeOccured = false;
-       
 
-        Presenter presenter;
+        private Presenter presenter;
+
         public MainWindow()
         {
-
             InitializeComponent();
             LoadAppData();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
             catCB.ItemsSource = categories;
-
         }
 
-        void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (changeOccured == true || catCB.SelectedIndex == 0)
             {
@@ -58,9 +52,9 @@ namespace HomeBudget_TeamNull_WPF
 
         private void HideMenu()
         {
-            menuText.Visibility= Visibility.Collapsed;
-            BTN_existingDB.Visibility= Visibility.Collapsed;
-            BTN_newDB.Visibility= Visibility.Collapsed;
+            menuText.Visibility = Visibility.Collapsed;
+            BTN_existingDB.Visibility = Visibility.Collapsed;
+            BTN_newDB.Visibility = Visibility.Collapsed;
         }
 
         private void HideAllElements()
@@ -90,7 +84,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
         {
@@ -126,7 +119,6 @@ namespace HomeBudget_TeamNull_WPF
                 MessageBox.Show(ex.ToString(), "Error");
             }
         }
-
 
         public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
         {
@@ -183,7 +175,6 @@ namespace HomeBudget_TeamNull_WPF
             bool success = double.TryParse(amountTB.Text, out amount);
             if (success)
             {
-                
                 amountTB.Clear();
                 descriptionTB.Clear();
 
@@ -196,7 +187,6 @@ namespace HomeBudget_TeamNull_WPF
             {
                 MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
             }
-
         }
 
         private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -209,13 +199,11 @@ namespace HomeBudget_TeamNull_WPF
 
         public List<string> GetCategoryList()
         {
-
             List<string> cats = new List<string>();
             cats = presenter.GetCategoryDescriptionList();
 
             return cats;
         }
-
 
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -247,7 +235,6 @@ namespace HomeBudget_TeamNull_WPF
 
         private void AddCategory(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
@@ -310,31 +297,25 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     folderName = folderDialog.SelectedPath;
 
-
-
                     //inspiration taken from here https://stackoverflow.com/questions/10563148/where-is-the-correct-place-to-store-my-application-specific-data
                     var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                    Directory.CreateDirectory(directory+ "\\TicTacToeWPF");
-                   // File.Create(Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
+                    Directory.CreateDirectory(directory + "\\TicTacToeWPF");
                     string path = (Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
 
-                    File.WriteAllTextAsync(path, folderName);
-                    
+                    File.WriteAllText(path, folderName);
 
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
-
         }
 
         private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string cat = catCB.Text;
                 string type = "Expense";
@@ -346,24 +327,24 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {          
+        {
             int tabItem = tabcontrol.SelectedIndex;
 
-                    switch (tabItem)
-                    {
-                        case 0:
-                             showCategorytab();
-                            break;
+            switch (tabItem)
+            {
+                case 0:
+                    showCategorytab();
+                    break;
 
-                        case 1:
-                           ShowExpenseTab();
-                            break;
-                    }               
+                case 1:
+                    ShowExpenseTab();
+                    break;
+            }
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            changeOccured= true;
+            changeOccured = true;
         }
 
         private void showCategorytab()
@@ -399,16 +380,12 @@ namespace HomeBudget_TeamNull_WPF
                     string contents = File.ReadAllText(path);
 
                     folderName = contents;
-
                 }
-               
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString(), "Error");
             }
-             
         }
     }
 }
