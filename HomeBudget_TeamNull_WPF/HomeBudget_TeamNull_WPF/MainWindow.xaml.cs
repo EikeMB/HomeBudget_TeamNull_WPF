@@ -313,6 +313,9 @@ namespace HomeBudget_TeamNull_WPF
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     folderName = folderDialog.SelectedPath;
+                    categories = GetCategoryList();
+                    catCB.ItemsSource = categories;
+                    catCB.Items.Refresh();
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
@@ -334,7 +337,10 @@ namespace HomeBudget_TeamNull_WPF
                 categories = GetCategoryList();
                 catCB.ItemsSource = categories;
                 catCB.Items.Refresh();
+
+
             }
+            
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -384,6 +390,33 @@ namespace HomeBudget_TeamNull_WPF
             file_TB.Visibility = Visibility.Collapsed;
             name_TB.Visibility = Visibility.Collapsed;
             file_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void catCB_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            catCB.IsDropDownOpen = true;
+            string cat = catCB.Text;
+            List<string> remainingCats = new List<string>();
+            if (cat == "")
+            {
+                categories = GetCategoryList();
+            }
+            else
+            {
+                foreach (string category in categories)
+                {
+
+                    if (cat.ToLower() == category.Substring(0,cat.Length < category.Length ? cat.Length : category.Length).ToLower())
+                    {
+                        remainingCats.Add(category);
+                    }
+                }
+                categories= remainingCats;
+            }
+
+            catCB.ItemsSource = categories;
+            catCB.Items.Refresh();
+
         }
     }
 }
