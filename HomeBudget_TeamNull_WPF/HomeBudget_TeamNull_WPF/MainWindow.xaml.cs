@@ -10,8 +10,10 @@ using TextBox = System.Windows.Controls.TextBox;
 using TextBlock = System.Windows.Controls.TextBlock;
 using RadioButton = System.Windows.Controls.RadioButton;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using System.IO;
 using System.Collections.Generic;
+using System.IO.Pipes;
+using System.Text;
+using System.Windows.Media.TextFormatting;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -24,12 +26,14 @@ namespace HomeBudget_TeamNull_WPF
         private string folderName = "";
         private List<string> categories;
         private bool changeOccured = false;
+       
 
         Presenter presenter;
         public MainWindow()
         {
 
             InitializeComponent();
+            LoadAppData();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
             catCB.ItemsSource = categories;
@@ -111,11 +115,11 @@ namespace HomeBudget_TeamNull_WPF
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
+                    DP_select.Visibility = Visibility.Visible;
+                    tabcontrol.Visibility = Visibility.Visible;
+                    HideMenu();
+                    ShowExpenseTab();
                 }
-                DP_select.Visibility = Visibility.Visible;
-                tabcontrol.Visibility = Visibility.Visible;
-                HideMenu();
-                ShowExpenseTab();
             }
             catch (Exception ex)
             {
@@ -305,6 +309,18 @@ namespace HomeBudget_TeamNull_WPF
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     folderName = folderDialog.SelectedPath;
+
+
+
+                    //inspiration taken from here https://stackoverflow.com/questions/10563148/where-is-the-correct-place-to-store-my-application-specific-data
+                    var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    Directory.CreateDirectory(directory+ "\\TicTacToeWPF");
+                   // File.Create(Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
+                    string path = (Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
+
+                    File.WriteAllTextAsync(path, folderName);
+                    
+
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
@@ -370,6 +386,29 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Visible;
             AddCategoryGrid.Visibility = Visibility.Visible;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void LoadAppData()
+        {
+            try
+            {
+                var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string path = Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt");
+                if (File.Exists(path))
+                {
+                    string contents = File.ReadAllText(path);
+
+                    folderName = contents;
+
+                }
+               
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString(), "Error");
+            }
+             
         }
     }
 }
