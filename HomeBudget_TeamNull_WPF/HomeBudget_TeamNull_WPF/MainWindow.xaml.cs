@@ -48,7 +48,27 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ShowMenu()
         {
+            HideAllElements();
+        }
 
+        private void HideMenu()
+        {
+            menuText.Visibility= Visibility.Collapsed;
+            BTN_existingDB.Visibility= Visibility.Collapsed;
+            BTN_newDB.Visibility= Visibility.Collapsed;
+        }
+
+        private void HideAllElements()
+        {
+            DP_select.Visibility = Visibility.Collapsed;
+            tabcontrol.Visibility = Visibility.Collapsed;
+            saveBtn.Visibility = Visibility.Collapsed;
+            cancelBtn.Visibility = Visibility.Collapsed;
+            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+            cat_preview_btn.Visibility = Visibility.Collapsed;
+            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+            AddCategoryGrid.Visibility = Visibility.Collapsed;
+            ExpenseAddBox.Visibility = Visibility.Collapsed;
         }
 
         public void DisplayAddedCategory(Category category)
@@ -92,7 +112,10 @@ namespace HomeBudget_TeamNull_WPF
                     catCB.Items.Refresh();
                     name_TB.Text = Path.GetFileName(fileName);
                 }
-
+                DP_select.Visibility = Visibility.Visible;
+                tabcontrol.Visibility = Visibility.Visible;
+                HideMenu();
+                ShowExpenseTab();
             }
             catch (Exception ex)
             {
@@ -150,14 +173,17 @@ namespace HomeBudget_TeamNull_WPF
             DateTime date = (DateTime)dp.SelectedDate;
             string category = catCB.SelectedItem.ToString();
             string description = descriptionTB.Text;
+            bool credit = (bool)exp_credit.IsChecked;
 
             double amount = 0;
 
             bool success = double.TryParse(amountTB.Text, out amount);
             if (success)
             {
-                catCB.SelectedIndex = 0;
-                catCB.Text = string.Empty;
+                if (credit)
+                {
+                    presenter.processAddExpense(date, "Credit Card", amount*-1,description);
+                }
                 amountTB.Clear();
                 descriptionTB.Clear();
 
@@ -253,6 +279,12 @@ namespace HomeBudget_TeamNull_WPF
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
                         name_TB.Text = Path.GetFileName(fileName);
+
+                        DP_select.Visibility = Visibility.Visible;
+                        tabcontrol.Visibility = Visibility.Visible;
+
+                        HideMenu();
+                        ShowExpenseTab();
                     }
                     catch (Exception ex)
                     {
@@ -306,39 +338,49 @@ namespace HomeBudget_TeamNull_WPF
         {
             int tabItem = tabcontrol.SelectedIndex;
 
-            switch (tabItem)
-            {
-                case 0:
-                    saveBtn.Visibility = Visibility.Visible;
-                    cancelBtn.Visibility = Visibility.Visible;
-                    CategoryPreviewGrid.Visibility = Visibility.Collapsed;
-                    cat_preview_btn.Visibility = Visibility.Collapsed;
-                    cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
-                    AddCategoryGrid.Visibility = Visibility.Collapsed;
-                    ExpenseAddBox.Visibility = Visibility.Visible;
-                    file_TB.Visibility = Visibility.Visible;
-                    name_TB.Visibility = Visibility.Visible;
-                    file_Grid.Visibility = Visibility.Visible;
-                    break;
+                    switch (tabItem)
+                    {
+                        case 0:
+                             showCategorytab();
+                            break;
 
-                case 1:
-                    saveBtn.Visibility = Visibility.Collapsed;
-                    cancelBtn.Visibility = Visibility.Collapsed;
-                    CategoryPreviewGrid.Visibility = Visibility.Visible;
-                    cat_preview_btn.Visibility = Visibility.Visible;
-                    cat_Preview_clear_btn.Visibility = Visibility.Visible;
-                    AddCategoryGrid.Visibility = Visibility.Visible;
-                    ExpenseAddBox.Visibility = Visibility.Collapsed;
-                    file_TB.Visibility = Visibility.Collapsed;
-                    name_TB.Visibility = Visibility.Collapsed;
-                    file_Grid.Visibility = Visibility.Collapsed;
-                    break;
-            }
+                        case 1:
+                           ShowExpenseTab();
+                            break;
+                    }
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             changeOccured = true;
+        }
+
+        private void showCategorytab()
+        {
+            saveBtn.Visibility = Visibility.Visible;
+            cancelBtn.Visibility = Visibility.Visible;
+            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+            cat_preview_btn.Visibility = Visibility.Collapsed;
+            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+            AddCategoryGrid.Visibility = Visibility.Collapsed;
+            ExpenseAddBox.Visibility = Visibility.Visible;
+            file_TB.Visibility = Visibility.Visible;
+            name_TB.Visibility = Visibility.Visible;
+            file_Grid.Visibility = Visibility.Visible;
+        }
+
+        private void ShowExpenseTab()
+        {
+            saveBtn.Visibility = Visibility.Collapsed;
+            cancelBtn.Visibility = Visibility.Collapsed;
+            CategoryPreviewGrid.Visibility = Visibility.Visible;
+            cat_preview_btn.Visibility = Visibility.Visible;
+            cat_Preview_clear_btn.Visibility = Visibility.Visible;
+            AddCategoryGrid.Visibility = Visibility.Visible;
+            ExpenseAddBox.Visibility = Visibility.Collapsed;
+            file_TB.Visibility = Visibility.Collapsed;
+            name_TB.Visibility = Visibility.Collapsed;
+            file_Grid.Visibility = Visibility.Collapsed;
         }
     }
 }
