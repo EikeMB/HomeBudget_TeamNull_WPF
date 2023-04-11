@@ -24,6 +24,11 @@ namespace HomeBudget_TeamNull_WPF
         private List<string> categories;
         private bool changeOccured = false;
 
+        private DateTime previousDate;
+        private string previousExpense;
+        private string previousExpCat;
+        private double previousAmount;
+
         Presenter presenter;
         public MainWindow()
         {
@@ -180,20 +185,36 @@ namespace HomeBudget_TeamNull_WPF
 
             double amount = 0;
 
-            bool success = double.TryParse(amountTB.Text, out amount);
-            if (success)
+            bool doubleSuccess = double.TryParse(amountTB.Text, out amount);
+            bool continueAdd = true;
+            
+            if (previousExpCat == category && previousDate == date && previousAmount == amount && previousExpense == description)
             {
-                if (credit)
+                if (MessageBox.Show("Are you sure you want to add this Expense? It is the same as the previous added expense", "CLOSING", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 {
-                    presenter.processAddExpense(date, "Credit Card", amount*-1,description);
+                    continueAdd = false;
                 }
-                amountTB.Clear();
-                descriptionTB.Clear();
+            }
+            if (doubleSuccess)
+            {
+                if (continueAdd)
+                {
+                    previousAmount = amount;
+                    previousDate = date;
+                    previousExpense = description;
+                    previousExpCat = category;
+                    if (credit)
+                    {
+                        presenter.processAddExpense(date, "Credit Card", amount * -1, description);
+                    }
+                    amountTB.Clear();
+                    descriptionTB.Clear();
 
-                presenter.processAddExpense(date, category, amount, description);
-                changeOccured = false;
+                    presenter.processAddExpense(date, category, amount, description);
+                    changeOccured = false;
 
-                MessageBox.Show("The expense has been succesfully added", "Added Expense", MessageBoxButton.OK);
+                    MessageBox.Show("The expense has been succesfully added", "Added Expense", MessageBoxButton.OK);
+                }
             }
             else
             {
