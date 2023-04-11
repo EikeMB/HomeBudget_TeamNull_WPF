@@ -1,17 +1,16 @@
 ﻿using Budget;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
-using TextBlock = System.Windows.Controls.TextBlock;
-using RadioButton = System.Windows.Controls.RadioButton;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using System.IO;
-using System.Collections.Generic;
+
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -111,6 +110,7 @@ namespace HomeBudget_TeamNull_WPF
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
+                    name_TB.Text = Path.GetFileName(fileName);
                 }
                 DP_select.Visibility = Visibility.Visible;
                 tabcontrol.Visibility = Visibility.Visible;
@@ -278,6 +278,7 @@ namespace HomeBudget_TeamNull_WPF
                         categories = GetCategoryList();
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
+                        name_TB.Text = Path.GetFileName(fileName);
 
                         DP_select.Visibility = Visibility.Visible;
                         tabcontrol.Visibility = Visibility.Visible;
@@ -322,7 +323,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string cat = catCB.Text;
                 string type = "Expense";
@@ -334,7 +335,7 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {          
+        {
             int tabItem = tabcontrol.SelectedIndex;
 
                     switch (tabItem)
@@ -346,12 +347,12 @@ namespace HomeBudget_TeamNull_WPF
                         case 1:
                            ShowExpenseTab();
                             break;
-                    }               
+                    }
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            changeOccured= true;
+            changeOccured = true;
         }
 
         private void showCategorytab()
@@ -363,6 +364,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Visible;
+            file_TB.Visibility = Visibility.Visible;
+            name_TB.Visibility = Visibility.Visible;
+            file_Grid.Visibility = Visibility.Visible;
         }
 
         private void ShowExpenseTab()
@@ -374,6 +378,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Visible;
             AddCategoryGrid.Visibility = Visibility.Visible;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
+            file_TB.Visibility = Visibility.Collapsed;
+            name_TB.Visibility = Visibility.Collapsed;
+            file_Grid.Visibility = Visibility.Collapsed;
         }
     }
 }
