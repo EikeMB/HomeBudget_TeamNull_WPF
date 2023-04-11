@@ -69,6 +69,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
+            file_TB.Visibility = Visibility.Collapsed;
+            name_TB.Visibility = Visibility.Collapsed;
+            file_Grid.Visibility = Visibility.Collapsed;
         }
 
         public void DisplayAddedCategory(Category category)
