@@ -49,7 +49,27 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ShowMenu()
         {
+            HideAllElements();
+        }
 
+        private void HideMenu()
+        {
+            menuText.Visibility= Visibility.Collapsed;
+            BTN_existingDB.Visibility= Visibility.Collapsed;
+            BTN_newDB.Visibility= Visibility.Collapsed;
+        }
+
+        private void HideAllElements()
+        {
+            DP_select.Visibility = Visibility.Collapsed;
+            tabcontrol.Visibility = Visibility.Collapsed;
+            saveBtn.Visibility = Visibility.Collapsed;
+            cancelBtn.Visibility = Visibility.Collapsed;
+            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+            cat_preview_btn.Visibility = Visibility.Collapsed;
+            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+            AddCategoryGrid.Visibility = Visibility.Collapsed;
+            ExpenseAddBox.Visibility = Visibility.Collapsed;
         }
 
         public void DisplayAddedCategory(Category category)
@@ -92,7 +112,10 @@ namespace HomeBudget_TeamNull_WPF
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
                 }
-
+                DP_select.Visibility = Visibility.Visible;
+                tabcontrol.Visibility = Visibility.Visible;
+                HideMenu();
+                ShowExpenseTab();
             }
             catch (Exception ex)
             {
@@ -246,6 +269,12 @@ namespace HomeBudget_TeamNull_WPF
                         categories = GetCategoryList();
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
+
+                        DP_select.Visibility = Visibility.Visible;
+                        tabcontrol.Visibility = Visibility.Visible;
+
+                        HideMenu();
+                        ShowExpenseTab();
                     }
                     catch (Exception ex)
                     {
@@ -302,23 +331,11 @@ namespace HomeBudget_TeamNull_WPF
                     switch (tabItem)
                     {
                         case 0:
-                            saveBtn.Visibility = Visibility.Visible;
-                            cancelBtn.Visibility = Visibility.Visible;
-                            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
-                            cat_preview_btn.Visibility = Visibility.Collapsed;
-                            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
-                            AddCategoryGrid.Visibility = Visibility.Collapsed;
-                            ExpenseAddBox.Visibility = Visibility.Visible;
+                             showCategorytab();
                             break;
 
                         case 1:
-                            saveBtn.Visibility = Visibility.Collapsed;
-                            cancelBtn.Visibility = Visibility.Collapsed;
-                            CategoryPreviewGrid.Visibility = Visibility.Visible;
-                            cat_preview_btn.Visibility = Visibility.Visible;
-                            cat_Preview_clear_btn.Visibility = Visibility.Visible;
-                            AddCategoryGrid.Visibility = Visibility.Visible;
-                            ExpenseAddBox.Visibility= Visibility.Collapsed;
+                           ShowExpenseTab();
                             break;
                     }               
         }
@@ -326,6 +343,28 @@ namespace HomeBudget_TeamNull_WPF
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             changeOccured= true;
+        }
+
+        private void showCategorytab()
+        {
+            saveBtn.Visibility = Visibility.Visible;
+            cancelBtn.Visibility = Visibility.Visible;
+            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+            cat_preview_btn.Visibility = Visibility.Collapsed;
+            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+            AddCategoryGrid.Visibility = Visibility.Collapsed;
+            ExpenseAddBox.Visibility = Visibility.Visible;
+        }
+
+        private void ShowExpenseTab()
+        {
+            saveBtn.Visibility = Visibility.Collapsed;
+            cancelBtn.Visibility = Visibility.Collapsed;
+            CategoryPreviewGrid.Visibility = Visibility.Visible;
+            cat_preview_btn.Visibility = Visibility.Visible;
+            cat_Preview_clear_btn.Visibility = Visibility.Visible;
+            AddCategoryGrid.Visibility = Visibility.Visible;
+            ExpenseAddBox.Visibility = Visibility.Collapsed;
         }
     }
 }
