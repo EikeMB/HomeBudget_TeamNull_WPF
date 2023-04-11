@@ -173,13 +173,17 @@ namespace HomeBudget_TeamNull_WPF
             DateTime date = (DateTime)dp.SelectedDate;
             string category = catCB.SelectedItem.ToString();
             string description = descriptionTB.Text;
+            bool credit = (bool)exp_credit.IsChecked;
 
             double amount = 0;
 
             bool success = double.TryParse(amountTB.Text, out amount);
             if (success)
             {
-                
+                if (credit)
+                {
+                    presenter.processAddExpense(date, "Credit Card", amount*-1,description);
+                }
                 amountTB.Clear();
                 descriptionTB.Clear();
 
