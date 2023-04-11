@@ -1,17 +1,15 @@
 ﻿using Budget;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
-using TextBlock = System.Windows.Controls.TextBlock;
-using RadioButton = System.Windows.Controls.RadioButton;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using System.IO;
-using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -91,7 +89,7 @@ namespace HomeBudget_TeamNull_WPF
                     categories = GetCategoryList();
                     catCB.ItemsSource = categories;
                     catCB.Items.Refresh();
-                    name_TB.Text = fileName;
+                    name_TB.Text = Path.GetFileName(fileName);
                 }
 
             }
@@ -253,7 +251,7 @@ namespace HomeBudget_TeamNull_WPF
                         categories = GetCategoryList();
                         catCB.ItemsSource = categories;
                         catCB.Items.Refresh();
-                        name_TB.Text = fileName;
+                        name_TB.Text = Path.GetFileName(fileName);
                     }
                     catch (Exception ex)
                     {
@@ -292,7 +290,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string cat = catCB.Text;
                 string type = "Expense";
@@ -304,40 +302,42 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {          
+        {
             int tabItem = tabcontrol.SelectedIndex;
 
-                    switch (tabItem)
-                    {
-                        case 0:
-                            saveBtn.Visibility = Visibility.Visible;
-                            cancelBtn.Visibility = Visibility.Visible;
-                            CategoryPreviewGrid.Visibility = Visibility.Collapsed;
-                            cat_preview_btn.Visibility = Visibility.Collapsed;
-                            cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
-                            AddCategoryGrid.Visibility = Visibility.Collapsed;
-                            ExpenseAddBox.Visibility = Visibility.Visible;
-                            file_TB.Visibility = Visibility.Visible;
-                            name_TB.Visibility = Visibility.Visible;
+            switch (tabItem)
+            {
+                case 0:
+                    saveBtn.Visibility = Visibility.Visible;
+                    cancelBtn.Visibility = Visibility.Visible;
+                    CategoryPreviewGrid.Visibility = Visibility.Collapsed;
+                    cat_preview_btn.Visibility = Visibility.Collapsed;
+                    cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
+                    AddCategoryGrid.Visibility = Visibility.Collapsed;
+                    ExpenseAddBox.Visibility = Visibility.Visible;
+                    file_TB.Visibility = Visibility.Visible;
+                    name_TB.Visibility = Visibility.Visible;
+                    file_Grid.Visibility = Visibility.Visible;
                     break;
 
-                        case 1:
-                            saveBtn.Visibility = Visibility.Collapsed;
-                            cancelBtn.Visibility = Visibility.Collapsed;
-                            CategoryPreviewGrid.Visibility = Visibility.Visible;
-                            cat_preview_btn.Visibility = Visibility.Visible;
-                            cat_Preview_clear_btn.Visibility = Visibility.Visible;
-                            AddCategoryGrid.Visibility = Visibility.Visible;
-                            ExpenseAddBox.Visibility= Visibility.Collapsed;
-                            file_TB.Visibility = Visibility.Collapsed;
-                            name_TB.Visibility = Visibility.Collapsed;
-                            break;
-                    }               
+                case 1:
+                    saveBtn.Visibility = Visibility.Collapsed;
+                    cancelBtn.Visibility = Visibility.Collapsed;
+                    CategoryPreviewGrid.Visibility = Visibility.Visible;
+                    cat_preview_btn.Visibility = Visibility.Visible;
+                    cat_Preview_clear_btn.Visibility = Visibility.Visible;
+                    AddCategoryGrid.Visibility = Visibility.Visible;
+                    ExpenseAddBox.Visibility = Visibility.Collapsed;
+                    file_TB.Visibility = Visibility.Collapsed;
+                    name_TB.Visibility = Visibility.Collapsed;
+                    file_Grid.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
 
         private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            changeOccured= true;
+            changeOccured = true;
         }
     }
 }
