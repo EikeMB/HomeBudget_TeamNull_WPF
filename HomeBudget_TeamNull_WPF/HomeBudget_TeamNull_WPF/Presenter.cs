@@ -10,14 +10,15 @@ namespace HomeBudget_TeamNull_WPF
         private readonly HomeBudget model;
         private List<Category> cats;
 
-        public Presenter(ViewInterface v, string fileName)
+        public Presenter(ViewInterface v, string fileName, bool newDB)
         {
             view = v;
-            model = new HomeBudget(fileName, true);
+            model = new HomeBudget(fileName, newDB);
             cats = model.categories.List();
         }
 
-        public void processAddExpense(DateTime date, string cat, double amount, string desc)
+
+        public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try
             {
@@ -30,7 +31,8 @@ namespace HomeBudget_TeamNull_WPF
                     }
                 }
                 model.expenses.Add(date, catId, amount, desc);
-                view.DisplayAddedExpense(date, catId, amount, desc);
+                
+                view.DisplayAddedExpense(date, cat, amount, desc);
             }
             catch (Exception e)
             {
