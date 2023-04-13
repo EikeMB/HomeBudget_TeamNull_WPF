@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
 {
-    internal class Presenter
+    public class Presenter
     {
         private readonly ViewInterface view;
         private readonly HomeBudget model;
@@ -17,7 +17,10 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
         }
 
-
+        public void Close()
+        {
+            model.CloseDB();
+        }
         public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try

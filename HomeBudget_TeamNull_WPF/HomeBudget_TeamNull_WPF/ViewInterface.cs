@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
 {
-    internal interface ViewInterface
+    public interface ViewInterface
     {
         public void DisplayAddedExpense(DateTime date, string catId, double amount, string desc);
 
