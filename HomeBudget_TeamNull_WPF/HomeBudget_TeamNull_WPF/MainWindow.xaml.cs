@@ -43,7 +43,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (changeOccured == true || catCB.SelectedIndex == 0)
+            if (changeOccured == true)
             {
                 if (MessageBox.Show("Are you sure you want to exit? You will lose unsaved changes", "CLOSING", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 {
@@ -180,7 +180,7 @@ namespace HomeBudget_TeamNull_WPF
             string? description = descriptionTB.Text;
             bool credit = (bool)exp_credit.IsChecked;
 
-            double amount = 0;
+            double amount;
 
             bool doubleSuccess = double.TryParse(amountTB.Text, out amount);
             bool continueAdd = true;
@@ -210,12 +210,11 @@ namespace HomeBudget_TeamNull_WPF
                     presenter.processAddExpense(date, category, amount, description);
                     changeOccured = false;
 
-                    MessageBox.Show("The expense has been succesfully added", "Added Expense", MessageBoxButton.OK);
                 }
             }
             else
             {
-                MessageBox.Show("Value entered for Amount is not a double", "Error", MessageBoxButton.OK);
+                DisplayError("Value entered for Amount is not a double");
             }
         }
 
@@ -263,9 +262,7 @@ namespace HomeBudget_TeamNull_WPF
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
         }
 
-        private void AddCategory(object sender, RoutedEventArgs e)
-        {
-        }
+        
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
         {
@@ -408,7 +405,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void catCB_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            catCB.IsDropDownOpen = true;
+            
             string cat = catCB.Text;
             List<string> remainingCats = new List<string>();
             if (cat == "")
@@ -417,7 +414,7 @@ namespace HomeBudget_TeamNull_WPF
             }
             else
             {
-                foreach (string category in categories)
+                foreach (string category in GetCategoryList())
                 {
 
                     if (cat.ToLower() == category.Substring(0,cat.Length < category.Length ? cat.Length : category.Length).ToLower())
@@ -429,7 +426,7 @@ namespace HomeBudget_TeamNull_WPF
             }
 
             RefreshCategories(categories);
-
+            catCB.IsDropDownOpen = true;
         }
 
         private void LoadAppData()
