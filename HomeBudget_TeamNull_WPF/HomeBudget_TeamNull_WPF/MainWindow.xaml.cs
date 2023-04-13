@@ -179,6 +179,10 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    folderName = System.IO.Path.GetDirectoryName(dialog.FileName);
+                    WriteAppData();
+
                     presenter = new Presenter(this, fileName, false);
                     RefreshCategories(GetCategoryList());
                     DP_select.Visibility = Visibility.Visible;
@@ -222,6 +226,10 @@ namespace HomeBudget_TeamNull_WPF
                         RefreshCategories(GetCategoryList());
                         name_TB.Text = Path.GetFileName(fileName);
 
+                        folderName = Path.GetDirectoryName(fileName);
+
+                        WriteAppData();
+
                         DP_select.Visibility = Visibility.Visible;
                         tabcontrol.Visibility = Visibility.Visible;
 
@@ -253,12 +261,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     folderName = folderDialog.SelectedPath;
 
-                    //inspiration taken from here https://stackoverflow.com/questions/10563148/where-is-the-correct-place-to-store-my-application-specific-data
-                    var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                    Directory.CreateDirectory(directory + "\\TicTacToeWPF");
-                    string path = (Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
-
-                    File.WriteAllText(path, folderName);
+                    WriteAppData();
 
                     RefreshCategories(GetCategoryList());
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -268,6 +271,16 @@ namespace HomeBudget_TeamNull_WPF
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
+        }
+
+        private void WriteAppData()
+        {
+            //inspiration taken from here https://stackoverflow.com/questions/10563148/where-is-the-correct-place-to-store-my-application-specific-data
+            var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            Directory.CreateDirectory(directory + "\\TicTacToeWPF");
+            string path = (Path.Combine(directory, "TicTacToeWPF", "FolderPath.txt"));
+
+            File.WriteAllText(path, folderName);
         }
 
         private void LoadAppData()
