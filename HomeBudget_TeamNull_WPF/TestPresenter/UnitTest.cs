@@ -33,6 +33,10 @@ namespace TestPresenter
         [Fact]
         public void TestConstructor()
         {
+            if(File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
             File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
             
             UnitTest view = new UnitTest();
@@ -44,7 +48,12 @@ namespace TestPresenter
         [Fact]
         public void TestCallDisplayAddedCategory()
         {
-           
+
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
+            File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
             UnitTest view = new UnitTest();
             Presenter p = new Presenter(view, "testDB1.db", true);
 
@@ -62,6 +71,11 @@ namespace TestPresenter
         [Fact]
         public void TestCallDisplayAddedExpense()
         {
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
+            File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
             UnitTest view = new UnitTest();
             Presenter p = new Presenter(view, "testDB1.db", true);
 
@@ -80,7 +94,11 @@ namespace TestPresenter
         [Fact]
         public void TestCallDisplayError()
         {
-
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
+            File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
             UnitTest view = new UnitTest();
             Presenter p = new Presenter(view, "testDB1.db", true);
 
