@@ -19,24 +19,26 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class MainWindow : Window, ViewInterface
     {
-        private string fileName = "";
-        private string folderName = "";
+        private string? fileName = "";
+        private string? folderName = "";
         private List<string> categories;
         private bool changeOccured = false;
 
         private DateTime previousDate;
-        private string previousExpense;
-        private string previousExpCat;
-        private double previousAmount;
+        private string? previousExpense;
+        private string? previousExpCat;
+        private double? previousAmount;
 
         Presenter presenter;
+
+        //warning about presenter being null has to stay for code to work.
         public MainWindow()
         {
             InitializeComponent();
             LoadAppData();
             ShowMenu();
             dp.SelectedDate = DateTime.Today;
-            catCB.ItemsSource = categories;
+            catCB.ItemsSource = categories = new List<string>();
         }
 
         private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
@@ -157,8 +159,8 @@ namespace HomeBudget_TeamNull_WPF
 
         private void add_Cat_btn_Click(object sender, RoutedEventArgs e)
         {
-            string description = DescInput.Text;
-            string type = "";
+            string? description = DescInput.Text;
+            string? type = "";
             foreach (RadioButton radio in radioBtns.Children)
             {
                 if (radio.IsChecked == true)
@@ -175,9 +177,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            //warnings have to stay for rest of code to work
             DateTime date = (DateTime)dp.SelectedDate;
-            string category = catCB.SelectedItem.ToString();
-            string description = descriptionTB.Text;
+            string? category = catCB.SelectedItem.ToString();
+            string? description = descriptionTB.Text;
             bool credit = (bool)exp_credit.IsChecked;
 
             double amount = 0;
@@ -245,7 +248,7 @@ namespace HomeBudget_TeamNull_WPF
         private void cat_preview_btn_Click(object sender, RoutedEventArgs e)
         {
             string description = DescInput.Text;
-            string type = "";
+            string? type = "";
             foreach (RadioButton radio in radioBtns.Children)
             {
                 if (radio.IsChecked == true)
@@ -379,7 +382,7 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        private void KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void txt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             changeOccured = true;
         }
@@ -431,7 +434,7 @@ namespace HomeBudget_TeamNull_WPF
                         remainingCats.Add(category);
                     }
                 }
-                categories= remainingCats;
+                categories = remainingCats;
             }
 
             catCB.ItemsSource = categories;

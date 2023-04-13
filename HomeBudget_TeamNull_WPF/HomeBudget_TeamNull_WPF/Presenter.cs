@@ -17,7 +17,7 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
         }
 
-        public void processAddExpense(DateTime date, string cat, double amount, string desc)
+        public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try
             {
