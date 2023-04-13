@@ -80,15 +80,6 @@ namespace HomeBudget_TeamNull_WPF
             file_Grid.Visibility = Visibility.Collapsed;
         }
 
-        public void DisplayAddedCategory(Category category)
-        {
-            MessageBox.Show(category.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        public void DisplayAddedExpense(Expense expense)
-        {
-            MessageBox.Show(expense.Description, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
 
         public void DisplayError(string error)
         {
@@ -127,17 +118,18 @@ namespace HomeBudget_TeamNull_WPF
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error");
+                DisplayError(ex.Message);
             }
         }
 
         public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
         {
-            string successMesage = $"Expense successfully added.\n\n" +
+            string successMessage = $"Expense successfully added.\n\n" +
                 $"Expense Date: {date.ToString()}\n" +
                 $"Expense Amount: {amount}\n" +
                 $"Expense Description: {desc}\n" +
                 $"Expense Category: {catId}";
+            MessageBox.Show(successMessage);
         }
 
         public void DisplayAddedCategory(string desc, string type)
@@ -169,10 +161,15 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
             presenter.processAddCategory(description, type);
-            categories = GetCategoryList();
-            catCB.ItemsSource = categories;
-            catCB.Items.Refresh();
+            RefreshCategories(GetCategoryList());
             changeOccured = false;
+        }
+
+        private void RefreshCategories(List<string> categoriesList)
+        {
+            
+            catCB.ItemsSource = categoriesList;
+            catCB.Items.Refresh();
         }
 
         private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
@@ -295,9 +292,7 @@ namespace HomeBudget_TeamNull_WPF
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         presenter = new Presenter(this, fileName);
-                        categories = GetCategoryList();
-                        catCB.ItemsSource = categories;
-                        catCB.Items.Refresh();
+                        RefreshCategories(GetCategoryList());
                         name_TB.Text = Path.GetFileName(fileName);
 
                         DP_select.Visibility = Visibility.Visible;
@@ -338,9 +333,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     File.WriteAllText(path, folderName);
 
-                    categories = GetCategoryList();
-                    catCB.ItemsSource = categories;
-                    catCB.Items.Refresh();
+                    RefreshCategories(GetCategoryList());
                     MessageBox.Show("DB folder has been chosen", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -357,9 +350,7 @@ namespace HomeBudget_TeamNull_WPF
                 string cat = catCB.Text;
                 string type = "Expense";
                 presenter.processAddCategory(cat, type);
-                categories = GetCategoryList();
-                catCB.ItemsSource = categories;
-                catCB.Items.Refresh();
+                RefreshCategories(GetCategoryList());
 
 
             }
@@ -437,8 +428,7 @@ namespace HomeBudget_TeamNull_WPF
                 categories = remainingCats;
             }
 
-            catCB.ItemsSource = categories;
-            catCB.Items.Refresh();
+            RefreshCategories(categories);
 
         }
 
