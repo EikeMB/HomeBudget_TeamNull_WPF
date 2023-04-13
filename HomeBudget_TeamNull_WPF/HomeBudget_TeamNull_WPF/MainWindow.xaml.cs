@@ -37,8 +37,7 @@ namespace HomeBudget_TeamNull_WPF
             InitializeComponent();
             LoadAppData();
             ShowMenu();
-            dp.SelectedDate = DateTime.Today;
-            catCB.ItemsSource = categories = new List<string>();
+            
         }
 
         private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
@@ -50,6 +49,7 @@ namespace HomeBudget_TeamNull_WPF
                     e.Cancel = true;
                 }
             }
+            presenter.Close();
         }
 
         private void ShowMenu()
@@ -105,10 +105,8 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     fileName = dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    presenter = new Presenter(this, fileName);
-                    categories = GetCategoryList();
-                    catCB.ItemsSource = categories;
-                    catCB.Items.Refresh();
+                    presenter = new Presenter(this, fileName, false);
+                    RefreshCategories(GetCategoryList());
                     DP_select.Visibility = Visibility.Visible;
                     tabcontrol.Visibility = Visibility.Visible;
                     HideMenu();
@@ -122,13 +120,13 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        public void DisplayAddedExpense(DateTime date, string cat, double amount, string desc)
         {
             string successMessage = $"Expense successfully added.\n\n" +
-                $"Expense Date: {date.ToString()}\n" +
+                $"Expense Date: {date.ToLongDateString()}\n" +
                 $"Expense Amount: {amount}\n" +
                 $"Expense Description: {desc}\n" +
-                $"Expense Category: {catId}";
+                $"Expense Category: {cat}";
             MessageBox.Show(successMessage);
         }
 
@@ -288,7 +286,7 @@ namespace HomeBudget_TeamNull_WPF
                     {
                         File.WriteAllText(fileName, "");
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                        presenter = new Presenter(this, fileName);
+                        presenter = new Presenter(this, fileName, true);
                         RefreshCategories(GetCategoryList());
                         name_TB.Text = Path.GetFileName(fileName);
 
@@ -401,6 +399,7 @@ namespace HomeBudget_TeamNull_WPF
             file_TB.Visibility = Visibility.Collapsed;
             name_TB.Visibility = Visibility.Collapsed;
             file_Grid.Visibility = Visibility.Collapsed;
+            dp.SelectedDate = DateTime.Today;
         }
 
         private void catCB_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
