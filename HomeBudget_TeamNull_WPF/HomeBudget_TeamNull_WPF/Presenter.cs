@@ -17,10 +17,6 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
         }
 
-        public void Close()
-        {
-            model.CloseDB();
-        }
 
         public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
