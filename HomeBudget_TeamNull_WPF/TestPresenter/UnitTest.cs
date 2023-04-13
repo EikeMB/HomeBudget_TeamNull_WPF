@@ -1,15 +1,16 @@
 using HomeBudget_TeamNull_WPF;
+using System;
 using System.DirectoryServices;
 
 namespace TestPresenter
 {
+    [Collection("Sequential")]
     public class UnitTest : ViewInterface
     {
 
         private bool calledDisplayAddedCategory;
         private bool calledDisplayAddedExpense;
         private bool calledDisplayError;
-        private bool calledGetCategoryList;
         
 
         public void DisplayAddedCategory(string desc, string type)
@@ -17,7 +18,7 @@ namespace TestPresenter
             calledDisplayAddedCategory = true;
         }
 
-        public void DisplayAddedExpense(DateTime date, int catId, double amount, string desc)
+        public void DisplayAddedExpense(DateTime date, string catId, double amount, string desc)
         {
             calledDisplayAddedExpense = true;
         }
@@ -27,50 +28,76 @@ namespace TestPresenter
             calledDisplayError = true;
         }
 
-        public List<string> GetCategoryList()
-        {
-            calledGetCategoryList = true;
-            return new List<string>();
-        }
 
 
         [Fact]
         public void TestConstructor()
         {
             File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
-
+            
             UnitTest view = new UnitTest();
-            Presenter p = new Presenter(view, "testDB1.db");
+            Presenter p = new Presenter(view, "testDB1.db", true);
             Assert.IsType<Presenter>(p);
+            p.Close();
         }
 
         [Fact]
         public void TestCallDisplayAddedCategory()
         {
-            DisplayAddedCategory("","");
-            Assert.True(calledDisplayAddedCategory);
+           
+            UnitTest view = new UnitTest();
+            Presenter p = new Presenter(view, "testDB1.db", true);
+
+            view.calledDisplayAddedCategory = false;
+            view.calledDisplayAddedExpense = false;
+            view.calledDisplayError = false;
+
+            p.processAddCategory("test", "Expense");
+            Assert.True(view.calledDisplayAddedCategory);
+            Assert.False(view.calledDisplayAddedExpense);
+            Assert.False(view.calledDisplayError);
+            p.Close();
         }
 
         [Fact]
         public void TestCallDisplayAddedExpense()
         {
-            DisplayAddedExpense(DateTime.Now,1,1,"");
-            Assert.True(calledDisplayAddedExpense);
+            UnitTest view = new UnitTest();
+            Presenter p = new Presenter(view, "testDB1.db", true);
+
+            view.calledDisplayAddedCategory = false;
+            view.calledDisplayAddedExpense = false;
+            view.calledDisplayError = false;
+
+            p.processAddExpense(DateTime.Now, "Utilities", 5, "test");
+            Assert.True(view.calledDisplayAddedExpense);
+            Assert.False(view.calledDisplayAddedCategory);
+            Assert.False(view.calledDisplayError);
+            p.Close();
+            
         }
 
         [Fact]
         public void TestCallDisplayError()
         {
-            DisplayError("");
-            Assert.True(calledDisplayError);
+
+            UnitTest view = new UnitTest();
+            Presenter p = new Presenter(view, "testDB1.db", true);
+
+            view.calledDisplayAddedCategory = false;
+            view.calledDisplayAddedExpense = false;
+            view.calledDisplayError = false;
+
+            p.processAddExpense(DateTime.Now, "hello", 5, "test");
+            Assert.True(view.calledDisplayError);
+            Assert.False(view.calledDisplayAddedCategory);
+            Assert.False(view.calledDisplayAddedExpense);
+            p.Close();
         }
 
-        [Fact]
-        public void TestCallGetCategoryList()
+        public List<string> GetCategoryList()
         {
-            GetCategoryList();
-            Assert.True(calledGetCategoryList);
+            throw new NotImplementedException();
         }
-
     }
 }
