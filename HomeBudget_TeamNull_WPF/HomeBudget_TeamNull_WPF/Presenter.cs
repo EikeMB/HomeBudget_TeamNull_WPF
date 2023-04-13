@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
 {
-    internal class Presenter
+    public class Presenter
     {
         private readonly ViewInterface view;
         private readonly HomeBudget model;
