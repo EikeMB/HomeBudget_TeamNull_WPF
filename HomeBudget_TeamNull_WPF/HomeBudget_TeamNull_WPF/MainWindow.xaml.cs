@@ -1,5 +1,4 @@
-﻿using Budget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -10,7 +9,6 @@ using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
-
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -29,7 +27,7 @@ namespace HomeBudget_TeamNull_WPF
         private string? previousExpCat;
         private double? previousAmount;
 
-        Presenter presenter;
+        private Presenter presenter;
 
         //warning about presenter being null has to stay for code to work.
         public MainWindow()
@@ -37,10 +35,10 @@ namespace HomeBudget_TeamNull_WPF
             InitializeComponent();
             LoadAppData();
             ShowMenu();
-            
         }
 
         #region closeWindow
+
         private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (changeOccured == true)
@@ -51,13 +49,16 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
         }
+
         private void txt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             changeOccured = true;
         }
-        #endregion
+
+        #endregion closeWindow
 
         #region menu
+
         private void ShowMenu()
         {
             HideAllElements();
@@ -69,15 +70,17 @@ namespace HomeBudget_TeamNull_WPF
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
         }
-        #endregion
+
+        #endregion menu
 
         #region elementViews
+
         private void HideAllElements()
         {
             DP_select.Visibility = Visibility.Collapsed;
             tabcontrol.Visibility = Visibility.Collapsed;
-            saveBtn.Visibility = Visibility.Collapsed;
-            cancelBtn.Visibility = Visibility.Collapsed;
+            addExpenseBtn.Visibility = Visibility.Collapsed;
+            cancelExpenseBtn.Visibility = Visibility.Collapsed;
             CategoryPreviewGrid.Visibility = Visibility.Collapsed;
             cat_preview_btn.Visibility = Visibility.Collapsed;
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
@@ -90,8 +93,8 @@ namespace HomeBudget_TeamNull_WPF
 
         private void showCategorytab()
         {
-            saveBtn.Visibility = Visibility.Visible;
-            cancelBtn.Visibility = Visibility.Visible;
+            addExpenseBtn.Visibility = Visibility.Visible;
+            cancelExpenseBtn.Visibility = Visibility.Visible;
             CategoryPreviewGrid.Visibility = Visibility.Collapsed;
             cat_preview_btn.Visibility = Visibility.Collapsed;
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
@@ -104,8 +107,8 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ShowExpenseTab()
         {
-            saveBtn.Visibility = Visibility.Collapsed;
-            cancelBtn.Visibility = Visibility.Collapsed;
+            addExpenseBtn.Visibility = Visibility.Collapsed;
+            cancelExpenseBtn.Visibility = Visibility.Collapsed;
             CategoryPreviewGrid.Visibility = Visibility.Visible;
             cat_preview_btn.Visibility = Visibility.Visible;
             cat_Preview_clear_btn.Visibility = Visibility.Visible;
@@ -132,9 +135,11 @@ namespace HomeBudget_TeamNull_WPF
                     break;
             }
         }
-        #endregion
+
+        #endregion elementViews
 
         #region displays
+
         public void DisplayAddedExpense(DateTime date, string cat, double amount, string desc)
         {
             string successMessage = $"Expense successfully added.\n\n" +
@@ -152,14 +157,16 @@ namespace HomeBudget_TeamNull_WPF
                 $"Category Type: {type}";
             MessageBox.Show(successMessage);
         }
-        
+
         public void DisplayError(string error)
         {
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-        #endregion
+
+        #endregion displays
 
         #region openDBS
+
         private void OpenExistingDb(object sender, RoutedEventArgs e)
         {
             try
@@ -301,9 +308,11 @@ namespace HomeBudget_TeamNull_WPF
                 MessageBox.Show(ex.ToString(), "Error");
             }
         }
-        #endregion
+
+        #endregion openDBS
 
         #region categoryInputs
+
         private void DescInput_GotMouseCapture(object sender, MouseEventArgs e)
         {
             TextBox txtbox = (TextBox)sender;
@@ -328,7 +337,6 @@ namespace HomeBudget_TeamNull_WPF
             RefreshCategories(GetCategoryList());
             changeOccured = false;
         }
-
 
         private void cat_cancel_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -358,7 +366,6 @@ namespace HomeBudget_TeamNull_WPF
             catTypeDisplay.Text = catDescDisplay.Text = string.Empty;
         }
 
-
         private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
@@ -367,15 +374,14 @@ namespace HomeBudget_TeamNull_WPF
                 string type = "Expense";
                 presenter.processAddCategory(cat, type);
                 RefreshCategories(GetCategoryList());
-
-
             }
-
         }
-        #endregion
+
+        #endregion categoryInputs
 
         #region expenseInputs
-        private void Exp_SaveBtn_Click(object sender, RoutedEventArgs e)
+
+        private void Exp_Add_Click(object sender, RoutedEventArgs e)
         {
             //warnings have to stay for rest of code to work
             DateTime date = (DateTime)dp.SelectedDate;
@@ -387,7 +393,7 @@ namespace HomeBudget_TeamNull_WPF
 
             bool doubleSuccess = double.TryParse(amountTB.Text, out amount);
             bool continueAdd = true;
-            
+
             if (previousExpCat == category && previousDate == date && previousAmount == amount && previousExpense == description)
             {
                 if (MessageBox.Show("Are you sure you want to add this Expense? It is the same as the previous added expense", "CLOSING", MessageBoxButton.YesNo) == MessageBoxResult.No)
@@ -412,7 +418,6 @@ namespace HomeBudget_TeamNull_WPF
 
                     presenter.processAddExpense(date, category, amount, description);
                     changeOccured = false;
-
                 }
             }
             else
@@ -431,7 +436,6 @@ namespace HomeBudget_TeamNull_WPF
 
         private void catCB_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-
             string cat = catCB.Text;
             List<string> remainingCats = new List<string>();
             if (cat == "")
@@ -442,7 +446,6 @@ namespace HomeBudget_TeamNull_WPF
             {
                 foreach (string category in GetCategoryList())
                 {
-
                     if (cat.ToLower() == category.Substring(0, cat.Length < category.Length ? cat.Length : category.Length).ToLower())
                     {
                         remainingCats.Add(category);
@@ -454,9 +457,11 @@ namespace HomeBudget_TeamNull_WPF
             RefreshCategories(categories);
             catCB.IsDropDownOpen = true;
         }
-        #endregion
+
+        #endregion expenseInputs
 
         #region categoryList
+
         public List<string> GetCategoryList()
         {
             List<string> cats = new List<string>();
@@ -467,11 +472,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void RefreshCategories(List<string> categoriesList)
         {
-
             catCB.ItemsSource = categoriesList;
             catCB.Items.Refresh();
         }
-        #endregion
 
+        #endregion categoryList
     }
 }
