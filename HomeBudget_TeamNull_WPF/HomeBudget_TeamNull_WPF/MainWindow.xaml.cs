@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media;
+using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using TabControl = System.Windows.Controls.TabControl;
 using TextBox = System.Windows.Controls.TextBox;
 
 namespace HomeBudget_TeamNull_WPF
@@ -62,6 +67,11 @@ namespace HomeBudget_TeamNull_WPF
         private void ShowMenu()
         {
             HideAllElements();
+            menuText.Visibility = Visibility.Visible;
+            BTN_existingDB.Visibility = Visibility.Visible;
+            BTN_newDB.Visibility = Visibility.Visible;
+            DP_select.Visibility = Visibility.Collapsed;
+            tabcontrol.Visibility = Visibility.Collapsed;
         }
 
         private void HideMenu()
@@ -69,6 +79,9 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Collapsed;
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
+            DP_select.Visibility = Visibility.Visible;
+            tabcontrol.Visibility = Visibility.Visible;
+            colorMenuBtn.Visibility = Visibility.Visible;
         }
 
         #endregion menu
@@ -91,7 +104,7 @@ namespace HomeBudget_TeamNull_WPF
             file_Grid.Visibility = Visibility.Collapsed;
         }
 
-        private void showCategorytab()
+        private void ShowExpenseTab()
         {
             addExpenseBtn.Visibility = Visibility.Visible;
             cancelExpenseBtn.Visibility = Visibility.Visible;
@@ -105,7 +118,7 @@ namespace HomeBudget_TeamNull_WPF
             file_Grid.Visibility = Visibility.Visible;
         }
 
-        private void ShowExpenseTab()
+        private void showCategorytab()
         {
             addExpenseBtn.Visibility = Visibility.Collapsed;
             cancelExpenseBtn.Visibility = Visibility.Collapsed;
@@ -120,18 +133,18 @@ namespace HomeBudget_TeamNull_WPF
             dp.SelectedDate = DateTime.Today;
         }
 
-        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int tabItem = tabcontrol.SelectedIndex;
 
             switch (tabItem)
             {
                 case 0:
-                    showCategorytab();
+                    ShowExpenseTab();
                     break;
 
                 case 1:
-                    ShowExpenseTab();
+                    showCategorytab();
                     break;
             }
         }
@@ -477,5 +490,93 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         #endregion categoryList
+
+        private void ColorChangeMenu(object sender, RoutedEventArgs e)
+        {
+            
+            HideMenu();
+            tabcontrol.Visibility = Visibility.Collapsed;
+            HideAllElements();
+            colorMenuBtn.Visibility = Visibility.Collapsed;
+            colorMenuCloseBtn.Visibility = Visibility.Visible;
+            buttonColor.Visibility = Visibility.Visible;
+            BackgroundColorBtn.Visibility = Visibility.Visible;
+            txtfeildBtn.Visibility = Visibility.Visible;
+            boxColorBtn.Visibility =Visibility.Visible;
+        }
+
+        private void hideColorMenu()
+        {
+            colorMenuBtn.Visibility = Visibility.Visible;
+            buttonColor.Visibility = Visibility.Collapsed;
+            BackgroundColorBtn.Visibility = Visibility.Collapsed;
+            txtfeildBtn.Visibility = Visibility.Collapsed;
+            boxColorBtn.Visibility = Visibility.Collapsed;
+            if (fileName == "")
+            {
+                ShowMenu();
+            }
+            else
+            {
+                ShowExpenseTab();
+            }
+        }
+
+        private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            hideColorMenu();
+            HideAllElements();
+            DP_select.Visibility= Visibility.Visible;
+            tabcontrol.Visibility = Visibility.Visible;
+            colorMenuCloseBtn.Visibility = Visibility.Collapsed;
+            tabcontrol.SelectedIndex= 0;
+            ShowExpenseTab();
+        }
+
+        private void buttonColor_Click(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+
+            addExpenseBtn.Background= brush;
+            cancelExpenseBtn.Background = brush;
+            colorMenuBtn.Background = brush;
+            colorMenuCloseBtn.Background = brush;
+            buttonColor.Background = brush;
+            BackgroundColorBtn.Background = brush;
+
+        }
+
+        private void BackgroundColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            WindowBox.Background = brush;
+        }
+
+        private void txtfieildBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            DescInput.Background= brush;
+        }
+
+        private void boxColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            file_Grid.Background= brush;
+            ExpenseAddBox.Background= brush;
+            catBorderAdd.Background= brush;
+            catPreviewBorder.Background= brush;
+        }
+
+        private SolidColorBrush colorPicker()
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.ShowDialog();
+            System.Drawing.Color color = colorDialog.Color;
+            Color newColor = Color.FromArgb(color.A, color.R, color.G, color.B);
+
+            SolidColorBrush brush = new SolidColorBrush(newColor);
+
+            return brush;
+        }
     }
 }
