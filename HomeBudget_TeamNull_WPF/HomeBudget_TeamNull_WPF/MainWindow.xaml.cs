@@ -441,7 +441,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void Exp_CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            catCB.SelectedIndex = 0;
+            catCB.SelectedIndex = -1;
             amountTB.Clear();
             descriptionTB.Clear();
             changeOccured = false;
@@ -491,6 +491,7 @@ namespace HomeBudget_TeamNull_WPF
 
         #endregion categoryList
 
+        #region colors
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
             
@@ -539,6 +540,10 @@ namespace HomeBudget_TeamNull_WPF
 
             addExpenseBtn.Background= brush;
             cancelExpenseBtn.Background = brush;
+            add_Cat_btn.Background= brush;
+            cat_cancel_btn.Background= brush;
+            cat_preview_btn.Background= brush;
+            cat_Preview_clear_btn.Background= brush;
             colorMenuBtn.Background = brush;
             colorMenuCloseBtn.Background = brush;
             buttonColor.Background = brush;
@@ -578,5 +583,6 @@ namespace HomeBudget_TeamNull_WPF
 
             return brush;
         }
+        #endregion
     }
 }
