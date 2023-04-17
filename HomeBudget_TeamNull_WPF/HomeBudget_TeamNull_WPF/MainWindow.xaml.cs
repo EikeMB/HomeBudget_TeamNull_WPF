@@ -205,6 +205,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     presenter = new Presenter(this, fileName, false);
                     RefreshCategories(GetCategoryList());
+                    dp.SelectedDate = DateTime.Now;
                     DP_select.Visibility = Visibility.Visible;
                     tabcontrol.Visibility = Visibility.Visible;
                     HideMenu();
@@ -244,6 +245,7 @@ namespace HomeBudget_TeamNull_WPF
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         presenter = new Presenter(this, fileName, true);
                         RefreshCategories(GetCategoryList());
+                        dp.SelectedDate= DateTime.Now;
                         name_TB.Text = Path.GetFileName(fileName);
 
                         folderName = Path.GetDirectoryName(fileName);
