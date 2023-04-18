@@ -37,6 +37,12 @@ namespace HomeBudget_TeamNull_WPF
         //warning about presenter being null has to stay for code to work.
         public MainWindow()
         {
+            /*
+            //Uncomment to see second window
+            Window1 win2 = new Window1();
+            win2.Show();
+            */
+
             InitializeComponent();
             LoadAppData();
             ShowMenu();

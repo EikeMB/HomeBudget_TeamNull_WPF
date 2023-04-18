@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HomeBudget_TeamNull_WPF"
         mc:Ignorable="d"
         Title="Modify Expense" Height="450" Width="300" WindowStartupLocation="CenterScreen"
-        Closing="Close_Window" ResizeMode="NoResize" Background="#F6E7CB">
+         ResizeMode="NoResize" Background="#F6E7CB">
 
     
     
@@ -33,10 +33,10 @@
             <StackPanel>
 
             <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="1">Date</TextBlock>
-            <DatePicker x:Name="Update_DP" Margin="5,5,5,5" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"></DatePicker>
+            <DatePicker Background="White" x:Name="Update_DP" Margin="5,5,5,5" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"></DatePicker>
 
             <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="2">Category</TextBlock>
-            <ComboBox Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,5,5,5" TextBoxBase.TextChanged="catCB_TextChanged" IsTextSearchEnabled="False"></ComboBox>
+            <ComboBox Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,5,5,5"  IsTextSearchEnabled="False"></ComboBox>
 
             <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="3">Decription</TextBlock>
             <TextBox VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Height="44"></TextBox>
