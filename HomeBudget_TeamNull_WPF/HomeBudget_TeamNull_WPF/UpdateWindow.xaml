@@ -26,18 +26,27 @@
         </Grid.RowDefinitions>
 
         <TextBlock Margin="0,5,0,5" Grid.ColumnSpan="3" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center">Update Expense</TextBlock>
-        
-        <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="1">Date</TextBlock>
-        <DatePicker Margin="5,5,5,5" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"></DatePicker>
-        
-        <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="2">Category</TextBlock>
-        <ComboBox Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,5,5,5" TextBoxBase.TextChanged="catCB_TextChanged" IsTextSearchEnabled="False"></ComboBox>
-        
-        <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="3">Decription</TextBlock>
-        <TextBox VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Height="44"></TextBox>
 
-        <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="4">Amount</TextBlock>
-        <TextBox Grid.ColumnSpan="3" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" Height="20"></TextBox>
+
+        <Border  Background="#A6C48A" BorderThickness="2" Grid.RowSpan="4" Grid.ColumnSpan="4" Grid.Row="1"
+                BorderBrush="Black" x:Name="ExpenseAddBox" Margin="10,0,10,0">
+            <StackPanel>
+
+            <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="1">Date</TextBlock>
+            <DatePicker x:Name="Update_DP" Margin="5,5,5,5" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"></DatePicker>
+
+            <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="2">Category</TextBlock>
+            <ComboBox Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,5,5,5" TextBoxBase.TextChanged="catCB_TextChanged" IsTextSearchEnabled="False"></ComboBox>
+
+            <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="3">Decription</TextBlock>
+            <TextBox VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Height="44"></TextBox>
+
+            <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="4">Amount</TextBlock>
+            <TextBox Grid.ColumnSpan="3" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" Height="20"></TextBox>
+
+
+            </StackPanel>
+        </Border>
 
         <Button VerticalAlignment="Top" Margin="5,5,5,5" Height="30" Grid.Row="6">Update</Button>
         <Button VerticalAlignment="Top" Margin="5,5,5,5" Height="30" Grid.Row="6" Grid.Column="1">Cancel</Button>

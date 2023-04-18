@@ -22,6 +22,7 @@ namespace HomeBudget_TeamNull_WPF
         public Window1()
         {
             InitializeComponent();
+            Update_DP.SelectedDate = DateTime.Now;
         }
     }
 }
