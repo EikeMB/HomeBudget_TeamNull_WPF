@@ -36,16 +36,11 @@ namespace HomeBudget_TeamNull_WPF
 
         //warning about presenter being null has to stay for code to work.
         public MainWindow()
-        {
-            /*
-            //Uncomment to see second window
-            Window1 win2 = new Window1();
-            win2.Show();
-            */
-
+        {                    
             InitializeComponent();
             LoadAppData();
             ShowMenu();
+
         }
 
         #region closeWindow
@@ -217,6 +212,10 @@ namespace HomeBudget_TeamNull_WPF
                     HideMenu();
                     ShowExpenseTab();
                     name_TB.Text = Path.GetFileName(fileName);
+
+                    //Uncomment to see second window
+                    Window1 win2 = new Window1(presenter);
+                    win2.Show();
                 }
             }
             catch (Exception ex)
@@ -592,5 +591,11 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
         #endregion
+
+        public string FileName
+        {
+            get { return fileName; }
+        }
+
     }
 }

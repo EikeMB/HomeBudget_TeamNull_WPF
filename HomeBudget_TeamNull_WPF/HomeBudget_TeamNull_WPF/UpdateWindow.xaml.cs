@@ -20,11 +20,13 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class Window1 : Window, ViewInterface
     {
-        private Presenter presenter;
 
+        private Presenter p;
 
-        public Window1()
+        public Window1(Presenter presenter)
         {
+            p = presenter;
+
             InitializeComponent();
             Update_DP.SelectedDate = DateTime.Now;
             RefreshCategories(GetCategoryList());
@@ -48,7 +50,7 @@ namespace HomeBudget_TeamNull_WPF
         public List<string> GetCategoryList()
         {
             List<string> cats = new List<string>();
-            cats = presenter.GetCategoryDescriptionList();
+            cats = p.GetCategoryDescriptionList();
 
             return cats;
         }
