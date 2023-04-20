@@ -214,7 +214,7 @@ namespace HomeBudget_TeamNull_WPF
                     name_TB.Text = Path.GetFileName(fileName);
 
                     //Uncomment to see second window
-                    Window1 win2 = new Window1(presenter);
+                    UpdateWindow win2 = new UpdateWindow(presenter);
                     win2.Show();
                 }
             }

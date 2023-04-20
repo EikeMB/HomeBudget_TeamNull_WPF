@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace HomeBudget_TeamNull_WPF
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for UpdateWindow.xaml
     /// </summary>
-    public partial class Window1 : Window, ViewInterface
+    public partial class UpdateWindow : Window, ViewInterface
     {
 
         private Presenter p;
 
-        public Window1(Presenter presenter)
+        public UpdateWindow(Presenter presenter)
         {
             p = presenter;
 
