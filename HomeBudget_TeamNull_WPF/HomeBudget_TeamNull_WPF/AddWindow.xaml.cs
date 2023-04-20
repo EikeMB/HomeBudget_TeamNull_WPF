@@ -40,6 +40,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             presenter = Mainpresenter;
             InitializeComponent();
+            RefreshCategories(GetCategoryList());
         }
 
         #region closeWindow

@@ -33,11 +33,12 @@
         <Button Background="#74D3AE" Grid.Column="2" Margin="10,1,10,127" Grid.Row="3" Visibility="Hidden"
                 x:Name="BTN_newDB" Click="OpenNewDb">Open New Budget</Button>
 
-        <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,15,10,0" Grid.RowSpan="2">
+        <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,15,10,0" 
+                  Grid.RowSpan="2" x:Name="datagrid">
 
         </DataGrid>
 
-        <Grid Grid.Row="2" Margin="0,0,0,10" Grid.RowSpan="3">
+        <Grid Grid.Row="2" Margin="0,0,0,10" Grid.RowSpan="3" x:Name="optionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.25*" />
                 <ColumnDefinition Width="0.75*" />
@@ -63,7 +64,8 @@
 
                     </DatePicker>
                     <CheckBox>Filter by Category?</CheckBox>
-                    <ComboBox></ComboBox>
+                    <ComboBox x:Name="catCB" IsEditable="True" KeyDown="catCB_KeyDown"
+                          IsTextSearchEnabled="False"></ComboBox>
                 </StackPanel>
             </GroupBox>
 
