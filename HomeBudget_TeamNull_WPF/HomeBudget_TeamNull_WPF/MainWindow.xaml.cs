@@ -26,6 +26,8 @@ namespace HomeBudget_TeamNull_WPF
         private string? folderName = "";
         private List<string> categories;
         private bool changeOccured = false;
+        private DateTime? startDate;
+        private DateTime? endDate;
 
         private Presenter presenter;
 
@@ -35,6 +37,14 @@ namespace HomeBudget_TeamNull_WPF
             InitializeComponent();
             LoadAppData();
             ShowMenu();
+
+            Start_DP.SelectedDate = DateTime.Today;
+            End_DP.SelectedDate = DateTime.Today;
+            
+            startDate= (DateTime)Start_DP.SelectedDate;
+            endDate = (DateTime)End_DP.SelectedDate;
+            
+            
         }
 
         #region closeWindow
@@ -309,6 +319,17 @@ namespace HomeBudget_TeamNull_WPF
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
            
+        }
+
+        private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            startDate = (DateTime)Start_DP.SelectedDate;
+            
+        }
+        private void End_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            endDate = (DateTime)End_DP.SelectedDate;
+            
         }
     }
 }

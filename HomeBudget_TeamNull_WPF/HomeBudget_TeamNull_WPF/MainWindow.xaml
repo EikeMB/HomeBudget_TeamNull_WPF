@@ -55,11 +55,11 @@
             <GroupBox Header="Filters" Grid.ColumnSpan="2" Margin="0,31,0,65" Grid.RowSpan="5" >
                 <StackPanel>
                     <Label>Start Date</Label>
-                    <DatePicker>
+                    <DatePicker Background="White" x:Name="Start_DP" SelectedDateChanged="Start_DP_SelectedDateChanged">
 
                     </DatePicker>
                     <Label>End Date</Label>
-                    <DatePicker>
+                    <DatePicker Background="White" x:Name="End_DP" SelectedDateChanged="End_DP_SelectedDateChanged">
 
                     </DatePicker>
                     <CheckBox>Filter by Category?</CheckBox>
