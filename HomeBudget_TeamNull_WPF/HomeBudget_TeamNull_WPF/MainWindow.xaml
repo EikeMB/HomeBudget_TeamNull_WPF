@@ -16,13 +16,32 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="19*" />
-            <RowDefinition Height="19*" />
-            <RowDefinition Height="208*" />
+            <RowDefinition Height="28*" />
+            <RowDefinition Height="199*" />
             <RowDefinition Height="178*" />
             <RowDefinition  Height="10*"/>
-
         </Grid.RowDefinitions>
-
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="4" x:Name="DropDown">
+            <Menu DockPanel.Dock="Top" x:Name="DP_select">
+                <MenuItem Header="File" FontWeight="Bold">
+                    <MenuItem Header="Choose Folder" Click="OpenFolder" />
+                    <MenuItem Header="Open existing DB" Click="OpenExistingDb" />
+                    <MenuItem Header="Open new DB" Click="OpenNewDb" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <DockPanel Grid.ColumnSpan="4" Margin="0,19,0,0" Grid.RowSpan="2" x:Name="toolbar">
+            <ToolBarTray>
+                <ToolBar>
+                    <Button Content="Open new" Click="OpenNewDb" />
+                    <Button Content="open Exisiting" Click="OpenExistingDb"/>
+                    <Button Content="save as"/>
+                </ToolBar>
+                <ToolBar>
+                    <Button Command="" Content="exit"/>
+                </ToolBar>
+            </ToolBarTray>
+        </DockPanel>
 
         <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -38,7 +57,7 @@
 
         </DataGrid>
 
-        <Grid Grid.Row="2" Margin="0,0,0,10" Grid.RowSpan="3" x:Name="optionsGrid">
+        <Grid Grid.Row="2" Margin="0,3,0,0" Grid.RowSpan="2" x:Name="optionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.25*" />
                 <ColumnDefinition Width="0.75*" />

@@ -74,12 +74,16 @@ namespace HomeBudget_TeamNull_WPF
         {
             datagrid.Visibility= Visibility.Hidden;
             optionsGrid.Visibility= Visibility.Hidden;
+            toolbar.Visibility= Visibility.Hidden;
+            DropDown.Visibility= Visibility.Hidden;
         }
 
         private void ShowElements()
         {
             datagrid.Visibility = Visibility.Visible;
             optionsGrid.Visibility = Visibility.Visible;
+            toolbar.Visibility = Visibility.Visible;
+            DropDown.Visibility = Visibility.Visible;
             HideMenu();
         }
         private void ShowMenu()
