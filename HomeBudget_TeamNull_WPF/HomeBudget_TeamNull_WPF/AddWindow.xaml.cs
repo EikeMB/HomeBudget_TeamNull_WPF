@@ -390,7 +390,13 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
-      
+
         #endregion
+
+        private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
     }
 }
