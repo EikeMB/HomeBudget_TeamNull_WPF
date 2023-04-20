@@ -42,7 +42,7 @@
             <TextBox VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Height="44"></TextBox>
 
             <TextBlock Margin="5,5,0,5" FontSize="15" Grid.Row="4">Amount</TextBlock>
-            <TextBox Grid.ColumnSpan="3" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" Height="20"></TextBox>
+                <TextBox PreviewTextInput="Amount_PreviewTextInput" Grid.ColumnSpan="3" Grid.Row="4" Grid.Column="0" Margin="5,5,5,5" Height="20"></TextBox>
 
 
             </StackPanel>
