@@ -41,6 +41,7 @@ namespace HomeBudget_TeamNull_WPF
             presenter = Mainpresenter;
             InitializeComponent();
             RefreshCategories(GetCategoryList());
+            dp.SelectedDate= DateTime.Now;
         }
 
         #region closeWindow
