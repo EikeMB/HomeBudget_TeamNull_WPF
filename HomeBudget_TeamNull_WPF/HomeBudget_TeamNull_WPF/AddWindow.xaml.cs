@@ -264,6 +264,7 @@ namespace HomeBudget_TeamNull_WPF
                     descriptionTB.Clear();
 
                     presenter.processAddExpense(date, category, amount, description);
+                    presenter.processGetBudgetItems(null, null, false, "credit", null);
                     changeOccured = false;
                 }
             }

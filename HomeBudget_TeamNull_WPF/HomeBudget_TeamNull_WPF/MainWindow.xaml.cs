@@ -131,6 +131,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     ShowElements();
                     RefreshCategories(GetCategoryList());
+                    presenter.processGetBudgetItems(null, null, false, "credit", null);
                 }
             }
             catch (Exception ex)
@@ -173,6 +174,7 @@ namespace HomeBudget_TeamNull_WPF
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
+                        presenter.processGetBudgetItems(null, null, false, "credit", null);
                     }
                     catch (Exception ex)
                     {
