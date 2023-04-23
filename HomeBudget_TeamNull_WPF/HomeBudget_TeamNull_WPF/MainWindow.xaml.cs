@@ -449,35 +449,85 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
         {
-            List<BudgetItem> budgetItems = new List<BudgetItem>();
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Categories");
+            dataTable.Columns.Add("Total");
+
             foreach(BudgetItemsByCategory budgetItemsByCategory in budgetItemsByCategories)
             {
-                foreach(BudgetItem item in budgetItemsByCategory.Details)
-                {
-                    budgetItems.Add(item);
-                }
+                dataTable.Rows.Add(budgetItemsByCategory.Category, budgetItemsByCategory.Total);
             }
-            datagrid.ItemsSource = budgetItems;
+            datagrid.ItemsSource = dataTable.DefaultView;
         }
 
         public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
         {
-            List<BudgetItem> budgetItems = new List<BudgetItem>();
-            foreach(Dictionary<string, object> keyValues in budgetItemsByMonthAndCat)
+            DataTable dataTable = new DataTable();
+            Dictionary<string, object> keyValues = budgetItemsByMonthAndCat[2];
+            foreach(var keyValuePair in keyValues)
             {
-                
-                foreach(var keyValue in keyValues)
+                dataTable.Columns.Add(keyValuePair.Key);
+            }
+            dataTable.Columns.Add("Total");
+            List<BudgetItem> budgetItems = new List<BudgetItem>();
+            for(int i = 0; i < budgetItemsByMonthAndCat.Count-1; i++)
+            {
+
+                Dictionary<string, object> keyValuesMonth = budgetItemsByMonthAndCat[i];
+                double[] catTotals = new double[dataTable.Columns.Count - 2];
+                for (int j = 0; j < catTotals.Length; j++)
                 {
-                    if(keyValue.Value is List<BudgetItem> items)
+                    object tempcatTotal;
+                    keyValuesMonth.TryGetValue(dataTable.Columns[j + 1].ToString(), out tempcatTotal);
+                    if (tempcatTotal != null)
                     {
-                        foreach(BudgetItem item in items)
-                        {
-                            budgetItems.Add(item);
-                        }
+                        catTotals[j] = (double)tempcatTotal;
                     }
                 }
+                string month = "";
+                string total = "";
+                foreach (var keyValuePair in keyValuesMonth)
+                {
+                    
+                    
+
+                    if (keyValuePair.Key == "Month")
+                    {
+                        month = keyValuePair.Value.ToString();
+                    }
+                    else if (keyValuePair.Key == "Total")
+                    {
+                        total = keyValuePair.Value.ToString();
+                    }
+
+                    
+
+                    
+
+                }
+                DataRow row = dataTable.NewRow();
+
+                for(int k = 0; k < dataTable.Columns.Count; k++)
+                {
+                    if(k == 0)
+                    {
+                        row[k] = month;
+                    }
+                    else if(k == dataTable.Columns.Count - 1)
+                    {
+                        row[k] = total;
+                    }
+                    else
+                    {
+                        row[k] = catTotals[k-1];
+                    }
+                }
+
+                dataTable.Rows.Add(row);
+                datagrid.ItemsSource = dataTable.DefaultView;
+
             }
-            datagrid.ItemsSource = budgetItems;
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
