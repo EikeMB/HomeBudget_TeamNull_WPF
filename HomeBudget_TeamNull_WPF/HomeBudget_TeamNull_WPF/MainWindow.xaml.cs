@@ -1,6 +1,7 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -40,11 +41,12 @@ namespace HomeBudget_TeamNull_WPF
             LoadAppData();
             ShowMenu();
 
+            /*
             Start_DP.SelectedDate = DateTime.Today;
             End_DP.SelectedDate = DateTime.Today;
             
             startDate= (DateTime)Start_DP.SelectedDate;
-            endDate = (DateTime)End_DP.SelectedDate;
+            endDate = (DateTime)End_DP.SelectedDate;*/
             
             
         }
@@ -436,20 +438,33 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpenses(List<BudgetItem> budgetItems)
         {
-            datagrid.ItemsSource = budgetItems;
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Date");
+            dataTable.Columns.Add("Category");
+            dataTable.Columns.Add("Description");
+            dataTable.Columns.Add("Amount");
+            dataTable.Columns.Add("Balance");
+
+            foreach(BudgetItem budgetItem in budgetItems)
+            {
+                dataTable.Rows.Add(budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
+            }
+            datagrid.ItemsSource = dataTable.DefaultView;
         }
 
         public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths)
         {
-            List<BudgetItem> budgetItems = new List<BudgetItem>();
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Month");
+            dataTable.Columns.Add("Total");
+            
             foreach(BudgetItemsByMonth budgetItemsByMonth in budgetItemsByMonths)
             {
-                foreach(BudgetItem item in budgetItemsByMonth.Details)
-                {
-                    budgetItems.Add(item);
-                }
+                dataTable.Rows.Add(budgetItemsByMonth.Month, budgetItemsByMonth.Total);
             }
-            datagrid.ItemsSource = budgetItems;
+            datagrid.ItemsSource = dataTable.DefaultView;
         }
 
         public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
