@@ -369,39 +369,16 @@ namespace HomeBudget_TeamNull_WPF
 
         private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            startDate = Start_DP.SelectedDate;
-            endDate = End_DP.SelectedDate;
-            bool filter = false;
-            if (filterchk.IsChecked == true)
-            {
-                filter = true;
-            }
-            string cat = catCB.Text;
-            string? method;
-            if (monthchk.IsChecked == true && catchk.IsChecked == true)
-            {
-                method = "month/category";
-            }
-            else if (monthchk.IsChecked == true)
-            {
-                method = "month";
-            }
-            else if (catchk.IsChecked == true)
-            {
-                method = "category";
-            }
-            else
-            {
-                method = null;
-            }
-            if(presenter !=  null)
-            {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
-            }
-            
+            GetFilters();
+
 
         }
         private void End_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
+
+        }
+        public void GetFilters()
         {
             startDate = Start_DP.SelectedDate;
             endDate = End_DP.SelectedDate;
@@ -410,7 +387,12 @@ namespace HomeBudget_TeamNull_WPF
             {
                 filter = true;
             }
-            string cat = catCB.Text;
+            string cat = "";
+
+            if(catCB.SelectedValue != null)
+            {
+                cat = catCB.SelectedValue.ToString();
+            }
             string? method;
             if (monthchk.IsChecked == true && catchk.IsChecked == true)
             {
@@ -432,9 +414,7 @@ namespace HomeBudget_TeamNull_WPF
             {
                 presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
             }
-
         }
-
 
         public void DisplayExpenses(List<BudgetItem> budgetItems)
         {
@@ -502,68 +482,12 @@ namespace HomeBudget_TeamNull_WPF
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
         {
-            startDate = Start_DP.SelectedDate;
-            endDate = End_DP.SelectedDate;
-            bool filter = false;
-            if (filterchk.IsChecked == true)
-            {
-                filter = true;
-            }
-            string cat = catCB.Text;
-            string? method;
-            if (monthchk.IsChecked == true && catchk.IsChecked == true)
-            {
-                method = "month/category";
-            }
-            else if (monthchk.IsChecked == true)
-            {
-                method = "month";
-            }
-            else if (catchk.IsChecked == true)
-            {
-                method = "category";
-            }
-            else
-            {
-                method = null;
-            }
-            if (presenter != null)
-            {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
-            }
+            GetFilters();
         }
 
         private void catCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            startDate = Start_DP.SelectedDate;
-            endDate = End_DP.SelectedDate;
-            bool filter = false;
-            if (filterchk.IsChecked == true)
-            {
-                filter = true;
-            }
-            string cat = catCB.Text;
-            string? method;
-            if (monthchk.IsChecked == true && catchk.IsChecked == true)
-            {
-                method = "month/category";
-            }
-            else if (monthchk.IsChecked == true)
-            {
-                method = "month";
-            }
-            else if (catchk.IsChecked == true)
-            {
-                method = "category";
-            }
-            else
-            {
-                method = null;
-            }
-            if (presenter != null)
-            {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
-            }
+            GetFilters();
         }
     }
 }
