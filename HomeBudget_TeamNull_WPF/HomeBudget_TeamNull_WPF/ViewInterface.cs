@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
 
 namespace HomeBudget_TeamNull_WPF
@@ -12,6 +13,11 @@ namespace HomeBudget_TeamNull_WPF
         public void DisplayError(string error);
 
         public List<String> GetCategoryList();
+
+        public void DisplayExpenses(List<BudgetItem> budgetItems);
+        public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths);
+        public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories);
+        public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat);
 
     }
 }

@@ -63,16 +63,16 @@
                     <DatePicker Background="White" x:Name="End_DP" SelectedDateChanged="End_DP_SelectedDateChanged">
 
                     </DatePicker>
-                    <CheckBox>Filter by Category?</CheckBox>
+                    <CheckBox x:Name="filterchk" Click="filterchk_Click">Filter by Category?</CheckBox>
                     <ComboBox x:Name="catCB" IsEditable="True" KeyDown="catCB_KeyDown"
-                          IsTextSearchEnabled="False"></ComboBox>
+                          IsTextSearchEnabled="False" SelectionChanged="catCB_SelectionChanged"></ComboBox>
                 </StackPanel>
             </GroupBox>
 
             <GroupBox Header="Summary" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,2" >
                 <StackPanel>
-                    <CheckBox>By Month</CheckBox>
-                    <CheckBox>By Category</CheckBox>
+                    <CheckBox x:Name="monthchk" Click="filterchk_Click">By Month</CheckBox>
+                    <CheckBox x:Name="catchk" Click="filterchk_Click">By Category</CheckBox>
                 </StackPanel>
             </GroupBox>
             <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="10,73,10,-35" RenderTransformOrigin="0.5,0.5" 
