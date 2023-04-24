@@ -1,6 +1,7 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Intrinsics.Arm;
@@ -399,17 +400,22 @@ namespace HomeBudget_TeamNull_WPF
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths)
+        public void DisplayExpensesByMonth(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
+        public void DisplayExpensesByCategory(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
+        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpenses(DataTable dataTable)
         {
             throw new NotImplementedException();
         }

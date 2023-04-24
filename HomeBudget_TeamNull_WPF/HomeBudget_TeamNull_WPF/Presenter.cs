@@ -1,6 +1,7 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -76,22 +77,115 @@ namespace HomeBudget_TeamNull_WPF
             if (methodOfGet == null)
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
-                view.DisplayExpenses(budgetItems);
+                DataTable dataTable = new DataTable();
+
+                dataTable.Columns.Add("Date");
+                dataTable.Columns.Add("Category");
+                dataTable.Columns.Add("Description");
+                dataTable.Columns.Add("Amount");
+                dataTable.Columns.Add("Balance");
+
+                foreach (BudgetItem budgetItem in budgetItems)
+                {
+                    dataTable.Rows.Add(budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
+                }
+                view.DisplayExpenses(dataTable);
             }
-            else if(methodOfGet == "month")
+            else if (methodOfGet == "month")
             {
                 List<BudgetItemsByMonth> budgetItemsByMonths = model.GetBudgetItemsByMonth(start, end, filter, catId);
-                view.DisplayExpensesByMonth(budgetItemsByMonths);
+                DataTable dataTable = new DataTable();
+
+                dataTable.Columns.Add("Month");
+                dataTable.Columns.Add("Total");
+
+                foreach (BudgetItemsByMonth budgetItemsByMonth in budgetItemsByMonths)
+                {
+                    dataTable.Rows.Add(budgetItemsByMonth.Month, budgetItemsByMonth.Total);
+                }
+                view.DisplayExpensesByMonth(dataTable);
             }
-            else if(methodOfGet == "category")
+            else if (methodOfGet == "category")
             {
                 List<BudgetItemsByCategory> budgetItemsByCategories = model.GetBudgetItemsByCategory(start, end, filter, catId);
-                view.DisplayExpensesByCategory(budgetItemsByCategories);
+                DataTable dataTable = new DataTable();
+
+                dataTable.Columns.Add("Categories");
+                dataTable.Columns.Add("Total");
+
+                foreach (BudgetItemsByCategory budgetItemsByCategory in budgetItemsByCategories)
+                {
+                    dataTable.Rows.Add(budgetItemsByCategory.Category, budgetItemsByCategory.Total);
+                }
+                view.DisplayExpensesByCategory(dataTable);
             }
-            else if(methodOfGet == "month/category")
+            else if (methodOfGet == "month/category")
             {
                 List<Dictionary<string, object>> budgetItemsByMonthAndCategory = model.GetBudgetDictionaryByCategoryAndMonth(start, end, filter, catId);
-                view.DisplayExpensesByMonthAndCat(budgetItemsByMonthAndCategory);
+                DataTable dataTable = new DataTable();
+                Dictionary<string, object> keyValues = budgetItemsByMonthAndCategory[budgetItemsByMonthAndCategory.Count - 1];
+                foreach (var keyValuePair in keyValues)
+                {
+                    dataTable.Columns.Add(keyValuePair.Key);
+                }
+                dataTable.Columns.Add("Total");
+                List<BudgetItem> budgetItems = new List<BudgetItem>();
+                for (int i = 0; i < budgetItemsByMonthAndCategory.Count - 1; i++)
+                {
+
+                    Dictionary<string, object> keyValuesMonth = budgetItemsByMonthAndCategory[i];
+                    double[] catTotals = new double[dataTable.Columns.Count - 2];
+                    for (int j = 0; j < catTotals.Length; j++)
+                    {
+                        object tempcatTotal;
+                        keyValuesMonth.TryGetValue(dataTable.Columns[j + 1].ToString(), out tempcatTotal);
+                        if (tempcatTotal != null)
+                        {
+                            catTotals[j] = (double)tempcatTotal;
+                        }
+                    }
+                    string month = "";
+                    string total = "";
+                    foreach (var keyValuePair in keyValuesMonth)
+                    {
+
+
+
+                        if (keyValuePair.Key == "Month")
+                        {
+                            month = keyValuePair.Value.ToString();
+                        }
+                        else if (keyValuePair.Key == "Total")
+                        {
+                            total = keyValuePair.Value.ToString();
+                        }
+
+
+
+
+
+                    }
+                    DataRow row = dataTable.NewRow();
+
+                    for (int k = 0; k < dataTable.Columns.Count; k++)
+                    {
+                        if (k == 0)
+                        {
+                            row[k] = month;
+                        }
+                        else if (k == dataTable.Columns.Count - 1)
+                        {
+                            row[k] = total;
+                        }
+                        else
+                        {
+                            row[k] = catTotals[k - 1];
+                        }
+                    }
+
+                    dataTable.Rows.Add(row);
+                    view.DisplayExpensesByMonthAndCat(dataTable);
+                }
             }
         }
 

@@ -34,7 +34,7 @@
                 x:Name="BTN_newDB" Click="OpenNewDb">Open New Budget</Button>
 
         <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,15,10,0" 
-                  Grid.RowSpan="2" x:Name="datagrid">
+                  Grid.RowSpan="2" x:Name="datagrid" IsReadOnly="True">
 
         </DataGrid>
 
@@ -65,7 +65,7 @@
                     </DatePicker>
                     <CheckBox x:Name="filterchk" Click="filterchk_Click">Filter by Category?</CheckBox>
                     <ComboBox x:Name="catCB" IsEditable="True" KeyDown="catCB_KeyDown"
-                          IsTextSearchEnabled="False" SelectionChanged="catCB_SelectionChanged"></ComboBox>
+                          IsTextSearchEnabled="False" SelectionChanged="catCB_SelectionChanged" TextBoxBase.TextChanged="catCB_TextChanged"></ComboBox>
                 </StackPanel>
             </GroupBox>
 
