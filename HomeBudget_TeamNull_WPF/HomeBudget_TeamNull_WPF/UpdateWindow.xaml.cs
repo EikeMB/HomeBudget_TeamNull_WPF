@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -24,10 +25,12 @@ namespace HomeBudget_TeamNull_WPF
     {
 
         private Presenter p;
+        private Expense expense;
 
-        public UpdateWindow(Presenter presenter)
+        public UpdateWindow(Presenter presenter, Expense selectedExpense)
         {
             p = presenter;
+            expense = selectedExpense;
 
             InitializeComponent();
             Update_DP.SelectedDate = DateTime.Now;
@@ -49,13 +52,13 @@ namespace HomeBudget_TeamNull_WPF
         #region Buttons
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            string expense = "";
+            string exp = expense.Description;
             DateTime date = (DateTime)Update_DP.SelectedDate;
             string? category = update_CB.SelectedItem.ToString();
             string? description = Desc_TB.Text;
             double amount = double.Parse(Amount_TB.Text);
 
-            p.processUpdateExpense(expense, date, category, amount, description);
+            p.processUpdateExpense(exp, date, category, amount, description);
         }
 
         private void CancelBTN_Click(object sender, RoutedEventArgs e)
@@ -68,8 +71,8 @@ namespace HomeBudget_TeamNull_WPF
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-            string expense = "";
-            p.processDeleteExpense(expense);
+            string exp = expense.Description;
+            p.processDeleteExpense(exp);
         }
         #endregion
 

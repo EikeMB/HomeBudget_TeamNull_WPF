@@ -451,7 +451,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            UpdateWindow uw = new UpdateWindow(presenter);
+            int selectedExpense = datagrid.SelectedIndex;
+            string desc = ;
+
+            UpdateWindow uw = new UpdateWindow(presenter, selectedExpense);
             uw.Show();
         }
     }
