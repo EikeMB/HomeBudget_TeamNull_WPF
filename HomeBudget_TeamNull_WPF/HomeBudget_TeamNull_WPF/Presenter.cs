@@ -73,5 +73,27 @@ namespace HomeBudget_TeamNull_WPF
 
             return descriptions;
         }
+
+        public void processUpdateExpense(int expenseId, DateTime date, string? cat, double amount, string desc)
+        {
+            try
+            {
+                int catId = 0;
+                foreach (Category category in cats)
+                {
+                    if (category.Description == cat)
+                    {
+                        catId = category.Id;
+                    }
+                }
+                model.expenses.UpdateProperties(expenseId, date, catId, amount, desc);
+
+            }
+            catch (Exception e)
+            {
+                view.DisplayError(e.Message);
+            }
+        }
+
     }
 }

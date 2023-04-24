@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace HomeBudget_TeamNull_WPF
             Update_DP.SelectedDate = DateTime.Now;
             RefreshCategories(GetCategoryList());
         }
+
+        
 
         public void DisplayAddedCategory(string desc, string type)
         {
@@ -64,6 +67,28 @@ namespace HomeBudget_TeamNull_WPF
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+
+
+        private void UpdateBTN_Click(object sender, RoutedEventArgs e)
+        {
+            int id = 0;
+            DateTime date = (DateTime)Update_DP.SelectedDate;
+            string? category = update_CB.SelectedItem.ToString();
+            string? description = Desc_TB.Text;
+            double amount = double.Parse(Amount_TB.Text);
+
+            p.processUpdateExpense(id, date, category, amount, description);
+        }
+
+        private void CancelBTN_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteBTN_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
