@@ -391,7 +391,7 @@ namespace HomeBudget_TeamNull_WPF
 
             if(catCB.SelectedValue != null)
             {
-                cat = catCB.SelectedValue.ToString();
+                cat = catCB.Text;
             }
             string? method;
             if (monthchk.IsChecked == true && catchk.IsChecked == true)
@@ -536,6 +536,11 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         private void catCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
+        }
+
+        private void catCB_TextChanged(object sender, TextChangedEventArgs e)
         {
             GetFilters();
         }

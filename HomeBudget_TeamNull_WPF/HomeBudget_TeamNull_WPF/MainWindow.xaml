@@ -65,7 +65,7 @@
                     </DatePicker>
                     <CheckBox x:Name="filterchk" Click="filterchk_Click">Filter by Category?</CheckBox>
                     <ComboBox x:Name="catCB" IsEditable="True" KeyDown="catCB_KeyDown"
-                          IsTextSearchEnabled="False" SelectionChanged="catCB_SelectionChanged"></ComboBox>
+                          IsTextSearchEnabled="False" SelectionChanged="catCB_SelectionChanged" TextBoxBase.TextChanged="catCB_TextChanged"></ComboBox>
                 </StackPanel>
             </GroupBox>
 
