@@ -464,7 +464,7 @@ namespace HomeBudget_TeamNull_WPF
         public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
         {
             DataTable dataTable = new DataTable();
-            Dictionary<string, object> keyValues = budgetItemsByMonthAndCat[2];
+            Dictionary<string, object> keyValues = budgetItemsByMonthAndCat[budgetItemsByMonthAndCat.Count-1];
             foreach(var keyValuePair in keyValues)
             {
                 dataTable.Columns.Add(keyValuePair.Key);
