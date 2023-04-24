@@ -412,6 +412,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             
             datagrid.ItemsSource = dataTable.DefaultView;
+
         }
 
         public void DisplayExpensesByMonth(DataTable dataTable)
@@ -446,6 +447,12 @@ namespace HomeBudget_TeamNull_WPF
         private void catCB_TextChanged(object sender, TextChangedEventArgs e)
         {
             GetFilters();
+        }
+
+        private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            UpdateWindow uw = new UpdateWindow(presenter);
+            uw.Show();
         }
     }
 }
