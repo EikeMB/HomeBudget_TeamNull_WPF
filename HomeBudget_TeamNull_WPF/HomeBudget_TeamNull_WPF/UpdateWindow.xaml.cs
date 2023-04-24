@@ -83,7 +83,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void CancelBTN_Click(object sender, RoutedEventArgs e)
         {
-
+            update_CB.SelectedIndex = -1;
+            Amount_TB.Clear();
+            Desc_TB.Clear();
+            Update_DP.SelectedDate = DateTime.Today;
         }
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
