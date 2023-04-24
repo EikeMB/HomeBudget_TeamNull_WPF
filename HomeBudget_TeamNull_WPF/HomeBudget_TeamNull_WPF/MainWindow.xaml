@@ -34,7 +34,7 @@
                 x:Name="BTN_newDB" Click="OpenNewDb">Open New Budget</Button>
 
         <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,15,10,0" 
-                  Grid.RowSpan="2" x:Name="datagrid">
+                  Grid.RowSpan="2" x:Name="datagrid" IsReadOnly="True">
 
         </DataGrid>
 

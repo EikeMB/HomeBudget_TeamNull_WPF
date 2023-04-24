@@ -430,7 +430,6 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpensesByCategory(DataTable dataTable)
         {
-            
             datagrid.ItemsSource = dataTable.DefaultView;
         }
 
