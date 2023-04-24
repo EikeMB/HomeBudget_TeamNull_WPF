@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -26,6 +29,8 @@ namespace HomeBudget_TeamNull_WPF
         private string? folderName = "";
         private List<string> categories;
         private bool changeOccured = false;
+        private DateTime? startDate;
+        private DateTime? endDate;
 
         private Presenter presenter;
 
@@ -60,9 +65,21 @@ namespace HomeBudget_TeamNull_WPF
 
         #region menu
 
+        private void HideElements()
+        {
+            datagrid.Visibility= Visibility.Hidden;
+            optionsGrid.Visibility= Visibility.Hidden;
+        }
+
+        private void ShowElements()
+        {
+            datagrid.Visibility = Visibility.Visible;
+            optionsGrid.Visibility = Visibility.Visible;
+            HideMenu();
+        }
         private void ShowMenu()
         {
-          
+            HideElements();
             menuText.Visibility = Visibility.Visible;
             BTN_existingDB.Visibility = Visibility.Visible;
             BTN_newDB.Visibility = Visibility.Visible;
@@ -78,9 +95,7 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         #endregion menu
-
-
-      
+    
         #region openDBS
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
@@ -108,8 +123,9 @@ namespace HomeBudget_TeamNull_WPF
 
                     presenter = new Presenter(this, fileName, false);
 
-                    HideMenu();
-
+                    ShowElements();
+                    RefreshCategories(GetCategoryList());
+                    presenter.processGetBudgetItems(null, null, false, "credit", null);
                 }
             }
             catch (Exception ex)
@@ -118,10 +134,6 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void DisplayError(string error)
-        {
-            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
         {
@@ -153,9 +165,10 @@ namespace HomeBudget_TeamNull_WPF
 
                         WriteAppData();
 
-               
-                        HideMenu();
-                 
+
+                        ShowElements();
+                        RefreshCategories(GetCategoryList());
+                        presenter.processGetBudgetItems(null, null, false, "credit", null);
                     }
                     catch (Exception ex)
                     {
@@ -289,19 +302,53 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
-        public void DisplayAddedExpense(DateTime date, string catId, double amount, string desc)
+        public void DisplayAddedExpense(DateTime date, string cat, double amount, string desc)
         {
-            throw new NotImplementedException();
+            string successMessage = $"Expense successfully added.\n\n" +
+                $"Expense Date: {date.ToLongDateString()}\n" +
+                $"Expense Amount: {amount}\n" +
+                $"Expense Description: {desc}\n" +
+                $"Expense Category: {cat}";
+            MessageBox.Show(successMessage);
         }
 
         public void DisplayAddedCategory(string desc, string type)
         {
-            throw new NotImplementedException();
+            string successMessage = $"Category successfully added.\n" +
+                $"Category Description: {desc}\n" +
+                $"Category Type: {type}";
+            MessageBox.Show(successMessage);
         }
+
+        public void DisplayError(string error)
+        {
+            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
 
         public List<string> GetCategoryList()
         {
-            throw new NotImplementedException();
+            List<string> cats = new List<string>();
+            cats = presenter.GetCategoryDescriptionList();
+
+            return cats;
+        }
+
+        private void RefreshCategories(List<string> categoriesList)
+        {
+            catCB.ItemsSource = categoriesList;
+            catCB.Items.Refresh();
+        }
+
+        private void catCB_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                string cat = catCB.Text;
+                string type = "Expense";
+                presenter.processAddCategory(cat, type);
+                RefreshCategories(GetCategoryList());
+            }
         }
         #endregion
 
@@ -310,6 +357,95 @@ namespace HomeBudget_TeamNull_WPF
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
            
+        }
+
+        private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
+
+
+        }
+        private void End_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
+
+        }
+        private void GetFilters()
+        {
+            startDate = Start_DP.SelectedDate;
+            endDate = End_DP.SelectedDate;
+            bool filter = false;
+            if (filterchk.IsChecked == true)
+            {
+                filter = true;
+            }
+            string cat = "";
+
+            if(catCB.SelectedValue != null)
+            {
+                cat = catCB.Text;
+            }
+            string? method;
+            if (monthchk.IsChecked == true && catchk.IsChecked == true)
+            {
+                method = "month/category";
+            }
+            else if (monthchk.IsChecked == true)
+            {
+                method = "month";
+            }
+            else if (catchk.IsChecked == true)
+            {
+                method = "category";
+            }
+            else
+            {
+                method = null;
+            }
+            if (presenter != null)
+            {
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
+            }
+        }
+
+        public void DisplayExpenses(DataTable dataTable)
+        {
+            
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByMonth(DataTable dataTable)
+        {
+            
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByCategory(DataTable dataTable)
+        {
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
+        {
+            
+                datagrid.ItemsSource = dataTable.DefaultView;
+
+            
+        }
+
+        private void filterchk_Click(object sender, RoutedEventArgs e)
+        {
+            GetFilters();
+        }
+
+        private void catCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
+        }
+
+        private void catCB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetFilters();
         }
     }
 }
