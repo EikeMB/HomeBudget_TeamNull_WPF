@@ -42,6 +42,7 @@ namespace HomeBudget_TeamNull_WPF
             presenter = Mainpresenter;
             InitializeComponent();
             RefreshCategories(GetCategoryList());
+            dp.SelectedDate= DateTime.Now;
         }
 
         #region closeWindow
@@ -392,6 +393,7 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
+
         public void DisplayExpenses(List<BudgetItem> budgetItems)
         {
             throw new NotImplementedException();
@@ -414,5 +416,11 @@ namespace HomeBudget_TeamNull_WPF
 
 
         #endregion
+
+        private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
     }
 }
