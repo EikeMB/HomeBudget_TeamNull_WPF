@@ -235,5 +235,18 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
+        public void processDeleteExpense(string expense)
+        {
+            int expenseId = 0;
+            foreach (Expense e in expenses)
+            {
+                if (e.Description == expense)
+                {
+                    expenseId = e.Id;
+                }
+            }
+
+            model.expenses.Delete(expenseId);
+        }
     }
 }

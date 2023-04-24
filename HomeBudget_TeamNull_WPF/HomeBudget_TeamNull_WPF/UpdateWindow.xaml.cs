@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
@@ -50,6 +51,26 @@ namespace HomeBudget_TeamNull_WPF
             throw new NotImplementedException();
         }
 
+        public void DisplayExpenses(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonth(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByCategory(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<string> GetCategoryList()
         {
             List<string> cats = new List<string>();
@@ -93,5 +114,7 @@ namespace HomeBudget_TeamNull_WPF
         {
 
         }
+
+
     }
 }
