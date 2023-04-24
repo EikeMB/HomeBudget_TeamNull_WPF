@@ -1,6 +1,7 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Intrinsics.Arm;
@@ -42,6 +43,7 @@ namespace HomeBudget_TeamNull_WPF
             presenter = Mainpresenter;
             InitializeComponent();
             RefreshCategories(GetCategoryList());
+            dp.SelectedDate= DateTime.Now;
         }
 
         #region closeWindow
@@ -392,27 +394,39 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
+
         public void DisplayExpenses(List<BudgetItem> budgetItems)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths)
+        public void DisplayExpensesByMonth(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
+        public void DisplayExpensesByCategory(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
+        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpenses(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
 
 
         #endregion
+
+        private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
     }
 }

@@ -1,5 +1,6 @@
 using HomeBudget_TeamNull_WPF;
 using System;
+using System.Data;
 using System.DirectoryServices;
 
 namespace TestPresenter
@@ -114,6 +115,26 @@ namespace TestPresenter
         }
 
         public List<string> GetCategoryList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpenses(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonth(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByCategory(DataTable dataTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
         {
             throw new NotImplementedException();
         }
