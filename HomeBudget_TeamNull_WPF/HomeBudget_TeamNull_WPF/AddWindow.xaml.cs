@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -263,6 +264,7 @@ namespace HomeBudget_TeamNull_WPF
                     descriptionTB.Clear();
 
                     presenter.processAddExpense(date, category, amount, description);
+                    presenter.processGetBudgetItems(null, null, false, "credit", null);
                     changeOccured = false;
                 }
             }
@@ -390,7 +392,27 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
-      
+        public void DisplayExpenses(List<BudgetItem> budgetItems)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
     }
 }

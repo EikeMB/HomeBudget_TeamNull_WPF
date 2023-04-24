@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -39,11 +41,12 @@ namespace HomeBudget_TeamNull_WPF
             LoadAppData();
             ShowMenu();
 
+            /*
             Start_DP.SelectedDate = DateTime.Today;
             End_DP.SelectedDate = DateTime.Today;
             
             startDate= (DateTime)Start_DP.SelectedDate;
-            endDate = (DateTime)End_DP.SelectedDate;
+            endDate = (DateTime)End_DP.SelectedDate;*/
             
             
         }
@@ -134,6 +137,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     ShowElements();
                     RefreshCategories(GetCategoryList());
+                    presenter.processGetBudgetItems(null, null, false, "credit", null);
                 }
             }
             catch (Exception ex)
@@ -176,6 +180,7 @@ namespace HomeBudget_TeamNull_WPF
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
+                        presenter.processGetBudgetItems(null, null, false, "credit", null);
                     }
                     catch (Exception ex)
                     {
@@ -368,13 +373,175 @@ namespace HomeBudget_TeamNull_WPF
 
         private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            startDate = (DateTime)Start_DP.SelectedDate;
-            
+            GetFilters();
+
+
         }
         private void End_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            endDate = (DateTime)End_DP.SelectedDate;
+            GetFilters();
+
+        }
+        public void GetFilters()
+        {
+            startDate = Start_DP.SelectedDate;
+            endDate = End_DP.SelectedDate;
+            bool filter = false;
+            if (filterchk.IsChecked == true)
+            {
+                filter = true;
+            }
+            string cat = "";
+
+            if(catCB.SelectedValue != null)
+            {
+                cat = catCB.SelectedValue.ToString();
+            }
+            string? method;
+            if (monthchk.IsChecked == true && catchk.IsChecked == true)
+            {
+                method = "month/category";
+            }
+            else if (monthchk.IsChecked == true)
+            {
+                method = "month";
+            }
+            else if (catchk.IsChecked == true)
+            {
+                method = "category";
+            }
+            else
+            {
+                method = null;
+            }
+            if (presenter != null)
+            {
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
+            }
+        }
+
+        public void DisplayExpenses(List<BudgetItem> budgetItems)
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Date");
+            dataTable.Columns.Add("Category");
+            dataTable.Columns.Add("Description");
+            dataTable.Columns.Add("Amount");
+            dataTable.Columns.Add("Balance");
+
+            foreach(BudgetItem budgetItem in budgetItems)
+            {
+                dataTable.Rows.Add(budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
+            }
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByMonth(List<BudgetItemsByMonth> budgetItemsByMonths)
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Month");
+            dataTable.Columns.Add("Total");
             
+            foreach(BudgetItemsByMonth budgetItemsByMonth in budgetItemsByMonths)
+            {
+                dataTable.Rows.Add(budgetItemsByMonth.Month, budgetItemsByMonth.Total);
+            }
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByCategory(List<BudgetItemsByCategory> budgetItemsByCategories)
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add("Categories");
+            dataTable.Columns.Add("Total");
+
+            foreach(BudgetItemsByCategory budgetItemsByCategory in budgetItemsByCategories)
+            {
+                dataTable.Rows.Add(budgetItemsByCategory.Category, budgetItemsByCategory.Total);
+            }
+            datagrid.ItemsSource = dataTable.DefaultView;
+        }
+
+        public void DisplayExpensesByMonthAndCat(List<Dictionary<string, object>> budgetItemsByMonthAndCat)
+        {
+            DataTable dataTable = new DataTable();
+            Dictionary<string, object> keyValues = budgetItemsByMonthAndCat[2];
+            foreach(var keyValuePair in keyValues)
+            {
+                dataTable.Columns.Add(keyValuePair.Key);
+            }
+            dataTable.Columns.Add("Total");
+            List<BudgetItem> budgetItems = new List<BudgetItem>();
+            for(int i = 0; i < budgetItemsByMonthAndCat.Count-1; i++)
+            {
+
+                Dictionary<string, object> keyValuesMonth = budgetItemsByMonthAndCat[i];
+                double[] catTotals = new double[dataTable.Columns.Count - 2];
+                for (int j = 0; j < catTotals.Length; j++)
+                {
+                    object tempcatTotal;
+                    keyValuesMonth.TryGetValue(dataTable.Columns[j + 1].ToString(), out tempcatTotal);
+                    if (tempcatTotal != null)
+                    {
+                        catTotals[j] = (double)tempcatTotal;
+                    }
+                }
+                string month = "";
+                string total = "";
+                foreach (var keyValuePair in keyValuesMonth)
+                {
+                    
+                    
+
+                    if (keyValuePair.Key == "Month")
+                    {
+                        month = keyValuePair.Value.ToString();
+                    }
+                    else if (keyValuePair.Key == "Total")
+                    {
+                        total = keyValuePair.Value.ToString();
+                    }
+
+                    
+
+                    
+
+                }
+                DataRow row = dataTable.NewRow();
+
+                for(int k = 0; k < dataTable.Columns.Count; k++)
+                {
+                    if(k == 0)
+                    {
+                        row[k] = month;
+                    }
+                    else if(k == dataTable.Columns.Count - 1)
+                    {
+                        row[k] = total;
+                    }
+                    else
+                    {
+                        row[k] = catTotals[k-1];
+                    }
+                }
+
+                dataTable.Rows.Add(row);
+                datagrid.ItemsSource = dataTable.DefaultView;
+
+            }
+        }
+
+        private void filterchk_Click(object sender, RoutedEventArgs e)
+        {
+            GetFilters();
+        }
+
+        private void catCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetFilters();
         }
     }
 }
