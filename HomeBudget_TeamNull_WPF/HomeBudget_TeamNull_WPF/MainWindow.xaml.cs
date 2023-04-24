@@ -504,6 +504,7 @@ namespace HomeBudget_TeamNull_WPF
         private void ExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
 
         private void catCB_TextChanged(object sender, TextChangedEventArgs e)
         {
