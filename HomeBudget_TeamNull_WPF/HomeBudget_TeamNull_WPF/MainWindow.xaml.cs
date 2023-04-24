@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Application = System.Windows.Application;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
@@ -41,16 +42,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             InitializeComponent();
             LoadAppData();
-            ShowMenu();
-
-            /*
-            Start_DP.SelectedDate = DateTime.Today;
-            End_DP.SelectedDate = DateTime.Today;
-            
-            startDate= (DateTime)Start_DP.SelectedDate;
-            endDate = (DateTime)End_DP.SelectedDate;*/
-            
-            
+            ShowMenu();      
         }
 
         #region closeWindow
@@ -129,6 +121,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (dialog.ShowDialog() == true)
                 {
                     fileName = dialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     folderName = System.IO.Path.GetDirectoryName(dialog.FileName);
@@ -169,6 +162,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     string oldFileName = fileName;
                     fileName = saveDialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.Copy(oldFileName,fileName);
@@ -213,6 +207,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (saveDialog.ShowDialog() == true)
                 {
                     fileName = saveDialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.WriteAllText(fileName, "");
