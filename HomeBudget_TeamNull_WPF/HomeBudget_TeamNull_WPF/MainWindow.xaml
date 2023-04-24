@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         x:Name="WindowBox"
         Title="MainWindow" Height="450" Width="880" WindowStartupLocation="CenterScreen"
-        Closing="Close_Window" ResizeMode="NoResize" Background="#F6E7CB">
+        Closing="Close_Window"  Background="#F6E7CB">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*" />
@@ -16,8 +16,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="19*" />
-            <RowDefinition Height="28*" />
-            <RowDefinition Height="199*" />
+            <RowDefinition Height="42*" />
+            <RowDefinition Height="185*" />
             <RowDefinition Height="178*" />
             <RowDefinition  Height="10*"/>
         </Grid.RowDefinitions>
@@ -31,14 +31,22 @@
             </Menu>
         </DockPanel>
         <DockPanel Grid.ColumnSpan="4" Margin="0,19,0,0" Grid.RowSpan="2" x:Name="toolbar">
-            <ToolBarTray>
+            <ToolBarTray Height="41">
                 <ToolBar>
-                    <Button Content="Open new" Click="OpenNewDb" />
-                    <Button Content="open Exisiting" Click="OpenExistingDb"/>
-                    <Button Content="save as"/>
+                    <Button Click="OpenNewDb" >
+                        <Image Height="24" x:Name="NewDb" Width="28" Source="/add-document.png"   ></Image>
+                    </Button>
+                    <Button Click="OpenExistingDb">
+                        <Image Height="24" x:Name="FolderOpen" Width="28" Source="/folder.png" ></Image>
+                    </Button>
+                    <Button Click="SaveAs">
+                        <Image Height="24" x:Name="saveIcon" Width="28" Source="/saveIcon.png"></Image>
+                    </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button Command="" Content="exit"/>
+                    <Button Click="ExitClick">
+                        <Image Height="24" x:Name="ExitIcon" Width="28" Source="/logout.png" ></Image>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
