@@ -41,12 +41,7 @@ namespace HomeBudget_TeamNull_WPF
             LoadAppData();
             ShowMenu();
 
-            /*
-            Start_DP.SelectedDate = DateTime.Today;
-            End_DP.SelectedDate = DateTime.Today;
             
-            startDate= (DateTime)Start_DP.SelectedDate;
-            endDate = (DateTime)End_DP.SelectedDate;*/
             
             
         }
@@ -338,7 +333,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             List<string> cats = new List<string>();
             cats = presenter.GetCategoryDescriptionList();
-
+            catCB.ItemsSource = cats;
             return cats;
         }
 
@@ -364,6 +359,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
+            
            
         }
 
@@ -454,6 +450,42 @@ namespace HomeBudget_TeamNull_WPF
         private void catCB_TextChanged(object sender, TextChangedEventArgs e)
         {
             GetFilters();
+        }
+
+        private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
+            if (datagrid.SelectedIndex > -1)
+            {
+                ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
+                
+                menu.IsOpen = true;
+            }
+            
+
+
+            
+        }
+
+        private void updateCM_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = datagrid.SelectedIndex;
+
+            
+            
+            TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            string expense = x.Text;
+            int i = 0;
+        }
+
+        private void deleteCM_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void catCB_DropDownOpened(object sender, EventArgs e)
+        {
+            RefreshCategories(GetCategoryList());
         }
     }
 }

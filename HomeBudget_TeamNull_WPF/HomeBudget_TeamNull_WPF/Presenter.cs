@@ -22,6 +22,8 @@ namespace HomeBudget_TeamNull_WPF
         {
             model.CloseDB();
         }
+
+        
         public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try
