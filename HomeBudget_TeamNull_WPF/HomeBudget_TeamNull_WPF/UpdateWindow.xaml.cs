@@ -34,8 +34,46 @@ namespace HomeBudget_TeamNull_WPF
             RefreshCategories(GetCategoryList());
         }
 
-        
+        private void RefreshCategories(List<string> categoriesList)
+        {
+            update_CB.ItemsSource = categoriesList;
+            update_CB.Items.Refresh();
+        }
 
+        private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+
+        #region Buttons
+        private void UpdateBTN_Click(object sender, RoutedEventArgs e)
+        {
+            string expense = "";
+            DateTime date = (DateTime)Update_DP.SelectedDate;
+            string? category = update_CB.SelectedItem.ToString();
+            string? description = Desc_TB.Text;
+            double amount = double.Parse(Amount_TB.Text);
+
+            p.processUpdateExpense(expense, date, category, amount, description);
+        }
+
+        private void CancelBTN_Click(object sender, RoutedEventArgs e)
+        {
+            update_CB.SelectedIndex = -1;
+            Amount_TB.Clear();
+            Desc_TB.Clear();
+            Update_DP.SelectedDate = DateTime.Today;
+        }
+
+        private void DeleteBTN_Click(object sender, RoutedEventArgs e)
+        {
+            string expense = "";
+            p.processDeleteExpense(expense);
+        }
+        #endregion
+
+        #region InterfaceMethods
         public void DisplayAddedCategory(string desc, string type)
         {
             throw new NotImplementedException();
@@ -78,43 +116,6 @@ namespace HomeBudget_TeamNull_WPF
 
             return cats;
         }
-        private void RefreshCategories(List<string> categoriesList)
-        {
-            update_CB.ItemsSource = categoriesList;
-            update_CB.Items.Refresh();
-        }
-
-        private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
-            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
-        }
-
-
-        private void UpdateBTN_Click(object sender, RoutedEventArgs e)
-        {
-            string expense = "";
-            DateTime date = (DateTime)Update_DP.SelectedDate;
-            string? category = update_CB.SelectedItem.ToString();
-            string? description = Desc_TB.Text;
-            double amount = double.Parse(Amount_TB.Text);
-
-            p.processUpdateExpense(expense, date, category, amount, description);
-        }
-
-        private void CancelBTN_Click(object sender, RoutedEventArgs e)
-        {
-            update_CB.SelectedIndex = -1;
-            Amount_TB.Clear();
-            Desc_TB.Clear();
-            Update_DP.SelectedDate = DateTime.Today;
-        }
-
-        private void DeleteBTN_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
+        #endregion
     }
 }
