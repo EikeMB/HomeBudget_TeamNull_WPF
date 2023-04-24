@@ -72,13 +72,13 @@ namespace HomeBudget_TeamNull_WPF
 
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            int id = 0;
+            string expense = "";
             DateTime date = (DateTime)Update_DP.SelectedDate;
             string? category = update_CB.SelectedItem.ToString();
             string? description = Desc_TB.Text;
             double amount = double.Parse(Amount_TB.Text);
 
-            p.processUpdateExpense(id, date, category, amount, description);
+            p.processUpdateExpense(expense, date, category, amount, description);
         }
 
         private void CancelBTN_Click(object sender, RoutedEventArgs e)
