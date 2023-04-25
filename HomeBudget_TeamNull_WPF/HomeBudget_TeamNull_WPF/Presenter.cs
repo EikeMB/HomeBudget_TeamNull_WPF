@@ -10,18 +10,22 @@ namespace HomeBudget_TeamNull_WPF
         private readonly ViewInterface view;
         private readonly HomeBudget model;
         private List<Category> cats;
+        private List<Expense> expenses;
 
         public Presenter(ViewInterface v, string fileName, bool newDB)
         {
             view = v;
             model = new HomeBudget(fileName, newDB);
             cats = model.categories.List();
+            expenses = model.expenses.List();
         }
 
         public void Close()
         {
             model.CloseDB();
         }
+
+        
         public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try
@@ -70,6 +74,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (category.Description == cat)
                 {
                     catId = category.Id;
+                    break;
                 }
             }
 
@@ -78,7 +83,7 @@ namespace HomeBudget_TeamNull_WPF
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
                 DataTable dataTable = new DataTable();
-
+                dataTable.Columns.Add("Id");
                 dataTable.Columns.Add("Date");
                 dataTable.Columns.Add("Category");
                 dataTable.Columns.Add("Description");
@@ -87,7 +92,7 @@ namespace HomeBudget_TeamNull_WPF
 
                 foreach (BudgetItem budgetItem in budgetItems)
                 {
-                    dataTable.Rows.Add(budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
+                    dataTable.Rows.Add(budgetItem.ExpenseID,budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
                 }
                 view.DisplayExpenses(dataTable);
             }
@@ -200,6 +205,43 @@ namespace HomeBudget_TeamNull_WPF
             }
 
             return descriptions;
+        }
+
+        public void processUpdateExpense(int expense, DateTime date, string? cat, double amount, string desc)
+        {
+            try
+            {
+               
+                int catId = 0;
+                foreach (Category category in cats)
+                {
+                    if (category.Description == cat)
+                    {
+                        catId = category.Id;
+                        break;
+                    }
+                }
+
+                
+
+                model.expenses.UpdateProperties(expense, date, catId, amount, desc);
+                expenses = model.expenses.List();
+
+
+            }
+            catch (Exception e)
+            {
+                view.DisplayError(e.Message);
+            }
+        }
+
+        public void processDeleteExpense(int expense)
+        {
+            
+
+            model.expenses.Delete(expense);
+            expenses = model.expenses.List();
+
         }
     }
 }

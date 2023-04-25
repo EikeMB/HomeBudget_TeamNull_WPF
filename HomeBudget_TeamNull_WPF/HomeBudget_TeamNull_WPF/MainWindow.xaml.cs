@@ -1,8 +1,6 @@
-﻿using Budget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,16 +10,13 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using TabControl = System.Windows.Controls.TabControl;
-using TextBox = System.Windows.Controls.TextBox;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -44,7 +39,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             InitializeComponent();
             LoadAppData();
-            ShowMenu();      
+            ShowMenu();    
         }
 
         #region closeWindow
@@ -91,7 +86,7 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Visible;
             BTN_existingDB.Visibility = Visibility.Visible;
             BTN_newDB.Visibility = Visibility.Visible;
-           
+
         }
 
         private void HideMenu()
@@ -99,10 +94,11 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Collapsed;
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
+
         }
 
         #endregion menu
-    
+
         #region openDBS
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
@@ -294,29 +290,29 @@ namespace HomeBudget_TeamNull_WPF
         #region colors
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
-            
+
             HideMenu();
-          
+
 
         }
 
         private void hideColorMenu()
         {
-          
+
             if (fileName == "")
             {
                 ShowMenu();
             }
             else
             {
-                
+
             }
         }
 
         private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             hideColorMenu();
-         
+
         }
 
 
@@ -360,7 +356,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             List<string> cats = new List<string>();
             cats = presenter.GetCategoryDescriptionList();
-
+            catCB.ItemsSource = cats;
             return cats;
         }
 
@@ -386,6 +382,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
+            
            
         }
 
@@ -411,7 +408,7 @@ namespace HomeBudget_TeamNull_WPF
             }
             string cat = "";
 
-            if(catCB.SelectedValue != null)
+            if (catCB.SelectedValue != null)
             {
                 cat = catCB.Text;
             }
@@ -440,13 +437,14 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpenses(DataTable dataTable)
         {
-            
+
             datagrid.ItemsSource = dataTable.DefaultView;
+
         }
 
         public void DisplayExpensesByMonth(DataTable dataTable)
         {
-            
+
             datagrid.ItemsSource = dataTable.DefaultView;
         }
 
@@ -457,10 +455,10 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpensesByMonthAndCat(DataTable dataTable)
         {
-            
-                datagrid.ItemsSource = dataTable.DefaultView;
 
-            
+            datagrid.ItemsSource = dataTable.DefaultView;
+
+
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
@@ -483,6 +481,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             GetFilters();
         }
+
 
         private void BackGroundColor(object sender, RoutedEventArgs e)
         {
@@ -524,6 +523,67 @@ namespace HomeBudget_TeamNull_WPF
                 if (ithChild is T t) yield return t;
                 foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
             }
+        private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
+            if(monthchk.IsChecked == false && catchk.IsChecked == false) {
+                if (datagrid.SelectedIndex > -1)
+                {
+                    ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
+
+                    menu.IsOpen = true;
+                }
+            }
+            
+
+
+            
+        }
+
+        private void updateCM_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = datagrid.SelectedIndex;
+
+            
+            
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
+
+            UpdateWindow update = new UpdateWindow(presenter, expense);
+            update.ShowDialog();
+            GetFilters();
+            
+        }
+
+        private void deleteCM_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = datagrid.SelectedIndex;
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
+
+            presenter.processDeleteExpense(expense);
+            GetFilters();
+        }
+
+        private void catCB_DropDownOpened(object sender, EventArgs e)
+        {
+            RefreshCategories(GetCategoryList());
+        }
+
+        
+        private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if(monthchk.IsChecked == false && catchk.IsChecked == false)
+            {
+                int selectedIndex = datagrid.SelectedIndex;
+                TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+                int expense = int.Parse(x.Text);
+
+                UpdateWindow uw = new UpdateWindow(presenter, expense);
+                uw.ShowDialog();
+                GetFilters();
+            }
+            
         }
     }
 }
