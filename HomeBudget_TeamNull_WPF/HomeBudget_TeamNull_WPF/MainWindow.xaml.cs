@@ -498,6 +498,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ExitClick(object sender, RoutedEventArgs e)
         {
+           
             Application.Current.Shutdown();
         }
 

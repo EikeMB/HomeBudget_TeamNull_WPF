@@ -48,7 +48,7 @@
                     Category Description:
                 </TextBlock>
                 <TextBox Background="#DD9787" KeyDown="txt_KeyDown" x:Name="DescInput" MaxHeight="100" Height="90" BorderBrush="Black"
-                         GotMouseCapture="DescInput_GotMouseCapture">
+                         GotMouseCapture="DescInput_GotMouseCapture" TextWrapping="Wrap">
                     Description...
                 </TextBox>
             </StackPanel>
