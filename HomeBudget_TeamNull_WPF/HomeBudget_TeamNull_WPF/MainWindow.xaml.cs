@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static System.Data.Entity.Infrastructure.Design.Executor;
 using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -35,11 +39,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             InitializeComponent();
             LoadAppData();
-            ShowMenu();
-
-            
-            
-            
+            ShowMenu();    
         }
 
         #region closeWindow
@@ -119,6 +119,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (dialog.ShowDialog() == true)
                 {
                     fileName = dialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + dialog.FileName;
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     folderName = System.IO.Path.GetDirectoryName(dialog.FileName);
@@ -159,6 +160,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     string oldFileName = fileName;
                     fileName = saveDialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.Copy(oldFileName,fileName);
@@ -203,6 +205,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (saveDialog.ShowDialog() == true)
                 {
                     fileName = saveDialog.FileName;
+                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.WriteAllText(fileName, "");
@@ -312,31 +315,6 @@ namespace HomeBudget_TeamNull_WPF
 
         }
 
-        private void buttonColor_Click(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-
-
-
-        }
-
-        private void BackgroundColorBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-            WindowBox.Background = brush;
-        }
-
-        private void txtfieildBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-
-        }
-
-        private void boxColorBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-
-        }
 
         private SolidColorBrush colorPicker()
         {
@@ -495,6 +473,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ExitClick(object sender, RoutedEventArgs e)
         {
+           
             Application.Current.Shutdown();
         }
 
@@ -503,6 +482,47 @@ namespace HomeBudget_TeamNull_WPF
             GetFilters();
         }
 
+
+        private void BackGroundColor(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            WindowBox.Background = brush;
+        }
+
+        private void GridColour(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            datagrid.Background = brush;
+        }
+
+        private void ButtonColour(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+
+            foreach (Button btn in FindVisualChildren<Button>(this))
+            {
+                btn.Background = brush;
+            }
+        }
+
+        private void FooterColour(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = colorPicker();
+            CurrentFileTag.Background = brush;
+        }
+
+        //taken from the following link:
+        //https://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) yield return (T)Enumerable.Empty<T>();
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                DependencyObject ithChild = VisualTreeHelper.GetChild(depObj, i);
+                if (ithChild == null) continue;
+                if (ithChild is T t) yield return t;
+                foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
+            }
         private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             
