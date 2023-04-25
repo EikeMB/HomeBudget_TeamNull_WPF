@@ -39,7 +39,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             InitializeComponent();
             LoadAppData();
-            ShowMenu();    
+            ShowMenu();
         }
 
         #region closeWindow
@@ -66,10 +66,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void HideElements()
         {
-            datagrid.Visibility= Visibility.Hidden;
-            optionsGrid.Visibility= Visibility.Hidden;
-            toolbar.Visibility= Visibility.Hidden;
-            DropDown.Visibility= Visibility.Hidden;
+            datagrid.Visibility = Visibility.Hidden;
+            optionsGrid.Visibility = Visibility.Hidden;
+            toolbar.Visibility = Visibility.Hidden;
+            DropDown.Visibility = Visibility.Hidden;
         }
 
         private void ShowElements()
@@ -163,7 +163,7 @@ namespace HomeBudget_TeamNull_WPF
                     CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
-                        File.Copy(oldFileName,fileName);
+                        File.Copy(oldFileName, fileName);
                         MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         folderName = Path.GetDirectoryName(fileName);
@@ -382,8 +382,8 @@ namespace HomeBudget_TeamNull_WPF
         {
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
-            
-           
+
+
         }
 
         private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -473,7 +473,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ExitClick(object sender, RoutedEventArgs e)
         {
-           
+
             Application.Current.Shutdown();
         }
 
@@ -523,67 +523,70 @@ namespace HomeBudget_TeamNull_WPF
                 if (ithChild is T t) yield return t;
                 foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
             }
-        private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            
-            if(monthchk.IsChecked == false && catchk.IsChecked == false) {
-                if (datagrid.SelectedIndex > -1)
-                {
-                    ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
 
-                    menu.IsOpen = true;
+        }
+            private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+            {
+
+                if (monthchk.IsChecked == false && catchk.IsChecked == false) {
+                    if (datagrid.SelectedIndex > -1)
+                    {
+                        ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
+
+                        menu.IsOpen = true;
+                    }
                 }
+
+
+
+
             }
-            
-
-
-            
-        }
-
-        private void updateCM_Click(object sender, RoutedEventArgs e)
-        {
-            int selectedIndex = datagrid.SelectedIndex;
-
-            
-            
-            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            int expense = int.Parse(x.Text);
-
-            UpdateWindow update = new UpdateWindow(presenter, expense);
-            update.ShowDialog();
-            GetFilters();
-            
-        }
-
-        private void deleteCM_Click(object sender, RoutedEventArgs e)
-        {
-            int selectedIndex = datagrid.SelectedIndex;
-            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            int expense = int.Parse(x.Text);
-
-            presenter.processDeleteExpense(expense);
-            GetFilters();
-        }
-
-        private void catCB_DropDownOpened(object sender, EventArgs e)
-        {
-            RefreshCategories(GetCategoryList());
-        }
-
         
-        private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if(monthchk.IsChecked == false && catchk.IsChecked == false)
+
+            private void updateCM_Click(object sender, RoutedEventArgs e)
+            {
+                int selectedIndex = datagrid.SelectedIndex;
+
+
+
+                TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+                int expense = int.Parse(x.Text);
+
+                UpdateWindow update = new UpdateWindow(presenter, expense);
+                update.ShowDialog();
+                GetFilters();
+
+            }
+
+            private void deleteCM_Click(object sender, RoutedEventArgs e)
             {
                 int selectedIndex = datagrid.SelectedIndex;
                 TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
                 int expense = int.Parse(x.Text);
 
-                UpdateWindow uw = new UpdateWindow(presenter, expense);
-                uw.ShowDialog();
+                presenter.processDeleteExpense(expense);
                 GetFilters();
             }
-            
+
+            private void catCB_DropDownOpened(object sender, EventArgs e)
+            {
+                RefreshCategories(GetCategoryList());
+            }
+
+
+            private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+            {
+                if (monthchk.IsChecked == false && catchk.IsChecked == false)
+                {
+                    int selectedIndex = datagrid.SelectedIndex;
+                    TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+                    int expense = int.Parse(x.Text);
+
+                    UpdateWindow uw = new UpdateWindow(presenter, expense);
+                    uw.ShowDialog();
+                    GetFilters();
+                }
+
+            }
         }
     }
-}
