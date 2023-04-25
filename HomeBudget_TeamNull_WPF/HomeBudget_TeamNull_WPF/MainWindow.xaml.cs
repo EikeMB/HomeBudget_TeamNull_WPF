@@ -36,7 +36,7 @@ namespace HomeBudget_TeamNull_WPF
 
         //warning about presenter being null has to stay for code to work.
         public MainWindow()
-        {
+        {                    
             InitializeComponent();
             LoadAppData();
             ShowMenu();
@@ -416,6 +416,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             
             datagrid.ItemsSource = dataTable.DefaultView;
+
         }
 
         public void DisplayExpensesByMonth(DataTable dataTable)
@@ -486,6 +487,15 @@ namespace HomeBudget_TeamNull_WPF
         private void catCB_DropDownOpened(object sender, EventArgs e)
         {
             RefreshCategories(GetCategoryList());
+        }
+
+        private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int selectedExpense = datagrid.SelectedIndex;
+            string desc = ;
+
+            UpdateWindow uw = new UpdateWindow(presenter, selectedExpense);
+            uw.Show();
         }
     }
 }

@@ -10,12 +10,14 @@ namespace HomeBudget_TeamNull_WPF
         private readonly ViewInterface view;
         private readonly HomeBudget model;
         private List<Category> cats;
+        private List<Expense> expenses;
 
         public Presenter(ViewInterface v, string fileName, bool newDB)
         {
             view = v;
             model = new HomeBudget(fileName, newDB);
             cats = model.categories.List();
+            expenses = model.expenses.List();
         }
 
         public void Close()
@@ -202,6 +204,51 @@ namespace HomeBudget_TeamNull_WPF
             }
 
             return descriptions;
+        }
+
+        public void processUpdateExpense(string expense, DateTime date, string? cat, double amount, string desc)
+        {
+            try
+            {
+                int catId = 0;
+                foreach (Category category in cats)
+                {
+                    if (category.Description == cat)
+                    {
+                        catId = category.Id;
+                    }
+                }
+
+                int expenseId = 0;
+                foreach(Expense e in expenses)
+                {
+                    if (e.Description == expense)
+                    {
+                        expenseId = e.Id;
+                    }
+                }
+
+                model.expenses.UpdateProperties(expenseId, date, catId, amount, desc);
+
+            }
+            catch (Exception e)
+            {
+                view.DisplayError(e.Message);
+            }
+        }
+
+        public void processDeleteExpense(string expense)
+        {
+            int expenseId = 0;
+            foreach (Expense e in expenses)
+            {
+                if (e.Description == expense)
+                {
+                    expenseId = e.Id;
+                }
+            }
+
+            model.expenses.Delete(expenseId);
         }
     }
 }
