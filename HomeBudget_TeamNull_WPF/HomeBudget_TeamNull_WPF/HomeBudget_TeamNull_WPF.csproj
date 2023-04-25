@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="add-document.png" />
+    <None Remove="folder.png" />
+    <None Remove="logout.png" />
+    <None Remove="saveIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
   </ItemGroup>
 
@@ -19,6 +26,17 @@
     <Reference Include="WindowsFormsIntegration">
       <HintPath>..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Icons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="add-document.png" />
+    <Resource Include="folder.png" />
+    <Resource Include="logout.png" />
+    <Resource Include="saveIcon.png" />
   </ItemGroup>
 
 </Project>

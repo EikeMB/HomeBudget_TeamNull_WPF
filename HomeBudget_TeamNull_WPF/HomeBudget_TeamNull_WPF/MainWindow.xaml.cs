@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Application = System.Windows.Application;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -72,12 +74,16 @@ namespace HomeBudget_TeamNull_WPF
         {
             datagrid.Visibility= Visibility.Hidden;
             optionsGrid.Visibility= Visibility.Hidden;
+            toolbar.Visibility= Visibility.Hidden;
+            DropDown.Visibility= Visibility.Hidden;
         }
 
         private void ShowElements()
         {
             datagrid.Visibility = Visibility.Visible;
             optionsGrid.Visibility = Visibility.Visible;
+            toolbar.Visibility = Visibility.Visible;
+            DropDown.Visibility = Visibility.Visible;
             HideMenu();
         }
         private void ShowMenu()
@@ -94,7 +100,6 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Collapsed;
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
-          
         }
 
         #endregion menu
@@ -137,6 +142,50 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
+        private void SaveAs(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                if (folderName == "")
+                {
+                    saveDialog.InitialDirectory = "c:\\";
+                }
+                else
+                {
+                    saveDialog.InitialDirectory = folderName;
+                }
+                saveDialog.Title = "Select location and name of the database to save as.";
+                saveDialog.Filter = "Database File (*.db)|*.db";
+                saveDialog.FileName = "dbName";
+                saveDialog.DefaultExt = ".db";
+                saveDialog.OverwritePrompt = true;
+                if (saveDialog.ShowDialog() == true)
+                {
+                    string oldFileName = fileName;
+                    fileName = saveDialog.FileName;
+                    try
+                    {
+                        File.Copy(oldFileName,fileName);
+                        MessageBox.Show("New DB file has been created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        folderName = Path.GetDirectoryName(fileName);
+
+                        WriteAppData();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error");
+            }
+        }
+
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
         {
@@ -151,6 +200,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     saveDialog.InitialDirectory = folderName;
                 }
+                saveDialog.Title = "Select location and name of the new database.";
                 saveDialog.Filter = "Database File (*.db)|*.db";
                 saveDialog.FileName = "dbName";
                 saveDialog.DefaultExt = ".db";
@@ -446,6 +496,11 @@ namespace HomeBudget_TeamNull_WPF
         private void catCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GetFilters();
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void catCB_TextChanged(object sender, TextChangedEventArgs e)
