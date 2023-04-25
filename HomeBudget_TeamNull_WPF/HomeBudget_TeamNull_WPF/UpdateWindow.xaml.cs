@@ -113,7 +113,10 @@ namespace HomeBudget_TeamNull_WPF
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Returns a list of string with all the category names
+        /// </summary>
+        /// <returns>String list of category names</returns>
         public List<string> GetCategoryList()
         {
             List<string> cats = new List<string>();

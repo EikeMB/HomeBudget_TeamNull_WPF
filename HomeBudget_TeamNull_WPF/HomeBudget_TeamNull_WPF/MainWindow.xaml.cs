@@ -37,9 +37,6 @@ namespace HomeBudget_TeamNull_WPF
             LoadAppData();
             ShowMenu();
 
-            
-            
-            
         }
 
         #region closeWindow
@@ -290,7 +287,6 @@ namespace HomeBudget_TeamNull_WPF
 
             HideMenu();
 
-
         }
 
         private void hideColorMenu()
@@ -349,7 +345,15 @@ namespace HomeBudget_TeamNull_WPF
 
             return brush;
         }
+        #endregion
 
+        /// <summary>
+        /// Shows the user all details about the added expense in a pop up window.
+        /// </summary>
+        /// <param name="date">Date of the added expense</param>
+        /// <param name="cat">Category of the added expense</param>
+        /// <param name="amount">Dollar amount of the added expense</param>
+        /// <param name="desc">Description of the added expense</param>
         public void DisplayAddedExpense(DateTime date, string cat, double amount, string desc)
         {
             string successMessage = $"Expense successfully added.\n\n" +
@@ -360,6 +364,11 @@ namespace HomeBudget_TeamNull_WPF
             MessageBox.Show(successMessage);
         }
 
+        /// <summary>
+        /// Shows the user all details baout the added category in a pop up window
+        /// </summary>
+        /// <param name="desc">Description of the added category</param>
+        /// <param name="type">Category Type of the added category</param>
         public void DisplayAddedCategory(string desc, string type)
         {
             string successMessage = $"Category successfully added.\n" +
@@ -367,13 +376,19 @@ namespace HomeBudget_TeamNull_WPF
                 $"Category Type: {type}";
             MessageBox.Show(successMessage);
         }
-
+        /// <summary>
+        /// Shows the user the error message in a pop up window
+        /// </summary>
+        /// <param name="error">The error message to display</param>
         public void DisplayError(string error)
         {
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-
+        /// <summary>
+        /// Returns a list of string with all the category names
+        /// </summary>
+        /// <returns>String list of category names</returns>
         public List<string> GetCategoryList()
         {
             List<string> cats = new List<string>();
@@ -398,7 +413,7 @@ namespace HomeBudget_TeamNull_WPF
                 RefreshCategories(GetCategoryList());
             }
         }
-        #endregion
+        
 
         private void OpenAddWindow(object sender, RoutedEventArgs e)
         {
@@ -434,7 +449,7 @@ namespace HomeBudget_TeamNull_WPF
             {
                 cat = catCB.Text;
             }
-            string? method;
+            string? method = null;
             if (monthchk.IsChecked == true && catchk.IsChecked == true)
             {
                 method = "month/category";
@@ -447,39 +462,45 @@ namespace HomeBudget_TeamNull_WPF
             {
                 method = "category";
             }
-            else
-            {
-                method = null;
-            }
             if (presenter != null)
             {
                 presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
             }
         }
-
+        /// <summary>
+        /// Updates the datagrid to show all expenses.
+        /// </summary>
+        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpenses(DataTable dataTable)
         {
 
             datagrid.ItemsSource = dataTable.DefaultView;
 
         }
-
+        /// <summary>
+        /// Update the datagrid to show all expenses by month.
+        /// </summary>
+        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpensesByMonth(DataTable dataTable)
         {
-
             datagrid.ItemsSource = dataTable.DefaultView;
         }
-
+        /// <summary>
+        /// Update the datagrid to show all expenses by categories.
+        /// </summary>
+        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpensesByCategory(DataTable dataTable)
         {
             datagrid.ItemsSource = dataTable.DefaultView;
         }
-
+        /// <summary>
+        /// Update the datagrid to show all expenses by category and month.
+        /// </summary>
+        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpensesByMonthAndCat(DataTable dataTable)
         {
 
             datagrid.ItemsSource = dataTable.DefaultView;
-
 
         }
 
@@ -514,9 +535,6 @@ namespace HomeBudget_TeamNull_WPF
                     menu.IsOpen = true;
                 }
             }
-            
-
-
             
         }
 
