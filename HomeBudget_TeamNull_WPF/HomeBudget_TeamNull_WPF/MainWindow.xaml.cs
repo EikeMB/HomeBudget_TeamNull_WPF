@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 using Application = System.Windows.Application;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
@@ -505,11 +506,13 @@ namespace HomeBudget_TeamNull_WPF
         private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             
-            if (datagrid.SelectedIndex > -1)
-            {
-                ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
-                
-                menu.IsOpen = true;
+            if(monthchk.IsChecked == false && catchk.IsChecked == false) {
+                if (datagrid.SelectedIndex > -1)
+                {
+                    ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
+
+                    menu.IsOpen = true;
+                }
             }
             
 
@@ -550,14 +553,17 @@ namespace HomeBudget_TeamNull_WPF
         
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
-            int selectedIndex = datagrid.SelectedIndex;
-            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            int expense = int.Parse(x.Text);
+            if(monthchk.IsChecked == false && catchk.IsChecked == false)
+            {
+                int selectedIndex = datagrid.SelectedIndex;
+                TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+                int expense = int.Parse(x.Text);
 
-            UpdateWindow uw = new UpdateWindow(presenter, expense);
-            uw.ShowDialog();
-            GetFilters();
+                UpdateWindow uw = new UpdateWindow(presenter, expense);
+                uw.ShowDialog();
+                GetFilters();
+            }
+            
         }
     }
 }
