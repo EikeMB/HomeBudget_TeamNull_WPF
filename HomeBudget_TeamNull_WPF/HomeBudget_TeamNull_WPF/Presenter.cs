@@ -74,6 +74,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (category.Description == cat)
                 {
                     catId = category.Id;
+                    break;
                 }
             }
 
@@ -82,7 +83,7 @@ namespace HomeBudget_TeamNull_WPF
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
                 DataTable dataTable = new DataTable();
-
+                dataTable.Columns.Add("Id");
                 dataTable.Columns.Add("Date");
                 dataTable.Columns.Add("Category");
                 dataTable.Columns.Add("Description");
@@ -91,7 +92,7 @@ namespace HomeBudget_TeamNull_WPF
 
                 foreach (BudgetItem budgetItem in budgetItems)
                 {
-                    dataTable.Rows.Add(budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
+                    dataTable.Rows.Add(budgetItem.ExpenseID,budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
                 }
                 view.DisplayExpenses(dataTable);
             }
@@ -206,7 +207,7 @@ namespace HomeBudget_TeamNull_WPF
             return descriptions;
         }
 
-        public void processUpdateExpense(string expense, DateTime date, string? cat, double amount, string desc)
+        public void processUpdateExpense(int expense, DateTime date, string? cat, double amount, string desc)
         {
             try
             {
@@ -216,19 +217,14 @@ namespace HomeBudget_TeamNull_WPF
                     if (category.Description == cat)
                     {
                         catId = category.Id;
+                        break;
                     }
                 }
 
-                int expenseId = 0;
-                foreach(Expense e in expenses)
-                {
-                    if (e.Description == expense)
-                    {
-                        expenseId = e.Id;
-                    }
-                }
+                
 
-                model.expenses.UpdateProperties(expenseId, date, catId, amount, desc);
+                model.expenses.UpdateProperties(expense, date, catId, amount, desc);
+                expenses = model.expenses.List();
 
             }
             catch (Exception e)
@@ -237,18 +233,13 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void processDeleteExpense(string expense)
+        public void processDeleteExpense(int expense)
         {
-            int expenseId = 0;
-            foreach (Expense e in expenses)
-            {
-                if (e.Description == expense)
-                {
-                    expenseId = e.Id;
-                }
-            }
+            
 
-            model.expenses.Delete(expenseId);
+            model.expenses.Delete(expense);
+            expenses = model.expenses.List();
+
         }
     }
 }

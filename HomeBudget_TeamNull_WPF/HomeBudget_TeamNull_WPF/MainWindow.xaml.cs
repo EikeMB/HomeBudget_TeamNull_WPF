@@ -474,17 +474,23 @@ namespace HomeBudget_TeamNull_WPF
 
             
             
-            TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            string expense = x.Text;
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
 
             UpdateWindow update = new UpdateWindow(presenter, expense);
-            update.Show();
+            update.ShowDialog();
+            GetFilters();
             
         }
 
         private void deleteCM_Click(object sender, RoutedEventArgs e)
         {
+            int selectedIndex = datagrid.SelectedIndex;
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
 
+            presenter.processDeleteExpense(expense);
+            GetFilters();
         }
 
         private void catCB_DropDownOpened(object sender, EventArgs e)
@@ -496,11 +502,12 @@ namespace HomeBudget_TeamNull_WPF
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             int selectedIndex = datagrid.SelectedIndex;
-            TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            string expense = x.Text;
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
 
             UpdateWindow uw = new UpdateWindow(presenter, expense);
-            uw.Show();
+            uw.ShowDialog();
+            GetFilters();
         }
     }
 }
