@@ -208,6 +208,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             try
             {
+               
                 int catId = 0;
                 foreach (Category category in cats)
                 {
@@ -227,6 +228,8 @@ namespace HomeBudget_TeamNull_WPF
                 }
 
                 model.expenses.UpdateProperties(expenseId, date, catId, amount, desc);
+                expenses = model.expenses.List();
+
 
             }
             catch (Exception e)
@@ -247,6 +250,7 @@ namespace HomeBudget_TeamNull_WPF
             }
 
             model.expenses.Delete(expenseId);
+            expenses = model.expenses.List();
         }
     }
 }

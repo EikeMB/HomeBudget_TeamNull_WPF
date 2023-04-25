@@ -1,22 +1,15 @@
-﻿using Budget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using Color = System.Windows.Media.Color;
 using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using TabControl = System.Windows.Controls.TabControl;
-using TextBox = System.Windows.Controls.TextBox;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -36,7 +29,7 @@ namespace HomeBudget_TeamNull_WPF
 
         //warning about presenter being null has to stay for code to work.
         public MainWindow()
-        {                    
+        {
             InitializeComponent();
             LoadAppData();
             ShowMenu();
@@ -67,8 +60,8 @@ namespace HomeBudget_TeamNull_WPF
 
         private void HideElements()
         {
-            datagrid.Visibility= Visibility.Hidden;
-            optionsGrid.Visibility= Visibility.Hidden;
+            datagrid.Visibility = Visibility.Hidden;
+            optionsGrid.Visibility = Visibility.Hidden;
         }
 
         private void ShowElements()
@@ -83,7 +76,7 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Visible;
             BTN_existingDB.Visibility = Visibility.Visible;
             BTN_newDB.Visibility = Visibility.Visible;
-           
+
         }
 
         private void HideMenu()
@@ -91,11 +84,11 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Collapsed;
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
-          
+
         }
 
         #endregion menu
-    
+
         #region openDBS
 
         private void OpenExistingDb(object sender, RoutedEventArgs e)
@@ -239,36 +232,36 @@ namespace HomeBudget_TeamNull_WPF
         #region colors
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
-            
+
             HideMenu();
-          
+
 
         }
 
         private void hideColorMenu()
         {
-          
+
             if (fileName == "")
             {
                 ShowMenu();
             }
             else
             {
-                
+
             }
         }
 
         private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             hideColorMenu();
-         
+
         }
 
         private void buttonColor_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = colorPicker();
 
-           
+
 
         }
 
@@ -281,13 +274,13 @@ namespace HomeBudget_TeamNull_WPF
         private void txtfieildBtn_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = colorPicker();
-           
+
         }
 
         private void boxColorBtn_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = colorPicker();
-           
+
         }
 
         private SolidColorBrush colorPicker()
@@ -356,7 +349,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
-           
+
         }
 
         private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -381,7 +374,7 @@ namespace HomeBudget_TeamNull_WPF
             }
             string cat = "";
 
-            if(catCB.SelectedValue != null)
+            if (catCB.SelectedValue != null)
             {
                 cat = catCB.Text;
             }
@@ -410,14 +403,14 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpenses(DataTable dataTable)
         {
-            
+
             datagrid.ItemsSource = dataTable.DefaultView;
 
         }
 
         public void DisplayExpensesByMonth(DataTable dataTable)
         {
-            
+
             datagrid.ItemsSource = dataTable.DefaultView;
         }
 
@@ -428,10 +421,10 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayExpensesByMonthAndCat(DataTable dataTable)
         {
-            
-                datagrid.ItemsSource = dataTable.DefaultView;
 
-            
+            datagrid.ItemsSource = dataTable.DefaultView;
+
+
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
@@ -456,7 +449,10 @@ namespace HomeBudget_TeamNull_WPF
             string expense = x.Text;
 
             UpdateWindow uw = new UpdateWindow(presenter, expense);
-            uw.Show();
+            uw.ShowDialog();
+            
+            GetFilters();
+
         }
     }
 }
