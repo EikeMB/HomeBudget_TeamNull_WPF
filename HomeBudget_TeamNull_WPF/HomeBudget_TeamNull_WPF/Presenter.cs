@@ -19,13 +19,21 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
             expenses = model.expenses.List();
         }
-
+        /// <summary>
+        /// Closes the database.
+        /// </summary>
         public void Close()
         {
             model.CloseDB();
         }
 
-        
+        /// <summary>
+        /// tries to add the expense to the database using the model.
+        /// </summary>
+        /// <param name="date">Date of the expense to add.</param>
+        /// <param name="cat">category of the expense to add.</param>
+        /// <param name="amount">amount of the expense to add.</param>
+        /// <param name="desc">description of the expense to add.</param>
         public void processAddExpense(DateTime date, string? cat, double amount, string desc)
         {
             try
@@ -47,7 +55,11 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
-
+        /// <summary>
+        /// tries to add the category to the database using the model.
+        /// </summary>
+        /// <param name="desc">description of the category</param>
+        /// <param name="type">type of the category</param>
         public void processAddCategory(string desc, string type)
         {
             try
@@ -65,7 +77,14 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
-
+        /// <summary>
+        /// Gets all budget items using the model and decides the filters based on arguments
+        /// </summary>
+        /// <param name="start">start date of the budgetItem search</param>
+        /// <param name="end">end date of the budgetItem search</param>
+        /// <param name="filter">if the search should filter categories</param>
+        /// <param name="cat">category to filter with</param>
+        /// <param name="methodOfGet">The type of getbudgetItems</param>
         public void processGetBudgetItems(DateTime? start, DateTime? end, bool filter, string cat, string? methodOfGet)
         {
             int catId = 0;
@@ -193,7 +212,10 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
         }
-
+        /// <summary>
+        /// Returns a string list of all category names
+        /// </summary>
+        /// <returns>Returns a string list of all category names</returns>
         public List<string> GetCategoryDescriptionList()
         {
             cats = model.categories.List();
@@ -206,7 +228,14 @@ namespace HomeBudget_TeamNull_WPF
 
             return descriptions;
         }
-
+        /// <summary>
+        /// updates expense through the model
+        /// </summary>
+        /// <param name="expense">expense id to update</param>
+        /// <param name="date">new date</param>
+        /// <param name="cat">new category</param>
+        /// <param name="amount">new amount</param>
+        /// <param name="desc">new description</param>
         public void processUpdateExpense(int expense, DateTime date, string? cat, double amount, string desc)
         {
             try
@@ -234,7 +263,10 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
-
+        /// <summary>
+        /// Deletes expense through the model
+        /// </summary>
+        /// <param name="expense">expense id of the expense to delete</param>
         public void processDeleteExpense(int expense)
         {
             
