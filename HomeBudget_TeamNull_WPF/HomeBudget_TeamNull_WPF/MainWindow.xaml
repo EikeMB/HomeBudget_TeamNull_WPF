@@ -8,16 +8,16 @@
         Title="MainWindow" Height="526" Width="880" WindowStartupLocation="CenterScreen"
 
         Closing="Close_Window" Background="#F6E7CB">
-    
+
     <Window.Resources>
         <ContextMenu x:Key="cmButton">
             <MenuItem x:Name="updateCM" Header="Update" Click="updateCM_Click"/>
             <MenuItem x:Name="deleteCM" Header="Delete" Click="deleteCM_Click"/>
         </ContextMenu>
     </Window.Resources>
-    
 
-        
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*" />
@@ -26,11 +26,11 @@
             <ColumnDefinition Width="0.25*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="19*" />
-            <RowDefinition Height="42*" />
-            <RowDefinition Height="185*" />
-            <RowDefinition Height="178*" />
-            <RowDefinition  Height="10*"/>
+            <RowDefinition Height="22*" />
+            <RowDefinition Height="36*" />
+            <RowDefinition Height="231*" />
+            <RowDefinition Height="209*" />
+            <RowDefinition  Height="12*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="4" x:Name="DropDown">
             <Menu DockPanel.Dock="Top" x:Name="DP_select">
@@ -72,8 +72,8 @@
                 x:Name="BTN_newDB" Click="OpenNewDb">Open New Budget</Button>
 
 
-        
-        <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,15,10,0" 
+
+        <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,5,10,10" 
                   Grid.RowSpan="2" x:Name="datagrid" IsReadOnly="True" MouseRightButtonDown="datagrid_MouseRightButtonDown" MouseDoubleClick="datagrid_MouseDoubleClick">
 
 
@@ -127,6 +127,6 @@
             <Button Click="FooterColour" Margin="60,145,5,-105" Grid.Row="4" Content="footer colour" Grid.Column="1" />
         </Grid>
 
-        <TextBlock x:Name="CurrentFileTag" Grid.Row="3" Grid.ColumnSpan="4" Background="Yellow" Margin="0,186,0,0" Grid.RowSpan="2">Current file:</TextBlock>
+        <TextBlock x:Name="CurrentFileTag" Grid.Row="3" Grid.ColumnSpan="4" Background="Yellow" Margin="0,199,0,0" Grid.RowSpan="2" FontSize="10">   Current file:</TextBlock>
     </Grid>
 </Window>
