@@ -73,6 +73,7 @@ namespace HomeBudget_TeamNull_WPF
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
             string exp = selectedExpense;
+
             p.processDeleteExpense(exp);
             this.Close();
         }

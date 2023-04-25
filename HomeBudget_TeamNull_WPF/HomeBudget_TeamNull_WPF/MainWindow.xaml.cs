@@ -444,6 +444,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            
             int selectedIndex = datagrid.SelectedIndex;
             TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
             string expense = x.Text;
@@ -452,7 +453,6 @@ namespace HomeBudget_TeamNull_WPF
             uw.ShowDialog();
             
             GetFilters();
-
         }
     }
 }
