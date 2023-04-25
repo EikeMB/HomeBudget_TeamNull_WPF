@@ -211,6 +211,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             try
             {
+               
                 int catId = 0;
                 foreach (Category category in cats)
                 {
@@ -225,6 +226,7 @@ namespace HomeBudget_TeamNull_WPF
 
                 model.expenses.UpdateProperties(expense, date, catId, amount, desc);
                 expenses = model.expenses.List();
+
 
             }
             catch (Exception e)
