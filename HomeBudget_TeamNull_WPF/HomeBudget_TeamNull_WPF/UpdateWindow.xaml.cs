@@ -25,12 +25,12 @@ namespace HomeBudget_TeamNull_WPF
     {
 
         private Presenter p;
-        private string expense;
+        private string selectedExpense;
 
         public UpdateWindow(Presenter presenter, string selectedExpense)
         {
             p = presenter;
-            expense = selectedExpense;
+            this.selectedExpense = selectedExpense;
 
             InitializeComponent();
             Update_DP.SelectedDate = DateTime.Now;
@@ -52,13 +52,14 @@ namespace HomeBudget_TeamNull_WPF
         #region Buttons
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            string exp = expense;
+            string exp = selectedExpense;
             DateTime date = (DateTime)Update_DP.SelectedDate;
             string? category = update_CB.SelectedItem.ToString();
             string? description = Desc_TB.Text;
             double amount = double.Parse(Amount_TB.Text);
 
             p.processUpdateExpense(exp, date, category, amount, description);
+            this.Close();
         }
 
         private void CancelBTN_Click(object sender, RoutedEventArgs e)
@@ -71,8 +72,9 @@ namespace HomeBudget_TeamNull_WPF
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-            string exp = expense.Description;
+            string exp = selectedExpense;
             p.processDeleteExpense(exp);
+            this.Close();
         }
         #endregion
 

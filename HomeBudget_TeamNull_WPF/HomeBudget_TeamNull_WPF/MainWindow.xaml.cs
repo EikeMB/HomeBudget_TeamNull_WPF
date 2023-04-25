@@ -495,12 +495,12 @@ namespace HomeBudget_TeamNull_WPF
         
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            /*
-            int selectedExpense = datagrid.SelectedIndex;
-            string desc = ;
+            int selectedIndex = datagrid.SelectedIndex;
+            TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            string expense = x.Text;
 
-            UpdateWindow uw = new UpdateWindow(presenter, selectedExpense);
-            uw.Show();*/
+            UpdateWindow uw = new UpdateWindow(presenter, expense);
+            uw.Show();
         }
     }
 }
