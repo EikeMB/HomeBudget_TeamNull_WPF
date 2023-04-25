@@ -475,7 +475,7 @@ namespace HomeBudget_TeamNull_WPF
             
             TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
             string expense = x.Text;
-            int i = 0;
+            
         }
 
         private void deleteCM_Click(object sender, RoutedEventArgs e)
