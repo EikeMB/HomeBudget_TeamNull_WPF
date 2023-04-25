@@ -3,21 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Intrinsics.Arm;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
+using Control = System.Windows.Controls.Control;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Panel = System.Windows.Controls.Panel;
 using RadioButton = System.Windows.Controls.RadioButton;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 using TabControl = System.Windows.Controls.TabControl;
 using TextBox = System.Windows.Controls.TextBox;
+using Window = System.Windows.Window;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -348,23 +356,26 @@ namespace HomeBudget_TeamNull_WPF
         #region colors
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
-
-            
-
-
+            HideAllElements();
+            colorMenuBtn.Visibility= Visibility.Collapsed;
+            colorMenuCloseBtn.Visibility = Visibility.Visible;
+            buttonColor.Visibility = Visibility.Visible;
+            BackgroundColorBtn.Visibility = Visibility.Visible;
+            boxColorBtn.Visibility = Visibility.Visible;
+            txtfeildBtn.Visibility = Visibility.Visible;
         }
 
         private void hideColorMenu()
         {
-
-            if (fileName == "")
-            {
-                
-            }
-            else
-            {
-
-            }
+            colorMenuBtn.Visibility = Visibility.Visible;
+            colorMenuCloseBtn.Visibility = Visibility.Hidden;
+            buttonColor.Visibility = Visibility.Hidden;
+            BackgroundColorBtn.Visibility = Visibility.Hidden;
+            boxColorBtn.Visibility = Visibility.Hidden;
+            txtfeildBtn.Visibility = Visibility.Hidden;
+            
+            ShowExpenseTab();
+            tabcontrol.Visibility = Visibility.Visible;
         }
 
         private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
@@ -378,8 +389,26 @@ namespace HomeBudget_TeamNull_WPF
             SolidColorBrush brush = colorPicker();
 
 
-
+            foreach (Button btn in FindVisualChildren<Button>(this))
+            {
+               btn.Background= brush;
+            }
         }
+        //taken from the following link:
+        //https://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) yield return (T)Enumerable.Empty<T>();
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                DependencyObject ithChild = VisualTreeHelper.GetChild(depObj, i);
+                if (ithChild == null) continue;
+                if (ithChild is T t) yield return t;
+                foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
+            }
+        }
+
+
 
         private void BackgroundColorBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -391,12 +420,20 @@ namespace HomeBudget_TeamNull_WPF
         {
             SolidColorBrush brush = colorPicker();
 
+            foreach (TextBox txtbox in FindVisualChildren<TextBox>(this))
+            {
+                txtbox.Background = brush;
+            }
         }
 
         private void boxColorBtn_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = colorPicker();
 
+            file_TB.Background = brush;
+            ExpenseAddBox.Background = brush;
+            catBorderAdd.Background = brush;
+            catPreviewBorder.Background = brush;
         }
 
         private SolidColorBrush colorPicker()
@@ -410,6 +447,7 @@ namespace HomeBudget_TeamNull_WPF
 
             return brush;
         }
+
 
 
         public void DisplayExpenses(List<BudgetItem> budgetItems)
