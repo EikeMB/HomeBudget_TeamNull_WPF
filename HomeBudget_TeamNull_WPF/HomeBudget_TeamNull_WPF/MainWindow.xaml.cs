@@ -476,6 +476,9 @@ namespace HomeBudget_TeamNull_WPF
             
             TextBlock x = datagrid.Columns[2].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
             string expense = x.Text;
+
+            UpdateWindow update = new UpdateWindow(presenter, expense);
+            update.Show();
             
         }
 
@@ -489,13 +492,15 @@ namespace HomeBudget_TeamNull_WPF
             RefreshCategories(GetCategoryList());
         }
 
+        
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            /*
             int selectedExpense = datagrid.SelectedIndex;
             string desc = ;
 
             UpdateWindow uw = new UpdateWindow(presenter, selectedExpense);
-            uw.Show();
+            uw.Show();*/
         }
     }
 }

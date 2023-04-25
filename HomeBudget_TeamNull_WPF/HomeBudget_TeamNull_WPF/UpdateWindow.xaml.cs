@@ -25,9 +25,9 @@ namespace HomeBudget_TeamNull_WPF
     {
 
         private Presenter p;
-        private Expense expense;
+        private string expense;
 
-        public UpdateWindow(Presenter presenter, Expense selectedExpense)
+        public UpdateWindow(Presenter presenter, string selectedExpense)
         {
             p = presenter;
             expense = selectedExpense;
@@ -52,7 +52,7 @@ namespace HomeBudget_TeamNull_WPF
         #region Buttons
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            string exp = expense.Description;
+            string exp = expense;
             DateTime date = (DateTime)Update_DP.SelectedDate;
             string? category = update_CB.SelectedItem.ToString();
             string? description = Desc_TB.Text;
