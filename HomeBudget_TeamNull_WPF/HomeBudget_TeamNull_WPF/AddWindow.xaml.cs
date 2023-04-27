@@ -2,28 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Intrinsics.Arm;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
-using Control = System.Windows.Controls.Control;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using Panel = System.Windows.Controls.Panel;
 using RadioButton = System.Windows.Controls.RadioButton;
-using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using TabControl = System.Windows.Controls.TabControl;
 using TextBox = System.Windows.Controls.TextBox;
 using Window = System.Windows.Window;
 
@@ -32,7 +21,7 @@ namespace HomeBudget_TeamNull_WPF
     /// <summary>
     /// Interaction logic for AddWindow.xaml
     /// </summary>
-    public partial class AddWindow : Window,ViewInterface
+    public partial class AddWindow : Window, ViewInterface
     {
         private string? fileName = "";
         private string? folderName = "";
@@ -43,7 +32,6 @@ namespace HomeBudget_TeamNull_WPF
         private string? previousExpCat;
         private double? previousAmount;
 
-
         private Presenter presenter;
 
         public AddWindow(Presenter Mainpresenter)
@@ -51,11 +39,11 @@ namespace HomeBudget_TeamNull_WPF
             presenter = Mainpresenter;
             InitializeComponent();
             RefreshCategories(GetCategoryList());
-            dp.SelectedDate= DateTime.Now;
+            dp.SelectedDate = DateTime.Now;
         }
 
         #region closeWindow
-        
+
         private void Close_Window(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (changeOccured == true)
@@ -74,12 +62,10 @@ namespace HomeBudget_TeamNull_WPF
 
         #endregion closeWindow
 
-
         #region elementViews
 
         private void HideAllElements()
         {
-           
             tabcontrol.Visibility = Visibility.Collapsed;
             addExpenseBtn.Visibility = Visibility.Collapsed;
             cancelExpenseBtn.Visibility = Visibility.Collapsed;
@@ -166,7 +152,6 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         #endregion displays
-
 
         #region categoryInputs
 
@@ -337,10 +322,11 @@ namespace HomeBudget_TeamNull_WPF
         #endregion categoryList
 
         #region colors
+
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
             HideAllElements();
-            colorMenuBtn.Visibility= Visibility.Collapsed;
+            colorMenuBtn.Visibility = Visibility.Collapsed;
             colorMenuCloseBtn.Visibility = Visibility.Visible;
             buttonColor.Visibility = Visibility.Visible;
             BackgroundColorBtn.Visibility = Visibility.Visible;
@@ -356,7 +342,7 @@ namespace HomeBudget_TeamNull_WPF
             BackgroundColorBtn.Visibility = Visibility.Hidden;
             boxColorBtn.Visibility = Visibility.Hidden;
             txtfeildBtn.Visibility = Visibility.Hidden;
-            
+
             ShowExpenseTab();
             tabcontrol.Visibility = Visibility.Visible;
         }
@@ -364,19 +350,18 @@ namespace HomeBudget_TeamNull_WPF
         private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             hideColorMenu();
-
         }
 
         private void buttonColor_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = colorPicker();
 
-
             foreach (Button btn in FindVisualChildren<Button>(this))
             {
-               btn.Background= brush;
+                btn.Background = brush;
             }
         }
+
         //taken from the following link:
         //https://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
@@ -390,8 +375,6 @@ namespace HomeBudget_TeamNull_WPF
                 foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
             }
         }
-
-
 
         private void BackgroundColorBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -431,8 +414,6 @@ namespace HomeBudget_TeamNull_WPF
             return brush;
         }
 
-
-
         public void DisplayExpenses(List<BudgetItem> budgetItems)
         {
             throw new NotImplementedException();
@@ -458,8 +439,7 @@ namespace HomeBudget_TeamNull_WPF
             throw new NotImplementedException();
         }
 
-
-        #endregion
+        #endregion colors
 
         private void Amount_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
