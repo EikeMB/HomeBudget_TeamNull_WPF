@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using static System.Data.Entity.Infrastructure.Design.Executor;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
@@ -80,13 +76,13 @@ namespace HomeBudget_TeamNull_WPF
             DropDown.Visibility = Visibility.Visible;
             HideMenu();
         }
+
         private void ShowMenu()
         {
             HideElements();
             menuText.Visibility = Visibility.Visible;
             BTN_existingDB.Visibility = Visibility.Visible;
             BTN_newDB.Visibility = Visibility.Visible;
-
         }
 
         private void HideMenu()
@@ -94,7 +90,6 @@ namespace HomeBudget_TeamNull_WPF
             menuText.Visibility = Visibility.Collapsed;
             BTN_existingDB.Visibility = Visibility.Collapsed;
             BTN_newDB.Visibility = Visibility.Collapsed;
-
         }
 
         #endregion menu
@@ -169,7 +164,6 @@ namespace HomeBudget_TeamNull_WPF
                         folderName = Path.GetDirectoryName(fileName);
 
                         WriteAppData();
-
                     }
                     catch (Exception ex)
                     {
@@ -182,7 +176,6 @@ namespace HomeBudget_TeamNull_WPF
                 MessageBox.Show(ex.ToString(), "Error");
             }
         }
-
 
         private void OpenNewDb(object sender, RoutedEventArgs e)
         {
@@ -215,7 +208,6 @@ namespace HomeBudget_TeamNull_WPF
                         folderName = Path.GetDirectoryName(fileName);
 
                         WriteAppData();
-
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
@@ -287,33 +279,29 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         #endregion openDBS
+
         #region colors
+
         private void ColorChangeMenu(object sender, RoutedEventArgs e)
         {
-
             HideMenu();
-
         }
 
         private void hideColorMenu()
         {
-
             if (fileName == "")
             {
                 ShowMenu();
             }
             else
             {
-
             }
         }
 
         private void colorMenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             hideColorMenu();
-
         }
-
 
         private SolidColorBrush colorPicker()
         {
@@ -394,27 +382,24 @@ namespace HomeBudget_TeamNull_WPF
                 RefreshCategories(GetCategoryList());
             }
         }
-        
+
 
         private void OpenAddWindow(object sender, RoutedEventArgs e)
         {
             AddWindow window2 = new AddWindow(presenter);
             window2.Show();
-
-
         }
 
         private void Start_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             GetFilters();
-
-
         }
+
         private void End_DP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             GetFilters();
-
         }
+
         private void GetFilters()
         {
             startDate = Start_DP.SelectedDate;
@@ -454,9 +439,7 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpenses(DataTable dataTable)
         {
-
             datagrid.ItemsSource = dataTable.DefaultView;
-
         }
         /// <summary>
         /// Update the datagrid to show all expenses by month.
@@ -480,9 +463,7 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="dataTable">Datatable to updated the datagrid with.</param>
         public void DisplayExpensesByMonthAndCat(DataTable dataTable)
         {
-
             datagrid.ItemsSource = dataTable.DefaultView;
-
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
@@ -497,7 +478,6 @@ namespace HomeBudget_TeamNull_WPF
 
         private void ExitClick(object sender, RoutedEventArgs e)
         {
-
             Application.Current.Shutdown();
         }
 
@@ -505,7 +485,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             GetFilters();
         }
-
 
         private void BackGroundColor(object sender, RoutedEventArgs e)
         {
@@ -547,66 +526,60 @@ namespace HomeBudget_TeamNull_WPF
                 if (ithChild is T t) yield return t;
                 foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
             }
-
         }
-            private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-            {
 
-                if (monthchk.IsChecked == false && catchk.IsChecked == false) {
-                    if (datagrid.SelectedIndex > -1)
-                    {
-                        ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
+        private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (monthchk.IsChecked == false && catchk.IsChecked == false)
+            {
+                if (datagrid.SelectedIndex > -1)
+                {
+                    ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
 
                     menu.IsOpen = true;
                 }
             }
-            
         }
 
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = datagrid.SelectedIndex;
 
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
 
+            UpdateWindow update = new UpdateWindow(presenter, expense);
+            update.ShowDialog();
+            GetFilters();
+        }
 
-                TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-                int expense = int.Parse(x.Text);
+        private void deleteCM_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = datagrid.SelectedIndex;
+            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+            int expense = int.Parse(x.Text);
 
-                UpdateWindow update = new UpdateWindow(presenter, expense);
-                update.ShowDialog();
-                GetFilters();
+            presenter.processDeleteExpense(expense);
+            GetFilters();
+        }
 
-            }
+        private void catCB_DropDownOpened(object sender, EventArgs e)
+        {
+            RefreshCategories(GetCategoryList());
+        }
 
-            private void deleteCM_Click(object sender, RoutedEventArgs e)
+        private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (monthchk.IsChecked == false && catchk.IsChecked == false)
             {
                 int selectedIndex = datagrid.SelectedIndex;
                 TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
                 int expense = int.Parse(x.Text);
 
-                presenter.processDeleteExpense(expense);
+                UpdateWindow uw = new UpdateWindow(presenter, expense);
+                uw.ShowDialog();
                 GetFilters();
-            }
-
-            private void catCB_DropDownOpened(object sender, EventArgs e)
-            {
-                RefreshCategories(GetCategoryList());
-            }
-
-
-            private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-            {
-                if (monthchk.IsChecked == false && catchk.IsChecked == false)
-                {
-                    int selectedIndex = datagrid.SelectedIndex;
-                    TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-                    int expense = int.Parse(x.Text);
-
-                    UpdateWindow uw = new UpdateWindow(presenter, expense);
-                    uw.ShowDialog();
-                    GetFilters();
-                }
-
             }
         }
     }
+}
