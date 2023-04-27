@@ -441,30 +441,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             datagrid.ItemsSource = dataTable.DefaultView;
         }
-        /// <summary>
-        /// Update the datagrid to show all expenses by month.
-        /// </summary>
-        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
-        public void DisplayExpensesByMonth(DataTable dataTable)
-        {
-            datagrid.ItemsSource = dataTable.DefaultView;
-        }
-        /// <summary>
-        /// Update the datagrid to show all expenses by categories.
-        /// </summary>
-        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
-        public void DisplayExpensesByCategory(DataTable dataTable)
-        {
-            datagrid.ItemsSource = dataTable.DefaultView;
-        }
-        /// <summary>
-        /// Update the datagrid to show all expenses by category and month.
-        /// </summary>
-        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
-        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
-        {
-            datagrid.ItemsSource = dataTable.DefaultView;
-        }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
         {

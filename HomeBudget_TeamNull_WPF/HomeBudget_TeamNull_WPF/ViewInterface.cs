@@ -16,9 +16,6 @@ namespace HomeBudget_TeamNull_WPF
         public List<String> GetCategoryList();
 
         public void DisplayExpenses(DataTable dataTable);
-        public void DisplayExpensesByMonth(DataTable dataTable);
-        public void DisplayExpensesByCategory(DataTable dataTable);
-        public void DisplayExpensesByMonthAndCat(DataTable dataTable);
 
     }
 }
