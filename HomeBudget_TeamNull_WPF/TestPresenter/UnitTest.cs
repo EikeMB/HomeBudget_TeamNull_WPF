@@ -12,6 +12,7 @@ namespace TestPresenter
         private bool calledDisplayAddedCategory;
         private bool calledDisplayAddedExpense;
         private bool calledDisplayError;
+        private bool calledDisplayExpense;
         
 
         public void DisplayAddedCategory(string desc, string type)
@@ -27,6 +28,10 @@ namespace TestPresenter
         public void DisplayError(string error)
         {
             calledDisplayError = true;
+        }
+        public void DisplayExpenses(DataTable dataTable)
+        {
+            calledDisplayExpense = true;
         }
 
 
@@ -114,29 +119,58 @@ namespace TestPresenter
             p.Close();
         }
 
+        [Fact]
+        public void TestCallDisplayErrorV2()
+        {
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
+            File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
+            UnitTest view = new UnitTest();
+            Presenter p = new Presenter(view, "testDB1.db", true);
+
+            view.calledDisplayAddedCategory = false;
+            view.calledDisplayAddedExpense = false;
+            view.calledDisplayError = false;
+
+            p.processAddCategory("test", "");
+            Assert.True(view.calledDisplayError);
+            Assert.False(view.calledDisplayAddedCategory);
+            Assert.False(view.calledDisplayAddedExpense);
+            p.Close();
+        }
+
+        [Fact]
+        public void TestCallDisplayExpense()
+        {
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
+            {
+                File.Delete(Environment.ProcessPath + "testDB1.db");
+            }
+            File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
+            UnitTest view = new UnitTest();
+            Presenter p = new Presenter(view, "testDB1.db", true);
+
+            view.calledDisplayAddedCategory = false;
+            view.calledDisplayAddedExpense = false;
+            view.calledDisplayError = false;
+            view.calledDisplayExpense = false;
+
+            p.processGetBudgetItems(null, null, false, "", null);
+            Assert.False(view.calledDisplayAddedCategory);
+            Assert.False(view.calledDisplayAddedExpense);
+            Assert.False(view.calledDisplayError);
+            Assert.True(view.calledDisplayExpense);
+            p.Close();
+
+        }
+
         public List<string> GetCategoryList()
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayExpenses(DataTable dataTable)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DisplayExpensesByMonth(DataTable dataTable)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DisplayExpensesByCategory(DataTable dataTable)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DisplayExpensesByMonthAndCat(DataTable dataTable)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
