@@ -127,7 +127,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     dataTable.Rows.Add(budgetItemsByMonth.Month, budgetItemsByMonth.Total);
                 }
-                view.DisplayExpensesByMonth(dataTable);
+                view.DisplayExpenses(dataTable);
             }
             else if (methodOfGet == "category")
             {
@@ -141,7 +141,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     dataTable.Rows.Add(budgetItemsByCategory.Category, budgetItemsByCategory.Total);
                 }
-                view.DisplayExpensesByCategory(dataTable);
+                view.DisplayExpenses(dataTable);
             }
             else if (methodOfGet == "month/category")
             {
@@ -208,7 +208,7 @@ namespace HomeBudget_TeamNull_WPF
                     }
 
                     dataTable.Rows.Add(row);
-                    view.DisplayExpensesByMonthAndCat(dataTable);
+                    view.DisplayExpenses(dataTable);
                 }
             }
         }
