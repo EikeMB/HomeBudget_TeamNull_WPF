@@ -546,15 +546,22 @@ namespace HomeBudget_TeamNull_WPF
 
         private void datagrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (monthchk.IsChecked == false && catchk.IsChecked == false)
+            try
             {
-                int selectedIndex = datagrid.SelectedIndex;
-                TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-                int expense = int.Parse(x.Text);
+                if (monthchk.IsChecked == false && catchk.IsChecked == false)
+                {
+                    int selectedIndex = datagrid.SelectedIndex;
+                    TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
+                    int expense = int.Parse(x.Text);
 
-                UpdateWindow uw = new UpdateWindow(presenter, expense);
-                uw.ShowDialog();
-                GetFilters();
+                    UpdateWindow uw = new UpdateWindow(presenter, expense);
+                    uw.ShowDialog();
+                    GetFilters();
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
     }
