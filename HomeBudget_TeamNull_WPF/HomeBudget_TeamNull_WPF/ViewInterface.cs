@@ -15,7 +15,14 @@ namespace HomeBudget_TeamNull_WPF
 
         public List<String> GetCategoryList();
 
-        public void DisplayExpenses(DataTable dataTable);
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems);
+
+        public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth);
+
+        public void SetupDataGridCategory(List<BudgetItemsByCategory> budgetItemsByCategory);
+
+        public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory);
+
 
     }
 }

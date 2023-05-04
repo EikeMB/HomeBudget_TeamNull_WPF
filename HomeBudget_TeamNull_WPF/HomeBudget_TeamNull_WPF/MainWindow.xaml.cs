@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Budget;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
@@ -124,7 +127,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     ShowElements();
                     RefreshCategories(GetCategoryList());
-                    presenter.processGetBudgetItems(null, null, false, "credit", null);
+                    presenter.processGetBudgetItems(null, null, false, "credit", false, false);
                 }
             }
             catch (Exception ex)
@@ -211,7 +214,7 @@ namespace HomeBudget_TeamNull_WPF
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
-                        presenter.processGetBudgetItems(null, null, false, "credit", null);
+                        presenter.processGetBudgetItems(null, null, false, "credit", false, false);
                     }
                     catch (Exception ex)
                     {
@@ -415,22 +418,9 @@ namespace HomeBudget_TeamNull_WPF
             {
                 cat = catCB.Text;
             }
-            string? method = null;
-            if (monthchk.IsChecked == true && catchk.IsChecked == true)
-            {
-                method = "month/category";
-            }
-            else if (monthchk.IsChecked == true)
-            {
-                method = "month";
-            }
-            else if (catchk.IsChecked == true)
-            {
-                method = "category";
-            }
             if (presenter != null)
             {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, method);
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat,(bool) monthchk.IsChecked, (bool)catchk.IsChecked);
             }
         }
         /// <summary>
@@ -504,38 +494,22 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        private void datagrid_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (monthchk.IsChecked == false && catchk.IsChecked == false)
-            {
-                if (datagrid.SelectedIndex > -1)
-                {
-                    ContextMenu menu = this.FindResource("cmButton") as ContextMenu;
-
-                    menu.IsOpen = true;
-                }
-            }
-        }
+        
 
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = datagrid.SelectedIndex;
-
-            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            int expense = int.Parse(x.Text);
-
-            UpdateWindow update = new UpdateWindow(presenter, expense);
+            
+            BudgetItem selected = datagrid.SelectedItem as BudgetItem;
+            UpdateWindow update = new UpdateWindow(presenter, selected);
             update.ShowDialog();
             GetFilters();
         }
 
         private void deleteCM_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = datagrid.SelectedIndex;
-            TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-            int expense = int.Parse(x.Text);
+            BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
-            presenter.processDeleteExpense(expense);
+            presenter.processDeleteExpense(selected);
             GetFilters();
         }
 
@@ -550,11 +524,9 @@ namespace HomeBudget_TeamNull_WPF
             {
                 if (monthchk.IsChecked == false && catchk.IsChecked == false)
                 {
-                    int selectedIndex = datagrid.SelectedIndex;
-                    TextBlock x = datagrid.Columns[0].GetCellContent(datagrid.Items[selectedIndex]) as TextBlock;
-                    int expense = int.Parse(x.Text);
+                    BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
-                    UpdateWindow uw = new UpdateWindow(presenter, expense);
+                    UpdateWindow uw = new UpdateWindow(presenter, selected);
                     uw.ShowDialog();
                     GetFilters();
                 }
@@ -562,6 +534,116 @@ namespace HomeBudget_TeamNull_WPF
             catch (Exception)
             {
 
+            }
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems)
+        {
+            datagrid.ItemsSource = budgetItems;
+            datagrid.Columns.Clear();
+
+            var column1 = new DataGridTextColumn();
+            column1.Header = "Date";
+            column1.Binding = new System.Windows.Data.Binding("Date");
+
+            datagrid.Columns.Add(column1);
+
+            var column2 = new DataGridTextColumn();
+            column2.Header = "Category";
+            column2.Binding = new System.Windows.Data.Binding("Category");
+
+            datagrid.Columns.Add(column2);
+
+            var column3 = new DataGridTextColumn();
+            column3.Header = "Description";
+            column3.Binding = new System.Windows.Data.Binding("ShortDescription");
+
+            datagrid.Columns.Add(column3);
+
+            var column4 = new DataGridTextColumn();
+            column4.Header = "Amount";
+            column4.Binding = new System.Windows.Data.Binding("Amount");
+
+            datagrid.Columns.Add(column4);
+
+            var column5 = new DataGridTextColumn();
+            column5.Header = "Balance";
+            column5.Binding = new System.Windows.Data.Binding("Balance");
+
+            datagrid.Columns.Add(column5);
+        }
+
+        public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
+        {
+            datagrid.ItemsSource = budgetItemsByMonth;
+            datagrid.Columns.Clear();
+
+            var column1 = new DataGridTextColumn();
+            column1.Header = "Month";
+            column1.Binding = new System.Windows.Data.Binding("Month");
+
+            datagrid.Columns.Add(column1);
+
+            var column2 = new DataGridTextColumn();
+            column2.Header = "Total";
+            column2.Binding = new System.Windows.Data.Binding("Total");
+
+            datagrid.Columns.Add(column2);
+        }
+
+        public void SetupDataGridCategory(List<BudgetItemsByCategory> budgetItemsByCategory)
+        {
+            datagrid.ItemsSource = budgetItemsByCategory;
+            datagrid.Columns.Clear();
+
+            var column1 = new DataGridTextColumn();
+            column1.Header = "Categories";
+            column1.Binding = new System.Windows.Data.Binding("Category");
+
+            datagrid.Columns.Add(column1);
+
+            var column2 = new DataGridTextColumn();
+            column2.Header = "Total";
+            column2.Binding = new System.Windows.Data.Binding("Total");
+
+            datagrid.Columns.Add(column2);
+        }
+
+        public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory)
+        {
+            datagrid.ItemsSource = budgetItemsByMonthCategory;
+            datagrid.Columns.Clear();
+
+            var column = new DataGridTextColumn();
+            column.Header = "Month";
+            column.Binding = new System.Windows.Data.Binding("[Month]");
+            datagrid.Columns.Add(column);
+            
+
+            foreach(string category in presenter.GetCategoryDescriptionList())
+            {
+                var column2 = new DataGridTextColumn();
+                column2.Header = category;
+                column2.Binding = new System.Windows.Data.Binding($"[{category}]");
+                datagrid.Columns.Add(column2);
+            }
+
+            var column3 = new DataGridTextColumn();
+            column3.Header = "Total";
+            column3.Binding = new System.Windows.Data.Binding("[Total]");
+            datagrid.Columns.Add(column3);
+
+        }
+
+        private void datagrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(monthchk.IsChecked != true && catchk.IsChecked != true)
+            {
+                DgCm.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DgCm.Visibility = Visibility.Collapsed;
             }
         }
     }

@@ -25,9 +25,9 @@ namespace HomeBudget_TeamNull_WPF
     {
 
         private Presenter p;
-        private int selectedExpense;
+        private BudgetItem selectedExpense;
 
-        public UpdateWindow(Presenter presenter, int selectedExpense)
+        public UpdateWindow(Presenter presenter, BudgetItem selectedExpense)
         {
             p = presenter;
             this.selectedExpense = selectedExpense;
@@ -52,7 +52,7 @@ namespace HomeBudget_TeamNull_WPF
         #region Buttons
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            int exp = selectedExpense;
+            int exp = selectedExpense.ExpenseID;
             DateTime date = (DateTime)Update_DP.SelectedDate;
             string? category = update_CB.SelectedItem.ToString();
             string? description = Desc_TB.Text;
@@ -72,8 +72,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-            int exp = selectedExpense;
-            p.processDeleteExpense(exp);
+            p.processDeleteExpense(selectedExpense);
             this.Close();
         }
         #endregion
@@ -123,6 +122,26 @@ namespace HomeBudget_TeamNull_WPF
             cats = p.GetCategoryDescriptionList();
 
             return cats;
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridCategory(List<BudgetItemsByCategory> budgetItemsByCategory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
