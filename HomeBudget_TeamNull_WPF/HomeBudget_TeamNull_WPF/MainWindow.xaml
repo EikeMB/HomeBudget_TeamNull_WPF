@@ -9,12 +9,7 @@
 
         Closing="Close_Window" Background="#F6E7CB">
 
-    <Window.Resources>
-        <ContextMenu x:Key="cmButton">
-            <MenuItem x:Name="updateCM" Header="Update" Click="updateCM_Click" />
-            <MenuItem x:Name="deleteCM" Header="Delete" Click="deleteCM_Click" />
-        </ContextMenu>
-    </Window.Resources>
+    
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -70,7 +65,14 @@
                 x:Name="BTN_newDB" Click="OpenNewDb">Open New Budget</Button>
 
         <DataGrid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,5,10,10"
-                  Grid.RowSpan="2" x:Name="datagrid" IsReadOnly="True" MouseRightButtonDown="datagrid_MouseRightButtonDown" MouseDoubleClick="datagrid_MouseDoubleClick">
+                  Grid.RowSpan="2" x:Name="datagrid" IsReadOnly="True" MouseDoubleClick="datagrid_MouseDoubleClick" MouseRightButtonDown="datagrid_MouseRightButtonDown">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="DgCm">
+                    <MenuItem Click="updateCM_Click" Header="Update"></MenuItem>
+                    <MenuItem Click="deleteCM_Click" Header="Delete"></MenuItem>
+                </ContextMenu>
+
+            </DataGrid.ContextMenu>
         </DataGrid>
 
         <Grid Grid.Row="2" Margin="0,3,0,0" Grid.RowSpan="2" x:Name="optionsGrid">

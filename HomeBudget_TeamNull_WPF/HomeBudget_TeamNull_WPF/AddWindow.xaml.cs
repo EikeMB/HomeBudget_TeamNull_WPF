@@ -273,7 +273,7 @@ namespace HomeBudget_TeamNull_WPF
                     descriptionTB.Clear();
 
                     presenter.processAddExpense(date, category, amount, description);
-                    presenter.processGetBudgetItems(null, null, false, "credit", null);
+                    presenter.processGetBudgetItems(null, null, false, "credit", false, false);
                     changeOccured = false;
                 }
             }
@@ -462,6 +462,26 @@ namespace HomeBudget_TeamNull_WPF
         {
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");
             e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridCategory(List<BudgetItemsByCategory> budgetItemsByCategory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

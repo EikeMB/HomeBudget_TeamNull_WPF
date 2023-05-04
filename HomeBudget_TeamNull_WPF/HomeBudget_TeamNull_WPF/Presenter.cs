@@ -77,6 +77,8 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
+
+
         /// <summary>
         /// Gets all budget items using the model and decides the filters based on arguments
         /// </summary>
@@ -85,7 +87,7 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="filter">if the search should filter categories</param>
         /// <param name="cat">category to filter with</param>
         /// <param name="methodOfGet">The type of getbudgetItems</param>
-        public void processGetBudgetItems(DateTime? start, DateTime? end, bool filter, string cat, string? methodOfGet)
+        public void processGetBudgetItems(DateTime? start, DateTime? end, bool filter, string cat, bool month, bool categoryCheck)
         {
             int catId = 0;
             foreach (Category category in cats)
@@ -98,118 +100,25 @@ namespace HomeBudget_TeamNull_WPF
             }
 
 
-            if (methodOfGet == null)
+            if (!month && !categoryCheck)
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
-                DataTable dataTable = new DataTable();
-                dataTable.Columns.Add("Id");
-                dataTable.Columns.Add("Date");
-                dataTable.Columns.Add("Category");
-                dataTable.Columns.Add("Description");
-                dataTable.Columns.Add("Amount");
-                dataTable.Columns.Add("Balance");
-
-                foreach (BudgetItem budgetItem in budgetItems)
-                {
-                    dataTable.Rows.Add(budgetItem.ExpenseID,budgetItem.Date.ToLongDateString(), budgetItem.Category, budgetItem.ShortDescription, budgetItem.Amount, budgetItem.Balance);
-                }
-                view.DisplayExpenses(dataTable);
+                view.SetupDataGridDefault(budgetItems);
             }
-            else if (methodOfGet == "month")
+            else if (month && !categoryCheck)
             {
                 List<BudgetItemsByMonth> budgetItemsByMonths = model.GetBudgetItemsByMonth(start, end, filter, catId);
-                DataTable dataTable = new DataTable();
-
-                dataTable.Columns.Add("Month");
-                dataTable.Columns.Add("Total");
-
-                foreach (BudgetItemsByMonth budgetItemsByMonth in budgetItemsByMonths)
-                {
-                    dataTable.Rows.Add(budgetItemsByMonth.Month, budgetItemsByMonth.Total);
-                }
-                view.DisplayExpenses(dataTable);
+                view.SetupDataGridMonth(budgetItemsByMonths);
             }
-            else if (methodOfGet == "category")
+            else if (!month && categoryCheck)
             {
                 List<BudgetItemsByCategory> budgetItemsByCategories = model.GetBudgetItemsByCategory(start, end, filter, catId);
-                DataTable dataTable = new DataTable();
-
-                dataTable.Columns.Add("Categories");
-                dataTable.Columns.Add("Total");
-
-                foreach (BudgetItemsByCategory budgetItemsByCategory in budgetItemsByCategories)
-                {
-                    dataTable.Rows.Add(budgetItemsByCategory.Category, budgetItemsByCategory.Total);
-                }
-                view.DisplayExpenses(dataTable);
+                view.SetupDataGridCategory(budgetItemsByCategories);
             }
-            else if (methodOfGet == "month/category")
+            else if (month && categoryCheck)
             {
                 List<Dictionary<string, object>> budgetItemsByMonthAndCategory = model.GetBudgetDictionaryByCategoryAndMonth(start, end, filter, catId);
-                DataTable dataTable = new DataTable();
-                Dictionary<string, object> keyValues = budgetItemsByMonthAndCategory[budgetItemsByMonthAndCategory.Count - 1];
-                foreach (var keyValuePair in keyValues)
-                {
-                    dataTable.Columns.Add(keyValuePair.Key);
-                }
-                dataTable.Columns.Add("Total");
-                List<BudgetItem> budgetItems = new List<BudgetItem>();
-                for (int i = 0; i < budgetItemsByMonthAndCategory.Count - 1; i++)
-                {
-
-                    Dictionary<string, object> keyValuesMonth = budgetItemsByMonthAndCategory[i];
-                    double[] catTotals = new double[dataTable.Columns.Count - 2];
-                    for (int j = 0; j < catTotals.Length; j++)
-                    {
-                        object tempcatTotal;
-                        keyValuesMonth.TryGetValue(dataTable.Columns[j + 1].ToString(), out tempcatTotal);
-                        if (tempcatTotal != null)
-                        {
-                            catTotals[j] = (double)tempcatTotal;
-                        }
-                    }
-                    string month = "";
-                    string total = "";
-                    foreach (var keyValuePair in keyValuesMonth)
-                    {
-
-
-
-                        if (keyValuePair.Key == "Month")
-                        {
-                            month = keyValuePair.Value.ToString();
-                        }
-                        else if (keyValuePair.Key == "Total")
-                        {
-                            total = keyValuePair.Value.ToString();
-                        }
-
-
-
-
-
-                    }
-                    DataRow row = dataTable.NewRow();
-
-                    for (int k = 0; k < dataTable.Columns.Count; k++)
-                    {
-                        if (k == 0)
-                        {
-                            row[k] = month;
-                        }
-                        else if (k == dataTable.Columns.Count - 1)
-                        {
-                            row[k] = total;
-                        }
-                        else
-                        {
-                            row[k] = catTotals[k - 1];
-                        }
-                    }
-
-                    dataTable.Rows.Add(row);
-                    view.DisplayExpenses(dataTable);
-                }
+                view.SetupDataGridMonthCategory(budgetItemsByMonthAndCategory);
             }
         }
         /// <summary>
@@ -267,11 +176,11 @@ namespace HomeBudget_TeamNull_WPF
         /// Deletes expense through the model
         /// </summary>
         /// <param name="expense">expense id of the expense to delete</param>
-        public void processDeleteExpense(int expense)
+        public void processDeleteExpense(BudgetItem expense)
         {
             
 
-            model.expenses.Delete(expense);
+            model.expenses.Delete(expense.ExpenseID);
             expenses = model.expenses.List();
 
         }
