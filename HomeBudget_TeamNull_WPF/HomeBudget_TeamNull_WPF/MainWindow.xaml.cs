@@ -117,7 +117,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (dialog.ShowDialog() == true)
                 {
                     fileName = dialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + dialog.FileName;
+                    
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     folderName = System.IO.Path.GetDirectoryName(dialog.FileName);
@@ -158,7 +158,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     string oldFileName = fileName;
                     fileName = saveDialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
+                  
                     try
                     {
                         File.Copy(oldFileName, fileName);
@@ -201,7 +201,6 @@ namespace HomeBudget_TeamNull_WPF
                 if (saveDialog.ShowDialog() == true)
                 {
                     fileName = saveDialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.WriteAllText(fileName, "");
@@ -474,11 +473,6 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        private void FooterColour(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-            CurrentFileTag.Background = brush;
-        }
 
         //taken from the following link:
         //https://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
@@ -545,8 +539,8 @@ namespace HomeBudget_TeamNull_WPF
             var column1 = new DataGridTextColumn();
             column1.Header = "Date";
             column1.Binding = new System.Windows.Data.Binding("Date");
-
-            datagrid.Columns.Add(column1);
+            column1.Binding.StringFormat = "{0:MM/dd/yyyy}";
+             datagrid.Columns.Add(column1);
 
             var column2 = new DataGridTextColumn();
             column2.Header = "Category";
@@ -564,11 +558,23 @@ namespace HomeBudget_TeamNull_WPF
             column4.Header = "Amount";
             column4.Binding = new System.Windows.Data.Binding("Amount");
 
+            column4.Binding.StringFormat = "F2";
+            Style s = new Style();
+            s.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,
+                                    TextAlignment.Right));
+            column4.CellStyle = s;
+
             datagrid.Columns.Add(column4);
 
             var column5 = new DataGridTextColumn();
             column5.Header = "Balance";
             column5.Binding = new System.Windows.Data.Binding("Balance");
+
+            column5.Binding.StringFormat = "F2";
+            Style s2 = new Style();
+            s2.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,
+                                    TextAlignment.Right));
+            column5.CellStyle = s;
 
             datagrid.Columns.Add(column5);
         }

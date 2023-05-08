@@ -9,7 +9,7 @@
   <Identity
     Name="9ce5b08a-25f3-4bef-99af-bdfd67524ff7"
     Publisher="CN=Team NULL"
-    Version="1.0.2.0" />
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>Installer</DisplayName>

@@ -14,6 +14,8 @@
     <None Remove="folder.png" />
     <None Remove="logout.png" />
     <None Remove="saveIcon.png" />
+    <None Remove="small icon.png" />
+    <None Remove="Square44x44Logo.altform-lightunplated_targetsize-24.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +40,8 @@
     <Resource Include="folder.png" />
     <Resource Include="logout.png" />
     <Resource Include="saveIcon.png" />
+    <Resource Include="small icon.png" />
+    <Resource Include="Square44x44Logo.altform-lightunplated_targetsize-24.png" />
   </ItemGroup>
 
 </Project>
