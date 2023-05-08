@@ -87,7 +87,9 @@ namespace HomeBudget_TeamNull_WPF
             int count = 0;
             foreach(BudgetItem item in items)
             {
-                if (item.Amount.ToString().Substring(0, search.Length > item.Amount.ToString().Length ? item.Amount.ToString().Length : search.Length).ToLower() == search.ToLower() || item.ShortDescription.Substring(0, search.Length > item.ShortDescription.Length ? item.ShortDescription.Length: search.Length).ToLower() == search.ToLower())
+                string amountSubString = item.Amount.ToString().Substring(0, search.Length > item.Amount.ToString().Length ? item.Amount.ToString().Length : search.Length).ToLower();
+                string descSubString = item.ShortDescription.Substring(0, search.Length > item.ShortDescription.Length ? item.ShortDescription.Length : search.Length).ToLower();
+                if (amountSubString == search.ToLower() || descSubString == search.ToLower())
                 {
                     view.HighlightSearch(count);
                     break;
