@@ -483,5 +483,10 @@ namespace HomeBudget_TeamNull_WPF
         {
             throw new NotImplementedException();
         }
+
+        public void HighlightSearch(int index)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

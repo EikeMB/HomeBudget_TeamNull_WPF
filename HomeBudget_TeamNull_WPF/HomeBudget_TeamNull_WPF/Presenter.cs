@@ -1,7 +1,10 @@
 ﻿using Budget;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Threading;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -11,6 +14,7 @@ namespace HomeBudget_TeamNull_WPF
         private readonly HomeBudget model;
         private List<Category> cats;
         private List<Expense> expenses;
+        private int count;
 
         public Presenter(ViewInterface v, string fileName, bool newDB)
         {
@@ -78,6 +82,19 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
+        public void processSearch(string search, System.Collections.IEnumerable items)
+        {
+            int count = 0;
+            foreach(BudgetItem item in items)
+            {
+                if (item.Amount.ToString().Substring(0, search.Length > item.Amount.ToString().Length ? item.Amount.ToString().Length : search.Length).ToLower() == search.ToLower() || item.ShortDescription.Substring(0, search.Length > item.ShortDescription.Length ? item.ShortDescription.Length: search.Length).ToLower() == search.ToLower())
+                {
+                    view.HighlightSearch(count);
+                    break;
+                }
+                count++;
+            }
+        }
 
         /// <summary>
         /// Gets all budget items using the model and decides the filters based on arguments
@@ -184,5 +201,6 @@ namespace HomeBudget_TeamNull_WPF
             expenses = model.expenses.List();
 
         }
+
     }
 }

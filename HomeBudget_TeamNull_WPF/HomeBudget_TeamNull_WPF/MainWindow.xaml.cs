@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -69,6 +70,7 @@ namespace HomeBudget_TeamNull_WPF
             optionsGrid.Visibility = Visibility.Hidden;
             toolbar.Visibility = Visibility.Hidden;
             DropDown.Visibility = Visibility.Hidden;
+            searchBar.Visibility = Visibility.Hidden;
         }
 
         private void ShowElements()
@@ -77,6 +79,7 @@ namespace HomeBudget_TeamNull_WPF
             optionsGrid.Visibility = Visibility.Visible;
             toolbar.Visibility = Visibility.Visible;
             DropDown.Visibility = Visibility.Visible;
+            searchBar.Visibility = Visibility.Visible;
             HideMenu();
         }
 
@@ -423,14 +426,6 @@ namespace HomeBudget_TeamNull_WPF
                 presenter.processGetBudgetItems(startDate, endDate, filter, cat,(bool) monthchk.IsChecked, (bool)catchk.IsChecked);
             }
         }
-        /// <summary>
-        /// Updates the datagrid to show all expenses.
-        /// </summary>
-        /// <param name="dataTable">Datatable to updated the datagrid with.</param>
-        public void DisplayExpenses(DataTable dataTable)
-        {
-            datagrid.ItemsSource = dataTable.DefaultView;
-        }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
         {
@@ -539,6 +534,14 @@ namespace HomeBudget_TeamNull_WPF
 
         public void SetupDataGridDefault(List<BudgetItem> budgetItems)
         {
+            if(budgetItems.Count == 0)
+            {
+                searchBtn.IsEnabled = false;
+            }
+            else
+            {
+                searchBtn.IsEnabled = true;
+            }
             datagrid.ItemsSource = budgetItems;
             datagrid.Columns.Clear();
 
@@ -575,6 +578,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
         {
+            searchBtn.IsEnabled = false;
             datagrid.ItemsSource = budgetItemsByMonth;
             datagrid.Columns.Clear();
 
@@ -593,6 +597,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void SetupDataGridCategory(List<BudgetItemsByCategory> budgetItemsByCategory)
         {
+            searchBtn.IsEnabled = false;
             datagrid.ItemsSource = budgetItemsByCategory;
             datagrid.Columns.Clear();
 
@@ -611,6 +616,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory)
         {
+            searchBtn.IsEnabled = false;
             datagrid.ItemsSource = budgetItemsByMonthCategory;
             datagrid.Columns.Clear();
 
@@ -645,6 +651,19 @@ namespace HomeBudget_TeamNull_WPF
             {
                 DgCm.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void searchBtn_click(object sender, RoutedEventArgs e)
+        {
+            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource);
+        }
+
+        public void HighlightSearch(int index)
+        {
+            SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+            DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
+            row.Background = brush;
+            datagrid.SelectedIndex = (index + 1) % datagrid.Items.Count;
         }
     }
 }
