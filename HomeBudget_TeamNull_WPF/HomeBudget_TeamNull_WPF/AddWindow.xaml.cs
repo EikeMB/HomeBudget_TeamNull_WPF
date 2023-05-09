@@ -144,6 +144,7 @@ namespace HomeBudget_TeamNull_WPF
                 $"Expense Category: {cat}";
             MessageBox.Show(successMessage);
         }
+
         /// <summary>
         /// Shows the user all details baout the added category in a pop up window
         /// </summary>
@@ -156,6 +157,7 @@ namespace HomeBudget_TeamNull_WPF
                 $"Category Type: {type}";
             MessageBox.Show(successMessage);
         }
+
         /// <summary>
         /// Shows the user the error message in a pop up window
         /// </summary>
@@ -318,6 +320,7 @@ namespace HomeBudget_TeamNull_WPF
         #endregion expenseInputs
 
         #region categoryList
+
         /// <summary>
         /// Returns a list of string with all the category names
         /// </summary>

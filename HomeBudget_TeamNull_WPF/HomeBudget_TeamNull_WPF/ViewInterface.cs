@@ -1,7 +1,6 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -24,6 +23,5 @@ namespace HomeBudget_TeamNull_WPF
         public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory);
 
         public void HighlightSearch(int index);
-
     }
 }

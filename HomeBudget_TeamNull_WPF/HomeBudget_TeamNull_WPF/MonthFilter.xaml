@@ -1,0 +1,28 @@
+﻿<Window x:Class="HomeBudget_TeamNull_WPF.MonthFilter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MonthFilter" Height="526" Width="880" WindowStartupLocation="CenterScreen"
+        Background="#F6E7CB">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="63*" />
+            <RowDefinition Height="153*" />
+            <RowDefinition Height="191*" />
+            <RowDefinition Height="27*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*" />
+            <ColumnDefinition Width="361*" />
+            <ColumnDefinition Width="352*" />
+            <ColumnDefinition Width="48*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="1" Grid.ColumnSpan="2" Margin="181,0,172,0" HorizontalAlignment="Center"
+               VerticalAlignment="Center" FontSize="18" FontWeight="Bold">
+            Expenses filtered By month selected</Label>
+        <DataGrid AutoGenerateColumns="False" x:Name="datagrid" IsReadOnly="True" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" />
+    </Grid>
+</Window>

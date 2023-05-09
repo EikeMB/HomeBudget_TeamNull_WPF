@@ -1,19 +1,15 @@
 using HomeBudget_TeamNull_WPF;
-using System;
 using System.Data;
-using System.DirectoryServices;
 
 namespace TestPresenter
 {
     [Collection("Sequential")]
     public class UnitTest : ViewInterface
     {
-
         private bool calledDisplayAddedCategory;
         private bool calledDisplayAddedExpense;
         private bool calledDisplayError;
         private bool calledDisplayExpense;
-        
 
         public void DisplayAddedCategory(string desc, string type)
         {
@@ -29,22 +25,21 @@ namespace TestPresenter
         {
             calledDisplayError = true;
         }
+
         public void DisplayExpenses(DataTable dataTable)
         {
             calledDisplayExpense = true;
         }
 
-
-
         [Fact]
         public void TestConstructor()
         {
-            if(File.Exists(Environment.ProcessPath + "testDB1.db"))
+            if (File.Exists(Environment.ProcessPath + "testDB1.db"))
             {
                 File.Delete(Environment.ProcessPath + "testDB1.db");
             }
             File.WriteAllText(Environment.ProcessPath + "testDB1.db", "");
-            
+
             UnitTest view = new UnitTest();
             Presenter p = new Presenter(view, "testDB1.db", true);
             Assert.IsType<Presenter>(p);
@@ -54,7 +49,6 @@ namespace TestPresenter
         [Fact]
         public void TestCallDisplayAddedCategory()
         {
-
             if (File.Exists(Environment.ProcessPath + "testDB1.db"))
             {
                 File.Delete(Environment.ProcessPath + "testDB1.db");
@@ -94,7 +88,6 @@ namespace TestPresenter
             Assert.False(view.calledDisplayAddedCategory);
             Assert.False(view.calledDisplayError);
             p.Close();
-            
         }
 
         [Fact]
@@ -163,14 +156,11 @@ namespace TestPresenter
             Assert.False(view.calledDisplayError);
             Assert.True(view.calledDisplayExpense);
             p.Close();
-
         }
 
         public List<string> GetCategoryList()
         {
             throw new NotImplementedException();
         }
-
-        
     }
 }
