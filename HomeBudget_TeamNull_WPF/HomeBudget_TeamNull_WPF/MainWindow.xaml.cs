@@ -655,7 +655,13 @@ namespace HomeBudget_TeamNull_WPF
 
         private void searchBtn_click(object sender, RoutedEventArgs e)
         {
-            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource);
+            for(int i = 0; i < datagrid.Items.Count; i++)
+            {
+                DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(i);
+                SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(0, 135, 206, 250));
+                row.Background = brush;
+            }
+            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, datagrid.SelectedIndex);
         }
 
         public void HighlightSearch(int index)
