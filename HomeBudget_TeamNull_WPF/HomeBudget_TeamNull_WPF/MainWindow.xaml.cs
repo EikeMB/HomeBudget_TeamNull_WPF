@@ -357,6 +357,8 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="error">The error message to display</param>
         public void DisplayError(string error)
         {
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../ErrorSound.wav");
+            player.Play();
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 

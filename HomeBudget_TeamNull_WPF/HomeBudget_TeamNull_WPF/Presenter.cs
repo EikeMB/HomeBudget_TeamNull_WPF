@@ -99,6 +99,7 @@ namespace HomeBudget_TeamNull_WPF
                 count++;
             }
             count = 0;
+            bool found = false;
             foreach (BudgetItem item in budgetItems)
             {
                 string amountSubString = item.Amount.ToString().Substring(0, search.Length > item.Amount.ToString().Length ? item.Amount.ToString().Length : search.Length).ToLower();
@@ -106,9 +107,14 @@ namespace HomeBudget_TeamNull_WPF
                 if (amountSubString == search.ToLower() || descSubString == search.ToLower())
                 {
                     view.HighlightSearch((index+count)%budgetItems.Count);
+                    found = true;
                     break;
                 }
                 count++;
+            }
+            if (!found)
+            {
+                view.DisplayError("No matching expense found");
             }
         }
 
