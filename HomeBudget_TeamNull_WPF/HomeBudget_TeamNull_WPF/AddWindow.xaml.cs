@@ -74,9 +74,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
-            file_TB.Visibility = Visibility.Collapsed;
+        
             name_TB.Visibility = Visibility.Collapsed;
-            file_Grid.Visibility = Visibility.Collapsed;
+            
         }
 
         private void ShowExpenseTab()
@@ -88,9 +88,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Collapsed;
             AddCategoryGrid.Visibility = Visibility.Collapsed;
             ExpenseAddBox.Visibility = Visibility.Visible;
-            file_TB.Visibility = Visibility.Visible;
+           
             name_TB.Visibility = Visibility.Visible;
-            file_Grid.Visibility = Visibility.Visible;
+           
         }
 
         private void showCategorytab()
@@ -102,9 +102,9 @@ namespace HomeBudget_TeamNull_WPF
             cat_Preview_clear_btn.Visibility = Visibility.Visible;
             AddCategoryGrid.Visibility = Visibility.Visible;
             ExpenseAddBox.Visibility = Visibility.Collapsed;
-            file_TB.Visibility = Visibility.Collapsed;
+         
             name_TB.Visibility = Visibility.Collapsed;
-            file_Grid.Visibility = Visibility.Collapsed;
+        
             dp.SelectedDate = DateTime.Today;
         }
 
@@ -416,7 +416,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             SolidColorBrush brush = colorPicker();
 
-            file_TB.Background = brush;
+         
             ExpenseAddBox.Background = brush;
             catBorderAdd.Background = brush;
             catPreviewBorder.Background = brush;

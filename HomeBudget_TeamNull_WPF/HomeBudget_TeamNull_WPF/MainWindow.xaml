@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Name="WindowBox"
-        
+
         Title="MainWindow" Height="526" Width="880" WindowStartupLocation="CenterScreen"
 
         Closing="Close_Window" Background="#F6E7CB" Icon="/small icon.png">
@@ -121,9 +121,7 @@
 
             <Button Click="BackGroundColor" FontSize="10" Margin="10,116,7,-76" Grid.Row="4" Content="background color" Grid.ColumnSpan="2" />
             <Button Click="GridColour" Margin="7,116,10,-76" Grid.Row="4" Content="grid colour" Grid.Column="2" />
-            <Button Click="ButtonColour"  Margin="22,158,68,-120" Grid.Row="4" Content="button colour" Grid.Column="1" Grid.ColumnSpan="2"  />
+            <Button Click="ButtonColour"  Margin="22,158,68,-120" Grid.Row="4" Content="button colour" Grid.Column="1" Grid.ColumnSpan="2" />
         </Grid>
-
-        
     </Grid>
 </Window>
