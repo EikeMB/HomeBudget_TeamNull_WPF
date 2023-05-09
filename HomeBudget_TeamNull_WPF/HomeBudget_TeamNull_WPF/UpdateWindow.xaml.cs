@@ -2,19 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -23,7 +13,6 @@ namespace HomeBudget_TeamNull_WPF
     /// </summary>
     public partial class UpdateWindow : Window, ViewInterface
     {
-
         private Presenter p;
         private BudgetItem selectedExpense;
 
@@ -50,6 +39,7 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         #region Buttons
+
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
             int exp = selectedExpense.ExpenseID;
@@ -75,9 +65,11 @@ namespace HomeBudget_TeamNull_WPF
             p.processDeleteExpense(selectedExpense);
             this.Close();
         }
-        #endregion
+
+        #endregion Buttons
 
         #region InterfaceMethods
+
         public void DisplayAddedCategory(string desc, string type)
         {
             throw new NotImplementedException();
@@ -112,6 +104,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Returns a list of string with all the category names
         /// </summary>
@@ -148,6 +141,7 @@ namespace HomeBudget_TeamNull_WPF
         {
             throw new NotImplementedException();
         }
-        #endregion
+
+        #endregion InterfaceMethods
     }
 }

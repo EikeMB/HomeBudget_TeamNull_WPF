@@ -1,10 +1,6 @@
 ﻿using Budget;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Threading;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -23,6 +19,7 @@ namespace HomeBudget_TeamNull_WPF
             cats = model.categories.List();
             expenses = model.expenses.List();
         }
+
         /// <summary>
         /// Closes the database.
         /// </summary>
@@ -51,7 +48,7 @@ namespace HomeBudget_TeamNull_WPF
                     }
                 }
                 model.expenses.Add(date, catId, amount, desc);
-                
+
                 view.DisplayAddedExpense(date, cat, amount, desc);
             }
             catch (Exception e)
@@ -59,6 +56,7 @@ namespace HomeBudget_TeamNull_WPF
                 view.DisplayError(e.Message);
             }
         }
+
         /// <summary>
         /// tries to add the category to the database using the model.
         /// </summary>
@@ -87,9 +85,9 @@ namespace HomeBudget_TeamNull_WPF
             if (index < 0) { index = 0; }
             List<BudgetItem> budgetItems = new List<BudgetItem>();
             int count = 0;
-            foreach(BudgetItem item in items)
+            foreach (BudgetItem item in items)
             {
-                if(count >= index) { budgetItems.Add(item); }
+                if (count >= index) { budgetItems.Add(item); }
                 count++;
             }
             count = 0;
@@ -106,7 +104,7 @@ namespace HomeBudget_TeamNull_WPF
                 string descSubString = item.ShortDescription.Substring(0, search.Length > item.ShortDescription.Length ? item.ShortDescription.Length : search.Length).ToLower();
                 if (amountSubString == search.ToLower() || descSubString == search.ToLower())
                 {
-                    view.HighlightSearch((index+count)%budgetItems.Count);
+                    view.HighlightSearch((index + count) % budgetItems.Count);
                     found = true;
                     break;
                 }
@@ -138,7 +136,6 @@ namespace HomeBudget_TeamNull_WPF
                 }
             }
 
-
             if (!month && !categoryCheck)
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
@@ -160,6 +157,7 @@ namespace HomeBudget_TeamNull_WPF
                 view.SetupDataGridMonthCategory(budgetItemsByMonthAndCategory);
             }
         }
+
         /// <summary>
         /// Returns a string list of all category names
         /// </summary>
@@ -176,6 +174,7 @@ namespace HomeBudget_TeamNull_WPF
 
             return descriptions;
         }
+
         /// <summary>
         /// updates expense through the model
         /// </summary>
@@ -188,7 +187,6 @@ namespace HomeBudget_TeamNull_WPF
         {
             try
             {
-               
                 int catId = 0;
                 foreach (Category category in cats)
                 {
@@ -199,30 +197,23 @@ namespace HomeBudget_TeamNull_WPF
                     }
                 }
 
-                
-
                 model.expenses.UpdateProperties(expense, date, catId, amount, desc);
                 expenses = model.expenses.List();
-
-
             }
             catch (Exception e)
             {
                 view.DisplayError(e.Message);
             }
         }
+
         /// <summary>
         /// Deletes expense through the model
         /// </summary>
         /// <param name="expense">expense id of the expense to delete</param>
         public void processDeleteExpense(BudgetItem expense)
         {
-            
-
             model.expenses.Delete(expense.ExpenseID);
             expenses = model.expenses.List();
-
         }
-
     }
 }

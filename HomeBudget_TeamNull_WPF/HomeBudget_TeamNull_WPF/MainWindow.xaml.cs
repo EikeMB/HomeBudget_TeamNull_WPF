@@ -320,7 +320,8 @@ namespace HomeBudget_TeamNull_WPF
 
             return brush;
         }
-        #endregion
+
+        #endregion colors
 
         /// <summary>
         /// Shows the user all details about the added expense in a pop up window.
@@ -351,6 +352,7 @@ namespace HomeBudget_TeamNull_WPF
                 $"Category Type: {type}";
             MessageBox.Show(successMessage);
         }
+
         /// <summary>
         /// Shows the user the error message in a pop up window
         /// </summary>
@@ -391,7 +393,6 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-
         private void OpenAddWindow(object sender, RoutedEventArgs e)
         {
             AddWindow window2 = new AddWindow(presenter);
@@ -425,7 +426,7 @@ namespace HomeBudget_TeamNull_WPF
             }
             if (presenter != null)
             {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat,(bool) monthchk.IsChecked, (bool)catchk.IsChecked);
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat, (bool)monthchk.IsChecked, (bool)catchk.IsChecked);
             }
         }
 
@@ -491,11 +492,8 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        
-
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
-            
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
             UpdateWindow update = new UpdateWindow(presenter, selected);
             update.ShowDialog();
@@ -527,16 +525,21 @@ namespace HomeBudget_TeamNull_WPF
                     uw.ShowDialog();
                     GetFilters();
                 }
+                else if (monthchk.IsChecked == true && catchk.IsChecked == false)
+                {
+                    BudgetItemsByMonth selected = datagrid.SelectedItem as BudgetItemsByMonth;
+                    MonthFilter filter = new MonthFilter(presenter, selected);
+                    filter.ShowDialog();
+                }
             }
             catch (Exception)
             {
-
             }
         }
 
         public void SetupDataGridDefault(List<BudgetItem> budgetItems)
         {
-            if(budgetItems.Count == 0)
+            if (budgetItems.Count == 0)
             {
                 searchBtn.IsEnabled = false;
             }
@@ -626,9 +629,8 @@ namespace HomeBudget_TeamNull_WPF
             column.Header = "Month";
             column.Binding = new System.Windows.Data.Binding("[Month]");
             datagrid.Columns.Add(column);
-            
 
-            foreach(string category in presenter.GetCategoryDescriptionList())
+            foreach (string category in presenter.GetCategoryDescriptionList())
             {
                 var column2 = new DataGridTextColumn();
                 column2.Header = category;
@@ -640,12 +642,11 @@ namespace HomeBudget_TeamNull_WPF
             column3.Header = "Total";
             column3.Binding = new System.Windows.Data.Binding("[Total]");
             datagrid.Columns.Add(column3);
-
         }
 
         private void datagrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if(monthchk.IsChecked != true && catchk.IsChecked != true)
+            if (monthchk.IsChecked != true && catchk.IsChecked != true)
             {
                 DgCm.Visibility = Visibility.Visible;
             }
@@ -657,7 +658,7 @@ namespace HomeBudget_TeamNull_WPF
 
         private void searchBtn_click(object sender, RoutedEventArgs e)
         {
-            for(int i = 0; i < datagrid.Items.Count; i++)
+            for (int i = 0; i < datagrid.Items.Count; i++)
             {
                 DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(i);
                 SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(0, 135, 206, 250));
@@ -676,11 +677,10 @@ namespace HomeBudget_TeamNull_WPF
 
         private void searchTxt_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(searchTxt.Text == "Expense")
+            if (searchTxt.Text == "Expense")
             {
                 searchTxt.Text = "";
             }
-            
         }
     }
 }
