@@ -29,7 +29,7 @@
 
         <WrapPanel x:Name="searchBar" Grid.Row="2" Grid.ColumnSpan="2" Margin="178,0,10,4" Grid.Column="2">
             <Button Margin="5" x:Name="searchBtn" Click="searchBtn_click">Search</Button>
-            <TextBox Margin="5" Width="180" x:Name="searchTxt">Expense</TextBox>
+            <TextBox Margin="5" Width="180" x:Name="searchTxt" GotFocus="searchTxt_GotFocus">Expense</TextBox>
         </WrapPanel>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="4" x:Name="DropDown">
             <Menu DockPanel.Dock="Top" x:Name="DP_select">

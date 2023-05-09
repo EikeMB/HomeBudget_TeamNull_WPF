@@ -671,5 +671,14 @@ namespace HomeBudget_TeamNull_WPF
             row.Background = brush;
             datagrid.SelectedIndex = (index + 1) % datagrid.Items.Count;
         }
+
+        private void searchTxt_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(searchTxt.Text == "Expense")
+            {
+                searchTxt.Text = "";
+            }
+            
+        }
     }
 }
