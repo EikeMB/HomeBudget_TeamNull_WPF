@@ -9,8 +9,6 @@
 
         Closing="Close_Window" Background="#F6E7CB">
 
-
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*" />
@@ -21,7 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="22*" />
             <RowDefinition Height="36*" />
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40*" />
             <RowDefinition Height="231*" />
             <RowDefinition Height="209*" />
             <RowDefinition  Height="12" />
@@ -77,7 +75,6 @@
                     <MenuItem Click="updateCM_Click" Header="Update"></MenuItem>
                     <MenuItem Click="deleteCM_Click" Header="Delete"></MenuItem>
                 </ContextMenu>
-
             </DataGrid.ContextMenu>
         </DataGrid>
 
