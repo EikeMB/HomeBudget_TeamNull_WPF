@@ -509,12 +509,7 @@ namespace HomeBudget_TeamNull_WPF
             }
             presenter.processDeleteExpense(selected);
             GetFilters();
-            if(datagrid.SelectedIndex >= 0)
-            {
-                SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
-                DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(datagrid.SelectedIndex);
-                row.Background = brush;
-            }
+            
             
             
         }
@@ -597,6 +592,13 @@ namespace HomeBudget_TeamNull_WPF
             column5.CellStyle = s;
 
             datagrid.Columns.Add(column5);
+
+            if (datagrid.SelectedIndex >= 0)
+            {
+                SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+                DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(datagrid.SelectedIndex);
+                row.Background = brush;
+            }
         }
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
