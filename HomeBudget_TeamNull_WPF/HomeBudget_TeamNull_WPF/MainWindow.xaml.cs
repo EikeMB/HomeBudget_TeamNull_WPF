@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -502,8 +503,20 @@ namespace HomeBudget_TeamNull_WPF
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
+            if(datagrid.SelectedIndex >= datagrid.Items.Count- 1)
+            {
+                datagrid.SelectedIndex = datagrid.SelectedIndex-1;
+            }
             presenter.processDeleteExpense(selected);
             GetFilters();
+            if(datagrid.SelectedIndex >= 0)
+            {
+                SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+                DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(datagrid.SelectedIndex);
+                row.Background = brush;
+            }
+            
+            
         }
 
         private void catCB_DropDownOpened(object sender, EventArgs e)
