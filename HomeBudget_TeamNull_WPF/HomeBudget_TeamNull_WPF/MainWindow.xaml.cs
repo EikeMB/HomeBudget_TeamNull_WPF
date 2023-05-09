@@ -132,7 +132,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     ShowElements();
                     RefreshCategories(GetCategoryList());
-                    presenter.processGetBudgetItems(null, null, false, "credit", false, false);
+                    presenter.processGetBudgetItems(null, null, false, "credit", false, false, -1);
                 }
             }
             catch (Exception ex)
@@ -218,7 +218,7 @@ namespace HomeBudget_TeamNull_WPF
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
-                        presenter.processGetBudgetItems(null, null, false, "credit", false, false);
+                        presenter.processGetBudgetItems(null, null, false, "credit", false, false, -1);
                     }
                     catch (Exception ex)
                     {
@@ -428,8 +428,9 @@ namespace HomeBudget_TeamNull_WPF
             }
             if (presenter != null)
             {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, (bool)monthchk.IsChecked, (bool)catchk.IsChecked);
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat, (bool)monthchk.IsChecked, (bool)catchk.IsChecked, datagrid.SelectedIndex);
             }
+
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
@@ -492,7 +493,7 @@ namespace HomeBudget_TeamNull_WPF
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
-            UpdateWindow update = new UpdateWindow(presenter, selected);
+            UpdateWindow update = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
             update.ShowDialog();
             GetFilters();
         }
@@ -501,14 +502,13 @@ namespace HomeBudget_TeamNull_WPF
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
-            if(datagrid.SelectedIndex >= datagrid.Items.Count- 1)
-            {
-                datagrid.SelectedIndex = datagrid.SelectedIndex-1;
-            }
+            
             presenter.processDeleteExpense(selected);
+            if (datagrid.SelectedIndex >= datagrid.Items.Count - 1)
+            {
+                datagrid.SelectedIndex -= 1;
+            }
             GetFilters();
-            
-            
             
         }
 
@@ -525,7 +525,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
-                    UpdateWindow uw = new UpdateWindow(presenter, selected);
+                    UpdateWindow uw = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
                     uw.ShowDialog();
                     GetFilters();
                 }
@@ -541,7 +541,7 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void SetupDataGridDefault(List<BudgetItem> budgetItems)
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index)
         {
             if (budgetItems.Count == 0)
             {
@@ -592,16 +592,13 @@ namespace HomeBudget_TeamNull_WPF
             Style s2 = new Style();
             s2.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,
                                     TextAlignment.Right));
-            column5.CellStyle = s;
+            column5.CellStyle = s2;
 
             datagrid.Columns.Add(column5);
 
-            if (datagrid.SelectedIndex >= 0)
-            {
-                SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
-                DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(datagrid.SelectedIndex);
-                row.Background = brush;
-            }
+            HighlightRow(index);
+
+
         }
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
@@ -697,6 +694,7 @@ namespace HomeBudget_TeamNull_WPF
             row.Background = brush;
             datagrid.SelectedIndex = (index + 1) % datagrid.Items.Count;
         }
+        
 
         private void searchTxt_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -704,6 +702,18 @@ namespace HomeBudget_TeamNull_WPF
             {
                 searchTxt.Text = "";
             }
+        }
+
+        public void HighlightRow(int index)
+        {
+           
+            SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+            DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
+            if(row != null)
+            {
+                row.Background = brush;
+            }
+            datagrid.SelectedIndex = index;
         }
     }
 }

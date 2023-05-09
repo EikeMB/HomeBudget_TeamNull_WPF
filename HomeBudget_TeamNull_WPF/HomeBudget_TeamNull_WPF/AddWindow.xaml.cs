@@ -275,7 +275,7 @@ namespace HomeBudget_TeamNull_WPF
                     descriptionTB.Clear();
 
                     presenter.processAddExpense(date, category, amount, description);
-                    presenter.processGetBudgetItems(null, null, false, "credit", false, false);
+                    presenter.processGetBudgetItems(null, null, false, "credit", false, false, -1);
                     changeOccured = false;
                 }
             }
@@ -488,6 +488,16 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         public void HighlightSearch(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HighlightRow(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index)
         {
             throw new NotImplementedException();
         }

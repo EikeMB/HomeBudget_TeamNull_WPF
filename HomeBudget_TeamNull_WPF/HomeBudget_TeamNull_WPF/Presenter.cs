@@ -1,6 +1,7 @@
 ﻿using Budget;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace HomeBudget_TeamNull_WPF
 {
@@ -124,7 +125,7 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="filter">if the search should filter categories</param>
         /// <param name="cat">category to filter with</param>
         /// <param name="methodOfGet">The type of getbudgetItems</param>
-        public void processGetBudgetItems(DateTime? start, DateTime? end, bool filter, string cat, bool month, bool categoryCheck)
+        public void processGetBudgetItems(DateTime? start, DateTime? end, bool filter, string cat, bool month, bool categoryCheck, int index)
         {
             int catId = 0;
             foreach (Category category in cats)
@@ -139,7 +140,7 @@ namespace HomeBudget_TeamNull_WPF
             if (!month && !categoryCheck)
             {
                 List<BudgetItem> budgetItems = model.GetBudgetItems(start, end, filter, catId);
-                view.SetupDataGridDefault(budgetItems);
+                view.SetupDataGridDefault(budgetItems, index);
             }
             else if (month && !categoryCheck)
             {
@@ -213,6 +214,8 @@ namespace HomeBudget_TeamNull_WPF
         public void processDeleteExpense(BudgetItem expense)
         {
             model.expenses.Delete(expense.ExpenseID);
+            
+            
             expenses = model.expenses.List();
         }
     }
