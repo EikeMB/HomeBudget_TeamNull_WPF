@@ -84,6 +84,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void processSearch(string search, System.Collections.IEnumerable items, int index)
         {
+            if (index < 0) { index = 0; }
             List<BudgetItem> budgetItems = new List<BudgetItem>();
             int count = 0;
             foreach(BudgetItem item in items)
