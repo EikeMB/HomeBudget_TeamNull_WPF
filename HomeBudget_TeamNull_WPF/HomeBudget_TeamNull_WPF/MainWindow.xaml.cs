@@ -1,4 +1,5 @@
 ﻿using Budget;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -356,7 +357,8 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="error">The error message to display</param>
         public void DisplayError(string error)
         {
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../ErrorSound.wav");
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../../ErrorSound.wav");
             player.Play();
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }

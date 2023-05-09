@@ -127,6 +127,6 @@
             <Button Click="ButtonColour"  Margin="22,158,68,-120" Grid.Row="4" Content="button colour" Grid.Column="1" Grid.ColumnSpan="2"  />
         </Grid>
 
-        <TextBlock x:Name="CurrentFileTag" Grid.Row="3" Grid.ColumnSpan="4" Background="Yellow" Margin="0,199,0,0" Grid.RowSpan="2" FontSize="10">   Current file:</TextBlock>
+        
     </Grid>
 </Window>

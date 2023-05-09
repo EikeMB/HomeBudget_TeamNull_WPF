@@ -11,11 +11,16 @@
 
   <ItemGroup>
     <None Remove="add-document.png" />
+    <None Remove="ErrorSound.wav" />
     <None Remove="folder.png" />
     <None Remove="logout.png" />
     <None Remove="saveIcon.png" />
     <None Remove="small icon.png" />
     <None Remove="Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ErrorSound.wav" />
   </ItemGroup>
 
   <ItemGroup>
