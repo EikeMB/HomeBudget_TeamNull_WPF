@@ -14,7 +14,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public List<String> GetCategoryList();
 
-        public void SetupDataGridDefault(List<BudgetItem> budgetItems);
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index);
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth);
 

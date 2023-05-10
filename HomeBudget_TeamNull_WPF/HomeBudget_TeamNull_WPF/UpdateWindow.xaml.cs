@@ -15,15 +15,18 @@ namespace HomeBudget_TeamNull_WPF
     {
         private Presenter p;
         private BudgetItem selectedExpense;
+        private int index;
+        private int count;
 
-        public UpdateWindow(Presenter presenter, BudgetItem selectedExpense)
+        public UpdateWindow(Presenter presenter, BudgetItem selectedExpense, int index, int count)
         {
             p = presenter;
             this.selectedExpense = selectedExpense;
-
+            this.index = index;
             InitializeComponent();
             Update_DP.SelectedDate = DateTime.Now;
             RefreshCategories(GetCategoryList());
+            this.count = count;
         }
 
         private void RefreshCategories(List<string> categoriesList)
@@ -138,6 +141,16 @@ namespace HomeBudget_TeamNull_WPF
         }
 
         public void HighlightSearch(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HighlightRow(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index)
         {
             throw new NotImplementedException();
         }

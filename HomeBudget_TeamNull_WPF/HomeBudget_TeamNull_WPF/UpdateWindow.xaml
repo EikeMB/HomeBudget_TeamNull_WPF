@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HomeBudget_TeamNull_WPF"
         mc:Ignorable="d"
         Title="Modify Expense" Height="450" Width="300" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" Background="#F6E7CB">
+        ResizeMode="NoResize" Background="#F6E7CB" Icon="/small icon.png">
 
     <Grid>
         <Grid.ColumnDefinitions>

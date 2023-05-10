@@ -114,6 +114,16 @@ namespace HomeBudget_TeamNull_WPF
             throw new NotImplementedException();
         }
 
+        public void HighlightRow(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion interface
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Budget;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,6 +33,7 @@ namespace HomeBudget_TeamNull_WPF
         private bool changeOccured = false;
         private DateTime? startDate;
         private DateTime? endDate;
+        private int index = 0;
 
         private Presenter presenter;
 
@@ -120,7 +123,7 @@ namespace HomeBudget_TeamNull_WPF
                 if (dialog.ShowDialog() == true)
                 {
                     fileName = dialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + dialog.FileName;
+                    
                     MessageBox.Show("Existing DB file has been picked", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     folderName = System.IO.Path.GetDirectoryName(dialog.FileName);
@@ -130,7 +133,7 @@ namespace HomeBudget_TeamNull_WPF
 
                     ShowElements();
                     RefreshCategories(GetCategoryList());
-                    presenter.processGetBudgetItems(null, null, false, "credit", false, false);
+                    presenter.processGetBudgetItems(null, null, false, "credit", false, false, -1);
                 }
             }
             catch (Exception ex)
@@ -161,7 +164,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     string oldFileName = fileName;
                     fileName = saveDialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
+                  
                     try
                     {
                         File.Copy(oldFileName, fileName);
@@ -204,7 +207,6 @@ namespace HomeBudget_TeamNull_WPF
                 if (saveDialog.ShowDialog() == true)
                 {
                     fileName = saveDialog.FileName;
-                    CurrentFileTag.Text = "Current file: " + saveDialog.FileName;
                     try
                     {
                         File.WriteAllText(fileName, "");
@@ -217,7 +219,7 @@ namespace HomeBudget_TeamNull_WPF
 
                         ShowElements();
                         RefreshCategories(GetCategoryList());
-                        presenter.processGetBudgetItems(null, null, false, "credit", false, false);
+                        presenter.processGetBudgetItems(null, null, false, "credit", false, false, -1);
                     }
                     catch (Exception ex)
                     {
@@ -359,7 +361,8 @@ namespace HomeBudget_TeamNull_WPF
         /// <param name="error">The error message to display</param>
         public void DisplayError(string error)
         {
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../ErrorSound.wav");
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../../ErrorSound.wav");
             player.Play();
             MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
@@ -426,8 +429,9 @@ namespace HomeBudget_TeamNull_WPF
             }
             if (presenter != null)
             {
-                presenter.processGetBudgetItems(startDate, endDate, filter, cat, (bool)monthchk.IsChecked, (bool)catchk.IsChecked);
+                presenter.processGetBudgetItems(startDate, endDate, filter, cat, (bool)monthchk.IsChecked, (bool)catchk.IsChecked, datagrid.SelectedIndex);
             }
+
         }
 
         private void filterchk_Click(object sender, RoutedEventArgs e)
@@ -472,11 +476,6 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        private void FooterColour(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = colorPicker();
-            CurrentFileTag.Background = brush;
-        }
 
         //taken from the following link:
         //https://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
@@ -495,7 +494,7 @@ namespace HomeBudget_TeamNull_WPF
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
-            UpdateWindow update = new UpdateWindow(presenter, selected);
+            UpdateWindow update = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
             update.ShowDialog();
             GetFilters();
         }
@@ -504,8 +503,14 @@ namespace HomeBudget_TeamNull_WPF
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
+            
             presenter.processDeleteExpense(selected);
+            if (datagrid.SelectedIndex >= datagrid.Items.Count - 1)
+            {
+                datagrid.SelectedIndex -= 1;
+            }
             GetFilters();
+            
         }
 
         private void catCB_DropDownOpened(object sender, EventArgs e)
@@ -521,7 +526,7 @@ namespace HomeBudget_TeamNull_WPF
                 {
                     BudgetItem selected = datagrid.SelectedItem as BudgetItem;
 
-                    UpdateWindow uw = new UpdateWindow(presenter, selected);
+                    UpdateWindow uw = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
                     uw.ShowDialog();
                     GetFilters();
                 }
@@ -537,7 +542,7 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void SetupDataGridDefault(List<BudgetItem> budgetItems)
+        public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index)
         {
             if (budgetItems.Count == 0)
             {
@@ -553,8 +558,8 @@ namespace HomeBudget_TeamNull_WPF
             var column1 = new DataGridTextColumn();
             column1.Header = "Date";
             column1.Binding = new System.Windows.Data.Binding("Date");
-
-            datagrid.Columns.Add(column1);
+            column1.Binding.StringFormat = "{0:MM/dd/yyyy}";
+             datagrid.Columns.Add(column1);
 
             var column2 = new DataGridTextColumn();
             column2.Header = "Category";
@@ -572,13 +577,40 @@ namespace HomeBudget_TeamNull_WPF
             column4.Header = "Amount";
             column4.Binding = new System.Windows.Data.Binding("Amount");
 
+            column4.Binding.StringFormat = "F2";
+            Style s = new Style();
+            s.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,
+                                    TextAlignment.Right));
+            column4.CellStyle = s;
+
             datagrid.Columns.Add(column4);
 
             var column5 = new DataGridTextColumn();
             column5.Header = "Balance";
             column5.Binding = new System.Windows.Data.Binding("Balance");
 
+            column5.Binding.StringFormat = "F2";
+            Style s2 = new Style();
+            s2.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,
+                                    TextAlignment.Right));
+            column5.CellStyle = s2;
+
             datagrid.Columns.Add(column5);
+
+            if (index >= 0)
+            {
+
+
+
+                if (datagrid.Items.Count >= index)
+                {
+                    datagrid.UpdateLayout();
+                    datagrid.ScrollIntoView(datagrid.Items[index]);
+                    DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
+                    SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+                    row.Background = brush;
+                }
+            }
         }
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
@@ -664,16 +696,22 @@ namespace HomeBudget_TeamNull_WPF
                 SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(0, 135, 206, 250));
                 row.Background = brush;
             }
-            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, datagrid.SelectedIndex);
+            if(datagrid.SelectedIndex > 0)
+            {
+                this.index = datagrid.SelectedIndex;
+            }
+            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, this.index);
         }
 
         public void HighlightSearch(int index)
         {
+            this.datagrid.SelectedIndex = -1;
             SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
             DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
             row.Background = brush;
-            datagrid.SelectedIndex = (index + 1) % datagrid.Items.Count;
+            this.index = (index + 1) % datagrid.Items.Count;
         }
+        
 
         private void searchTxt_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -682,5 +720,6 @@ namespace HomeBudget_TeamNull_WPF
                 searchTxt.Text = "";
             }
         }
+
     }
 }
