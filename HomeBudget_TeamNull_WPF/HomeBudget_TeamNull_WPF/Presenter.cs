@@ -83,6 +83,7 @@ namespace HomeBudget_TeamNull_WPF
 
         public void processSearch(string search, System.Collections.IEnumerable items, int index)
         {
+            
             if (index < 0) { index = 0; }
             List<BudgetItem> budgetItems = new List<BudgetItem>();
             int count = 0;
@@ -99,17 +100,21 @@ namespace HomeBudget_TeamNull_WPF
             }
             count = 0;
             bool found = false;
-
-            foreach (BudgetItem item in budgetItems)
+            
+            if(!string.IsNullOrEmpty(search))
             {
-                if (item.Amount.ToString().ToLower().StartsWith(search) || item.ShortDescription.ToLower().StartsWith(search))
+                foreach (BudgetItem item in budgetItems)
                 {
-                    view.HighlightSearch((index + count) % budgetItems.Count);
-                    found = true;
-                    break;
+                    if (item.Amount.ToString().ToLower().StartsWith(search) || item.ShortDescription.ToLower().StartsWith(search))
+                    {
+                        view.HighlightSearch((index + count) % budgetItems.Count);
+                        found = true;
+                        break;
+                    }
+                    count++;
                 }
-                count++;
             }
+            
 
             if (!found)
             {

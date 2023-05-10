@@ -696,11 +696,16 @@ namespace HomeBudget_TeamNull_WPF
                 SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(0, 135, 206, 250));
                 row.Background = brush;
             }
+            if(datagrid.SelectedIndex > 0)
+            {
+                this.index = datagrid.SelectedIndex;
+            }
             presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, this.index);
         }
 
         public void HighlightSearch(int index)
         {
+            this.datagrid.SelectedIndex = -1;
             SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
             DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
             row.Background = brush;
