@@ -33,6 +33,7 @@ namespace HomeBudget_TeamNull_WPF
         private bool changeOccured = false;
         private DateTime? startDate;
         private DateTime? endDate;
+        private int index = 0;
 
         private Presenter presenter;
 
@@ -596,9 +597,20 @@ namespace HomeBudget_TeamNull_WPF
 
             datagrid.Columns.Add(column5);
 
-            HighlightRow(index);
+            if (index >= 0)
+            {
 
 
+
+                if (datagrid.Items.Count >= index)
+                {
+                    datagrid.UpdateLayout();
+                    datagrid.ScrollIntoView(datagrid.Items[index]);
+                    DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
+                    SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
+                    row.Background = brush;
+                }
+            }
         }
 
         public void SetupDataGridMonth(List<BudgetItemsByMonth> budgetItemsByMonth)
@@ -684,7 +696,7 @@ namespace HomeBudget_TeamNull_WPF
                 SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(0, 135, 206, 250));
                 row.Background = brush;
             }
-            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, datagrid.SelectedIndex);
+            presenter.processSearch(searchTxt.Text, datagrid.ItemsSource, this.index);
         }
 
         public void HighlightSearch(int index)
@@ -692,7 +704,7 @@ namespace HomeBudget_TeamNull_WPF
             SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
             DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
             row.Background = brush;
-            datagrid.SelectedIndex = (index + 1) % datagrid.Items.Count;
+            this.index = (index + 1) % datagrid.Items.Count;
         }
         
 
@@ -704,16 +716,5 @@ namespace HomeBudget_TeamNull_WPF
             }
         }
 
-        public void HighlightRow(int index)
-        {
-           
-            SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(255, 135, 206, 250));
-            DataGridRow row = (DataGridRow)datagrid.ItemContainerGenerator.ContainerFromIndex(index);
-            if(row != null)
-            {
-                row.Background = brush;
-            }
-            datagrid.SelectedIndex = index;
-        }
     }
 }

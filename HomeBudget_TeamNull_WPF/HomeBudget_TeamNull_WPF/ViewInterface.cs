@@ -23,6 +23,5 @@ namespace HomeBudget_TeamNull_WPF
         public void SetupDataGridMonthCategory(List<Dictionary<string, object>> budgetItemsByMonthCategory);
 
         public void HighlightSearch(int index);
-        public void HighlightRow(int index);
     }
 }

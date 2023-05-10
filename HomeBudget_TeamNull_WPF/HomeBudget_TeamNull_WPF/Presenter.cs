@@ -99,11 +99,10 @@ namespace HomeBudget_TeamNull_WPF
             }
             count = 0;
             bool found = false;
+
             foreach (BudgetItem item in budgetItems)
             {
-                string amountSubString = item.Amount.ToString().Substring(0, search.Length > item.Amount.ToString().Length ? item.Amount.ToString().Length : search.Length).ToLower();
-                string descSubString = item.ShortDescription.Substring(0, search.Length > item.ShortDescription.Length ? item.ShortDescription.Length : search.Length).ToLower();
-                if (amountSubString == search.ToLower() || descSubString == search.ToLower())
+                if (item.Amount.ToString().ToLower().StartsWith(search) || item.ShortDescription.ToLower().StartsWith(search))
                 {
                     view.HighlightSearch((index + count) % budgetItems.Count);
                     found = true;
@@ -111,6 +110,7 @@ namespace HomeBudget_TeamNull_WPF
                 }
                 count++;
             }
+
             if (!found)
             {
                 view.DisplayError("No matching expense found");
@@ -214,8 +214,8 @@ namespace HomeBudget_TeamNull_WPF
         public void processDeleteExpense(BudgetItem expense)
         {
             model.expenses.Delete(expense.ExpenseID);
-            
-            
+
+
             expenses = model.expenses.List();
         }
     }
