@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         x:Name="WindowBox"
 
-        Title="MainWindow" Height="526" Width="880" WindowStartupLocation="CenterScreen"
+        Title="Budget Application" Height="526" Width="880" WindowStartupLocation="CenterScreen"
 
         Closing="Close_Window" Background="#F6E7CB" Icon="/small icon.png">
 
