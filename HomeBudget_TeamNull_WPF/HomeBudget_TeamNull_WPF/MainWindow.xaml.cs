@@ -494,9 +494,13 @@ namespace HomeBudget_TeamNull_WPF
         private void updateCM_Click(object sender, RoutedEventArgs e)
         {
             BudgetItem selected = datagrid.SelectedItem as BudgetItem;
-            UpdateWindow update = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
-            update.ShowDialog();
-            GetFilters();
+            if (selected != null)
+            {
+                UpdateWindow update = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
+                update.ShowDialog();
+                GetFilters();
+            }
+      
         }
 
         private void deleteCM_Click(object sender, RoutedEventArgs e)
@@ -525,10 +529,14 @@ namespace HomeBudget_TeamNull_WPF
                 if (monthchk.IsChecked == false && catchk.IsChecked == false)
                 {
                     BudgetItem selected = datagrid.SelectedItem as BudgetItem;
+                    if(selected != null)
+                    {
+                        UpdateWindow uw = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
+                        uw.ShowDialog();
+                        GetFilters();
 
-                    UpdateWindow uw = new UpdateWindow(presenter, selected, datagrid.SelectedIndex, datagrid.Items.Count);
-                    uw.ShowDialog();
-                    GetFilters();
+                    }
+               
                 }
                 else if (monthchk.IsChecked == true && catchk.IsChecked == false)
                 {
