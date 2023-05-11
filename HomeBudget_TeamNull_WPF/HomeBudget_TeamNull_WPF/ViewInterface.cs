@@ -12,7 +12,6 @@ namespace HomeBudget_TeamNull_WPF
 
         public void DisplayError(string error);
 
-        public List<String> GetCategoryList();
 
         public void SetupDataGridDefault(List<BudgetItem> budgetItems, int index);
 

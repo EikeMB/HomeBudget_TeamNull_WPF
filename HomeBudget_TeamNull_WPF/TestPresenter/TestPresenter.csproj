@@ -27,4 +27,10 @@
     <ProjectReference Include="..\HomeBudget_TeamNull_WPF\HomeBudget_TeamNull_WPF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="HomeBudget">
+      <HintPath>..\HomeBudget_TeamNull_WPF\DLLS\HomeBudget.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
